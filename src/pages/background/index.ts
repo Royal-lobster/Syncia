@@ -17,14 +17,10 @@ chrome.commands.onCommand.addListener(function (command) {
   }
 });
 
-chrome.runtime.onMessageExternal.addListener(function (
-  message,
-  sender,
-  sendResponse
-) {
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   console.log("message received", message, sender);
-  if (message.action === "open-sidebar") {
+  if (message.action === "close-sidebar") {
     toggleSidebar();
   }
-  sendResponse({ action: "open-sidebar" });
+  sendResponse({ action: "close-sidebar" });
 });

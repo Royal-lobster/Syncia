@@ -5,10 +5,10 @@ import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 const CodeBlock = (props: CodeProps) => {
   const { children, lang, className, inline } = props;
   const match = /language-(\w+)/.exec(className || "");
-  const language = match ? match[1] : lang;
+  const language = match ? match[1] : lang || "javascript";
 
   const modClass = className + " text-sm";
-  return !inline && match ? (
+  return !inline ? (
     <SyntaxHighlighter
       className={modClass}
       language={language}

@@ -54,6 +54,7 @@ export interface ChatMessage extends ChatMessageParams {
 export interface OpenAIStreamingProps {
   apiKey: string;
   model: GPT35 | GPT4;
+  systemPrompt?: string;
 }
 
 const CHAT_COMPLETIONS_URL = "https://api.openai.com/v1/chat/completions";
@@ -83,15 +84,31 @@ const createChatMessage = ({
   },
 });
 
-export const useChatCompletion = ({ model, apiKey }: OpenAIStreamingProps) => {
-  const [messages, setMessages] = React.useState<ChatMessage[]>([]);
+export const useChatCompletion = ({
+  model,
+  apiKey,
+  systemPrompt,
+}: OpenAIStreamingProps) => {
+  const systemMessage = [
+    {
+      content: systemPrompt || "",
+      role: ChatRole.SYSTEM,
+      timestamp: Date.now(),
+      meta: {
+        loading: false,
+        responseTime: "",
+        chunks: [],
+      },
+    },
+  ];
+  const [messages, setMessages] = React.useState<ChatMessage[]>(systemMessage);
 
   const submitQuery = React.useCallback(
     (newMessages?: ChatMessageParams[]) => {
       // If the array is empty or there are no new messages submited, that is a special request to
       // clear the `messages` queue and prepare to start over, do not make a request.
       if (!newMessages || newMessages.length < 1) {
-        setMessages([]);
+        setMessages(systemMessage);
         return;
       }
 
