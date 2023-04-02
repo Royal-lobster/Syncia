@@ -1,12 +1,8 @@
-import React from "react";
 import { HiX } from "react-icons/hi";
 
-const SideBarHeader = () => {
+const Header = () => {
   const onToggle = () => {
-    console.log("toggle SENDING");
-    chrome.runtime.sendMessage({ action: "open-sidebar" }, (response) => {
-      console.log(response);
-    });
+    chrome.runtime.sendMessage({ action: "close-sidebar" });
   };
 
   return (
@@ -21,4 +17,4 @@ const SideBarHeader = () => {
   );
 };
 
-export default SideBarHeader;
+export default Header;

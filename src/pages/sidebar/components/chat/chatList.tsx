@@ -1,15 +1,15 @@
 import { ChatMessage, ChatRole } from "@src/hooks/useOpenAI";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
-import CodeBlock from "./CodeBlock";
+import CodeBlock from "./markdown-components/CodeBlock";
 import remarkGfm from "remark-gfm";
 import { useEffect, useRef } from "react";
 
-interface SideBarChatProps {
+interface ChatListProps {
   messages: ChatMessage[];
 }
 
-const SideBarChat = ({ messages }: SideBarChatProps) => {
+const ChatList = ({ messages }: ChatListProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -49,4 +49,4 @@ const SideBarChat = ({ messages }: SideBarChatProps) => {
   );
 };
 
-export default SideBarChat;
+export default ChatList;

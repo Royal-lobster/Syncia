@@ -19,7 +19,10 @@ const CodeBlock = (props: CodeProps) => {
     </SyntaxHighlighter>
   ) : (
     <code
-      className={modClass + "bg-gray-700 p-0.5 rounded border border-gray-500"}
+      className={
+        modClass +
+        "bg-gray-700 p-0.5 rounded border border-gray-600 break-words"
+      }
       {...props}
     >
       {children}

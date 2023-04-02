@@ -37,6 +37,7 @@ const manifest: Manifest.WebExtensionManifest = {
         "contentStyle.css",
         "icon-128.png",
         "icon-34.png",
+        "content.js",
       ],
       matches: ["http://*/*", "https://*/*", "<all_urls>"],
     },
