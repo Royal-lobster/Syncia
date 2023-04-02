@@ -27,6 +27,7 @@ export default defineConfig({
       input: {
         content: resolve(pagesDir, "content", "index.tsx"),
         background: resolve(pagesDir, "background", "index.ts"),
+        sidebar: resolve(pagesDir, "sidebar", "index.html"),
       },
       output: {
         entryFileNames: (chunk) => `src/pages/${chunk.name}/index.js`,

@@ -7,7 +7,6 @@ import { PluginOption } from "vite";
 const { resolve } = path;
 
 const outDir = resolve(__dirname, "..", "..", "public");
-const distDir = resolve(__dirname, "..", "..", "dist");
 
 export default function makeManifest(): PluginOption {
   return {
@@ -17,36 +16,9 @@ export default function makeManifest(): PluginOption {
         fs.mkdirSync(outDir);
       }
 
-      const styles = [];
-      if (fs.existsSync(resolve(distDir, "assets"))) {
-        const assets = fs.readdirSync(resolve(distDir, "assets"));
-        const css = assets
-          .filter((asset) => asset.endsWith(".css"))
-          .map((asset) => `assets/${asset}`);
-        styles.push(...css);
-      }
-
-      console.log("STULE", styles);
-
-      const modifiedManifest = {
-        ...manifest,
-        content_scripts: [
-          {
-            ...(manifest.content_scripts ? manifest.content_scripts[0] : []),
-            css: [
-              ...((manifest.content_scripts &&
-                manifest.content_scripts[0] &&
-                manifest.content_scripts[0].css) ||
-                []),
-              ...styles,
-            ],
-          },
-        ],
-      };
-
       const manifestPath = resolve(outDir, "manifest.json");
 
-      fs.writeFileSync(manifestPath, JSON.stringify(modifiedManifest, null, 2));
+      fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
 
       colorLog(`Manifest file copy complete: ${manifestPath}`, "success");
     },

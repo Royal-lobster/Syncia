@@ -6,6 +6,7 @@ const manifest: Manifest.WebExtensionManifest = {
   name: pkg.displayName,
   version: pkg.version,
   description: pkg.description,
+  permissions: ["storage"],
   background: {
     service_worker: "src/pages/background/index.js",
     type: "module",
@@ -31,8 +32,13 @@ const manifest: Manifest.WebExtensionManifest = {
   devtools_page: "src/pages/devtools/index.html",
   web_accessible_resources: [
     {
-      resources: ["contentStyle.css", "icon-128.png", "icon-34.png"],
-      matches: [],
+      resources: [
+        "/src/pages/sidebar/index.html",
+        "contentStyle.css",
+        "icon-128.png",
+        "icon-34.png",
+      ],
+      matches: ["http://*/*", "https://*/*", "<all_urls>"],
     },
   ],
 };
