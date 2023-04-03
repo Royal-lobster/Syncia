@@ -23,7 +23,7 @@ const ChatList = ({ messages }: ChatListProps) => {
   return (
     <div
       ref={containerRef}
-      className="h-[calc(100vh-200px)] text-sm overflow-y-auto break-words"
+      className="h-[calc(100vh-200px)] text-sm overflow-y-auto pb-12 break-words"
     >
       {filteredMsgs.length < 1 ? (
         <div className="mt-10 text-center">

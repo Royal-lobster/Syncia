@@ -1,5 +1,5 @@
 import { ChatMessageParams, ChatRole } from "@src/hooks/useOpenAI";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { GiMagicBroom } from "react-icons/gi";
 import { IoSend } from "react-icons/io5";
@@ -21,6 +21,16 @@ export function SidebarInput({
   cancelRequest,
 }: SidebarInputProps) {
   const [text, setText] = useState("");
+  const [delayedLoading, setDelayedLoading] = useState(false);
+
+  useEffect(() => {
+    const handleLoadingTimeout = setTimeout(() => {
+      setDelayedLoading(loading);
+    }, 2000);
+    return () => {
+      clearTimeout(handleLoadingTimeout);
+    };
+  }, [loading]);
 
   const handleSubmit = () => {
     submitMessage([{ content: text, role: ChatRole.USER }]);
@@ -40,10 +50,7 @@ export function SidebarInput({
         )}
       </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="m-2 rounded-md border dark:border-neutral-800 border-neutral-300 dark:bg-neutral-900/90 bg-neutral-200/95 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:ring-opacity-50"
-      >
+      <div className="m-2 rounded-md border dark:border-neutral-800 border-neutral-300 dark:bg-neutral-900/90 bg-neutral-200/95 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:ring-opacity-50">
         <TextareaAutosize
           minRows={2}
           maxLength={10000}
@@ -68,9 +75,10 @@ export function SidebarInput({
               {text.length} / 10,000
             </span>
           </div>
-          {!loading ? (
+          {!delayedLoading ? (
             <button
               disabled={loading}
+              onClick={handleSubmit}
               className="flex gap-2 disabled:bg-slate-500 disabled:text-slate-400 items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
               <span>Send</span> <IoSend size={10} />
@@ -84,7 +92,7 @@ export function SidebarInput({
             </button>
           )}
         </div>
-      </form>
+      </div>
     </div>
   );
 }

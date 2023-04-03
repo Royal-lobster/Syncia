@@ -16,9 +16,7 @@ const Auth = () => {
       onSubmit={handleOpenAiKeySubmit}
       className="flex flex-col p-6 text-center justify-center items-center h-full"
     >
-      <div className="text-xl mt-48">
-        Please enter your OpenAI API key to continue
-      </div>
+      <div className="text-2xl mt-48">Enter your OpenAI API key</div>
       <div className="text-sm text-gray-400 mt-2">
         You can get one{" "}
         <a
