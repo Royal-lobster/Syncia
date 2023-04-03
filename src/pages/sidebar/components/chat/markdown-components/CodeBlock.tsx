@@ -21,7 +21,7 @@ const CodeBlock = (props: CodeProps) => {
     <code
       className={
         modClass +
-        "bg-gray-700 p-0.5 rounded border border-gray-600 break-words"
+        "bg-gray-700 rounded outline outline-gray-600 outline-offset-1 break-words"
       }
       {...props}
     >

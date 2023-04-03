@@ -1,5 +1,6 @@
 import React from "react";
 import { SSE } from "sse";
+import { useStorage } from "./useStorage";
 
 export enum GPT35 {
   TURBO = "gpt-3.5-turbo",
@@ -101,7 +102,12 @@ export const useChatCompletion = ({
       },
     },
   ];
-  const [messages, setMessages] = React.useState<ChatMessage[]>(systemMessage);
+
+  const [messages, setMessages] = useStorage<ChatMessage[]>(
+    "CHAT_MESSAGES",
+    systemMessage,
+    "sync"
+  );
 
   const submitQuery = React.useCallback(
     (newMessages?: ChatMessageParams[]) => {
@@ -231,5 +237,9 @@ export const useChatCompletion = ({
     [messages, setMessages]
   );
 
-  return [messages, submitQuery] as [ChatMessage[], typeof submitQuery];
+  const clearMessages = React.useCallback(() => {
+    setMessages(systemMessage);
+  }, [setMessages]);
+
+  return { messages, submitQuery, clearMessages };
 };
