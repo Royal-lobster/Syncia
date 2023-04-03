@@ -18,7 +18,6 @@ export function SidebarInput({
   const [text, setText] = useState("");
 
   const handleSubmit = () => {
-    console.log("submitting");
     submitMessage([{ content: text, role: ChatRole.USER }]);
     setText("");
   };

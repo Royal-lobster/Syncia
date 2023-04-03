@@ -1,9 +1,7 @@
-console.log("side-panel script loaded");
+console.log("\x1b[34m", "ChatDockX Script Loaded ✨");
 
 chrome.runtime.onMessage.addListener(function (msg) {
-  console.log("message received", msg);
   if (msg.action === "open-sidebar") {
-    console.log("message received");
     toggle();
   }
 });
