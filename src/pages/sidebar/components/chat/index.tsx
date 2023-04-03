@@ -9,18 +9,21 @@ interface ChatProps {
 }
 
 const Chat = ({ apiKey }: ChatProps) => {
-  const { messages, submitQuery, clearMessages } = useChatCompletion({
-    model: GPT35.TURBO,
-    apiKey,
-    systemPrompt: SYSTEM_PROMPT,
-  });
+  const { messages, submitQuery, clearMessages, loading, cancelRequest } =
+    useChatCompletion({
+      model: GPT35.TURBO,
+      apiKey,
+      systemPrompt: SYSTEM_PROMPT,
+    });
   return (
     <>
       <ChatList messages={messages} />
       <SidebarInput
+        loading={loading}
         submitMessage={submitQuery}
         chatIsEmpty={messages.length <= 1}
         clearMessages={clearMessages}
+        cancelRequest={cancelRequest}
       />
     </>
   );

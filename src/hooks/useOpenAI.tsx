@@ -110,6 +110,7 @@ export const useChatCompletion = ({
   );
 
   const [messages, setMessages] = useState<ChatMessage[]>(systemMessage);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (storedMessages.length > 1 && messages.length <= 1) {
@@ -120,8 +121,13 @@ export const useChatCompletion = ({
   useEffect(() => {
     if (messages.length > 1 && !messages[messages.length - 1].meta.loading) {
       setStoredMessages(messages);
+      setLoading(false);
+    } else if (messages.length > 1) {
+      setLoading(true);
     }
   }, [messages]);
+
+  let source: SSE | null = null;
 
   const submitQuery = React.useCallback(
     (newMessages?: ChatMessageParams[]) => {
@@ -170,7 +176,7 @@ export const useChatCompletion = ({
       };
 
       // Create the SSE request to the OpenAI chat completion API endpoint
-      const source = new SSE(CHAT_COMPLETIONS_URL, {
+      source = new SSE(CHAT_COMPLETIONS_URL, {
         headers: CHAT_HEADERS,
         method: "POST",
         payload,
@@ -211,7 +217,7 @@ export const useChatCompletion = ({
             })
           );
         } else {
-          source.close();
+          if (source) source.close();
         }
       });
 
@@ -251,9 +257,15 @@ export const useChatCompletion = ({
     [messages, setMessages]
   );
 
+  const cancelRequest = React.useCallback(() => {
+    if (source) source.close();
+    source = null;
+  }, [source]);
+
   const clearMessages = React.useCallback(() => {
     setMessages(systemMessage);
+    setStoredMessages(systemMessage);
   }, [setMessages]);
 
-  return { messages, submitQuery, clearMessages };
+  return { messages, submitQuery, loading, clearMessages, cancelRequest };
 };
