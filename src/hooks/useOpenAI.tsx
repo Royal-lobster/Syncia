@@ -106,7 +106,7 @@ export const useChatCompletion = ({
   const [messages, setMessages] = useStorage<ChatMessage[]>(
     "CHAT_MESSAGES",
     systemMessage,
-    "sync"
+    "local"
   );
 
   const submitQuery = React.useCallback(

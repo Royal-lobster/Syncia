@@ -29,9 +29,9 @@ export function SidebarInput({
         {!chatIsEmpty && (
           <button
             onClick={clearMessages}
-            className="rounded-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2"
+            className="rounded-full h-10 w-10 grid place-items-center text-center bg-blue-500 hover:bg-blue-700 text-white font-bold m-2"
           >
-            <GiMagicBroom size={20} />
+            <GiMagicBroom size={18} className="mx-auto" />
           </button>
         )}
       </div>
