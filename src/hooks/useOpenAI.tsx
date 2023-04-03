@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SSE } from "sse";
 import { useStorage } from "./useStorage";
 
@@ -103,11 +103,25 @@ export const useChatCompletion = ({
     },
   ];
 
-  const [messages, setMessages] = useStorage<ChatMessage[]>(
+  const [storedMessages, setStoredMessages] = useStorage<ChatMessage[]>(
     "CHAT_MESSAGES",
     systemMessage,
-    "local"
+    "sync"
   );
+
+  const [messages, setMessages] = useState<ChatMessage[]>(systemMessage);
+
+  useEffect(() => {
+    if (storedMessages.length > 1 && messages.length <= 1) {
+      setMessages(storedMessages);
+    }
+  }, [storedMessages]);
+
+  useEffect(() => {
+    if (messages.length > 1 && !messages[messages.length - 1].meta.loading) {
+      setStoredMessages(messages);
+    }
+  }, [messages]);
 
   const submitQuery = React.useCallback(
     (newMessages?: ChatMessageParams[]) => {
