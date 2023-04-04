@@ -1,9 +1,9 @@
-import { ChatMessageParams, ChatRole } from "@src/hooks/useOpenAI";
 import { useEffect, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import { GiMagicBroom } from "react-icons/gi";
 import { IoSend } from "react-icons/io5";
 import { HiHand } from "react-icons/hi";
+import { ChatMessageParams, ChatRole } from "../../../../hooks/useOpenAI";
 
 interface SidebarInputProps {
   loading: boolean;

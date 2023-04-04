@@ -1,9 +1,9 @@
-import { ChatMessage, ChatRole } from "@src/hooks/useOpenAI";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
 import CodeBlock from "./markdown-components/CodeBlock";
 import remarkGfm from "remark-gfm";
 import { useEffect, useRef } from "react";
+import { ChatMessage, ChatRole } from "../../../../hooks/useOpenAI";
 
 interface ChatListProps {
   messages: ChatMessage[];
@@ -27,7 +27,12 @@ const ChatList = ({ messages }: ChatListProps) => {
     >
       {filteredMsgs.length < 1 ? (
         <div className="mt-10 text-center">
-          <img src="/robot.png" className="mx-auto" height={300} width={300} />
+          <img
+            src="/images/robot.png"
+            className="mx-auto"
+            height={300}
+            width={300}
+          />
           <h1 className="text-xl text-gray-400">Start a new conversation ✨</h1>
           <p className="text-gray-400 mt-1 leading-tight font-light">
             Type your message at the bottom <br /> and press send button

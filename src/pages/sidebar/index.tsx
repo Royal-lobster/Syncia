@@ -1,6 +1,4 @@
-import React from "react";
 import { createRoot } from "react-dom/client";
-import "@assets/styles/tailwind.css";
 import Sidebar from "./components/Sidebar";
 
 function init() {
