@@ -14,6 +14,8 @@
   },
   "type": "module",
   "dependencies": {
+    "@popperjs/core": "^2.11.7",
+    "@radix-ui/react-dropdown-menu": "^2.0.4",
     "@radix-ui/react-portal": "^1.0.2",
     "better-sse": "^0.8.0",
     "react": "^18.2.0",
@@ -24,6 +26,7 @@
     "react-textarea-autosize": "^8.4.1",
     "remark-gfm": "^3.0.1",
     "sse": "github:mpetazzoni/sse.js",
+    "vite-plugin-singlefile": "^0.13.5",
     "webextension-polyfill": "^0.10.0"
   },
   "devDependencies": {

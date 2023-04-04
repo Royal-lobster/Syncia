@@ -17,7 +17,7 @@ const manifest: Manifest.WebExtensionManifest = {
   commands: {
     "open-sidebar": {
       suggested_key: {
-        default: "Ctrl+B",
+        default: "Ctrl+Shift+I",
       },
       description: "Open the sidebar",
     },
@@ -34,6 +34,7 @@ const manifest: Manifest.WebExtensionManifest = {
     {
       resources: [
         "/src/pages/sidebar/index.html",
+        "/src/pages/quickmenu/index.html",
         "contentStyle.css",
         "icon-128.png",
         "icon-34.png",
