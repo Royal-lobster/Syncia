@@ -1,11 +1,14 @@
 {
-  "name": "minimalist_ai_extension_starter",
-  "description": "A minimalist chrome extension MV3 starter, built with React, Typescript, TailwindCSS, Vite, and OpenAi GPT-3",
-  "author": {
-    "name": "Mayo"
+  "name": "chat-dock-x",
+  "displayName": "ChatDock X",
+  "version": "0.0.1",
+  "description": "A simple chrome extension for interacting with chatgpt with in your confort",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Royal-lobster/ChatDockX.git"
   },
+  "author": "Royal-lobster",
   "private": true,
-  "version": "1.0.0",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -24,14 +27,14 @@
     "sse": "github:mpetazzoni/sse.js"
   },
   "devDependencies": {
-    "@crxjs/vite-plugin": "^2.0.0-beta.12",
+    "@crxjs/vite-plugin": "^2.0.0-beta.15",
     "@types/chrome": "^0.0.213",
     "@types/node": "^18.13.0",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@types/react-syntax-highlighter": "^15.5.6",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.13",
-    "@types/react-syntax-highlighter": "^15.5.6",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.6",
     "typescript": "^4.9.5",

@@ -1,12 +1,7 @@
 {
   "name": "chat-dock-x",
-  "displayName": "ChatDock X",
   "version": "0.0.1",
   "description": "A simple chrome extension for interacting with chatgpt with in your confort",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Royal-lobster/ChatDockX.git"
-  },
   "commands": {
     "open-sidebar": {
       "suggested_key": {
@@ -37,6 +32,5 @@
       "resources": ["src/pages/sidebar/index.html"],
       "matches": ["http://*/*", "https://*/*"]
     }
-  ],
-  "options_page": "src/pages/options/index.html"
+  ]
 }
