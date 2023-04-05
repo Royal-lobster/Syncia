@@ -1,4 +1,10 @@
-console.log("background script loaded");
+import { backgroundLog } from "../../logs";
+
+backgroundLog();
+
+// =========================== //
+// Sidebar Background Script
+// =========================== //
 
 const toggleSidebar = () => {
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -8,15 +14,23 @@ const toggleSidebar = () => {
   });
 };
 
-chrome.commands.onCommand.addListener(function (command) {
-  if (command === "open-sidebar") {
-    toggleSidebar();
-  }
-});
+export const initSidebarListeners = () => {
+  chrome.commands.onCommand.addListener(function (command) {
+    if (command === "open-sidebar") {
+      toggleSidebar();
+    }
+  });
 
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  if (message.action === "close-sidebar") {
-    toggleSidebar();
-  }
-  sendResponse({ action: "close-sidebar" });
-});
+  chrome.runtime.onMessage.addListener(function (
+    message,
+    sender,
+    sendResponse
+  ) {
+    if (message.action === "close-sidebar") {
+      toggleSidebar();
+    }
+    sendResponse({ action: "close-sidebar" });
+  });
+};
+
+initSidebarListeners();
