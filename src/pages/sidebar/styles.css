@@ -1,0 +1,72 @@
+.ChatDockX_table-container {
+  @apply w-full h-full overflow-x-auto relative my-1;
+}
+table {
+  @apply border border-[#ffffff2a] border-collapse overflow-x-auto;
+}
+td,
+tr {
+  @apply border border-[#ffffff2a] p-1 text-center;
+}
+th {
+  @apply bg-[#0000002a] p-1;
+}
+
+/* WRITE BASIC MARKDOWN HTML STYLES  */
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  @apply !font-bold;
+}
+
+.markdown h1 {
+  @apply !text-3xl;
+}
+
+.markdown h2 {
+  @apply !text-2xl;
+}
+
+.markdown h3 {
+  @apply !text-xl;
+}
+
+.markdown h4 {
+  @apply !text-lg;
+}
+
+.markdown h5 {
+  @apply !text-base;
+}
+
+.markdown h6 {
+  @apply !text-sm;
+}
+
+.markdown a {
+  @apply text-blue-500;
+}
+
+.markdown hr {
+  @apply !border-[#ffffff2a] !my-1;
+}
+
+.markdown ul {
+  @apply !list-disc !list-inside !pl-4;
+}
+
+.markdown ol {
+  @apply !list-decimal !list-inside !pl-4;
+}
+
+.markdown li {
+  @apply !my-1;
+}
+
+.markdown blockquote {
+  @apply !border-l-4 !border-blue-400 !pl-2 !my-1 dark:bg-[#161616] bg-gray-200 p-0.5;
+}
