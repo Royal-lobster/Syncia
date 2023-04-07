@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .ChatDockX_table-container {
   width: 100%;
   height: 100%;
@@ -23,7 +27,6 @@ th {
   padding-left: 0.25rem;
   padding-right: 0.25rem;
 }
-/* WRITE BASIC MARKDOWN HTML STYLES  */
 .markdown h1,
 .markdown h2,
 .markdown h3,

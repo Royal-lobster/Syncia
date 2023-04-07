@@ -2,6 +2,7 @@ import { createRoot } from "react-dom/client";
 import { contentScriptLog } from "../../logs";
 import { QuickMenu } from "../../components/QuickMenu";
 import HighlightMenu from "react-highlight-menu";
+import "./styles.css";
 
 contentScriptLog();
 
@@ -11,7 +12,7 @@ contentScriptLog();
 
 const createSidebar = () => {
 	const iframe = document.createElement("iframe");
-	iframe.style.background = "transparent";
+	iframe.style.background = "#0000002a";
 	iframe.style.height = "100%";
 	iframe.style.width = "0px";
 	iframe.style.position = "fixed";
@@ -53,7 +54,9 @@ function init() {
 	root.render(
 		<HighlightMenu
 			target=".ChatDockX_Body"
-			menu={({ selectedText, setClipboard, setMenuOpen }) => <QuickMenu />}
+			menu={({ selectedText, setMenuOpen }) => (
+				<QuickMenu selectedText={selectedText} setMenuOpen={setMenuOpen} />
+			)}
 			placement="bottom-start"
 			styles={{
 				borderColor: "none",
@@ -62,7 +65,7 @@ function init() {
 				zIndex: 9999999999,
 				borderRadius: "0px",
 				padding: "0px",
-				margin: "0px",
+				margin: "10px",
 			}}
 		/>,
 	);
