@@ -1,5 +1,5 @@
 import React from "react";
-import { useOpenAIKey } from "../../../../hooks/useOpenAIKey";
+import { useOpenAIKey } from "../../../hooks/useOpenAIKey";
 
 const Auth = () => {
 	const [, setOpenAiKey] = useOpenAIKey();

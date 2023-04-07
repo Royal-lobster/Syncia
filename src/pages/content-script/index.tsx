@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { contentScriptLog } from "../../logs";
-import { QuickMenu } from "./components/QuickMenu";
+import { QuickMenu } from "../../components/QuickMenu";
 import HighlightMenu from "react-highlight-menu";
 
 contentScriptLog();

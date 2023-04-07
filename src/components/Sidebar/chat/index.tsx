@@ -1,8 +1,8 @@
 import React from "react";
 import ChatList from "./chatList";
 import { SidebarInput } from "./chatInput";
-import { GPT35, useChatCompletion } from "../../../../hooks/useOpenAI";
-import { SYSTEM_PROMPT } from "../../../../prompts";
+import { GPT35, useChatCompletion } from "../../../hooks/useOpenAI";
+import { SYSTEM_PROMPT } from "../../../prompts";
 
 interface ChatProps {
 	apiKey: string;

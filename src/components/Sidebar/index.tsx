@@ -1,8 +1,8 @@
-import { useOpenAIKey } from "../../../hooks/useOpenAIKey";
 import Auth from "./auth";
 import Chat from "./chat";
 import Header from "./layout/header";
-import "../../../index.css";
+import "../../index.css";
+import { useOpenAIKey } from "../../hooks/useOpenAIKey";
 
 function Sidebar() {
 	const [openAiKey] = useOpenAIKey();
