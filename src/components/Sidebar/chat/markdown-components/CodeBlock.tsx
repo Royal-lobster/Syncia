@@ -17,7 +17,7 @@ const CodeBlock = (props: CodeProps) => {
 	const { children, className, inline } = props;
 	const match = /language-(\w+)/.exec(className || "");
 	const language = match ? match[1] : "javascript";
-	const modClass = `${className} ChatDockX-text-sm`;
+	const modClass = `${className} cdx-text-sm`;
 	return !inline ? (
 		<SyntaxHighlighter
 			className={modClass}
@@ -30,7 +30,7 @@ const CodeBlock = (props: CodeProps) => {
 		</SyntaxHighlighter>
 	) : (
 		<code
-			className={`${modClass} ChatDockX-bg-gray-200 dark:ChatDockX-bg-gray-700 ChatDockX-outline-gray-200 dark:ChatDockX-outline-gray-700 ChatDockX-rounded ChatDockX-outline ChatDockX-break-words`}
+			className={`${modClass} cdx-bg-gray-200 dark:cdx-bg-gray-700 cdx-outline-gray-200 dark:cdx-outline-gray-700 cdx-rounded cdx-outline cdx-break-words`}
 			{...props}
 		>
 			{children}

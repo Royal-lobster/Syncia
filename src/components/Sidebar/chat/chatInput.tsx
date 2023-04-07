@@ -38,26 +38,26 @@ export function SidebarInput({
 	};
 
 	return (
-		<div className="ChatDockX-fixed ChatDockX-bottom-0 ChatDockX-left-0 ChatDockX-right-0 ChatDockX-flex ChatDockX-flex-col ">
-			<div className="ChatDockX-flex ChatDockX-items-center ChatDockX-justify-between">
+		<div className="cdx-fixed cdx-bottom-0 cdx-left-0 cdx-right-0 cdx-flex cdx-flex-col ">
+			<div className="cdx-flex cdx-items-center cdx-justify-between">
 				{!chatIsEmpty && (
 					<button
 						onClick={clearMessages}
-						className="ChatDockX-rounded-full ChatDockX-h-10 ChatDockX-w-10 ChatDockX-grid ChatDockX-place-items-center ChatDockX-text-center ChatDockX-bg-blue-500 hover:ChatDockX-bg-blue-700 ChatDockX-text-white ChatDockX-font-bold ChatDockX-m-2"
+						className="cdx-rounded-full cdx-h-10 cdx-w-10 cdx-grid cdx-place-items-center cdx-text-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white cdx-font-bold cdx-m-2"
 					>
 						<GiMagicBroom size={18} className="mx-auto" />
 					</button>
 				)}
 			</div>
 
-			<div className="ChatDockX-m-2 ChatDockX-rounded-md ChatDockX-border dark:ChatDockX-border-neutral-800 ChatDockX-border-neutral-300 dark:ChatDockX-bg-neutral-900/90 ChatDockX-bg-neutral-200/95 focus:ChatDockX-outline-none focus:ChatDockX-ring-2 focus:ChatDockX-ring-blue-900 focus:ChatDockX-ring-opacity-50">
+			<div className="cdx-m-2 cdx-rounded-md cdx-border dark:cdx-border-neutral-800 cdx-border-neutral-300 dark:cdx-bg-neutral-900/90 cdx-bg-neutral-200/95 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50">
 				<TextareaAutosize
 					minRows={2}
 					maxLength={10000}
 					placeholder="Type your message here..."
 					value={text}
 					disabled={loading}
-					className="ChatDockX-p-3 ChatDockX-w-full ChatDockX-text-sm ChatDockX-resize-none ChatDockX-max-h-96 ChatDockX-pb-0 ChatDockX-bg-transparent !ChatDockX-border-none focus:!ChatDockX-outline-none"
+					className="cdx-p-3 cdx-w-full cdx-text-sm cdx-resize-none cdx-max-h-96 cdx-pb-0 cdx-bg-transparent !cdx-border-none focus:!cdx-outline-none"
 					onChange={(e) => {
 						e.preventDefault();
 						setText(e.target.value);
@@ -69,9 +69,9 @@ export function SidebarInput({
 						}
 					}}
 				/>
-				<div className="ChatDockX-flex ChatDockX-justify-between ChatDockX-items-center ChatDockX-p-3">
+				<div className="cdx-flex cdx-justify-between cdx-items-center cdx-p-3">
 					<div>
-						<span className="ChatDockX-text-xs ChatDockX-font-semibold ChatDockX-text-neutral-500 dark:ChatDockX-text-neutral-200">
+						<span className="cdx-text-xs cdx-font-semibold cdx-text-neutral-500 dark:cdx-text-neutral-200">
 							{text.length} / 10,000
 						</span>
 					</div>
@@ -79,14 +79,14 @@ export function SidebarInput({
 						<button
 							disabled={loading}
 							onClick={handleSubmit}
-							className="ChatDockX-flex ChatDockX-gap-2 disabled:ChatDockX-bg-slate-500 disabled:ChatDockX-text-slate-400 ChatDockX-items-center ChatDockX-bg-blue-500 hover:ChatDockX-bg-blue-700 ChatDockX-text-white ChatDockX-font-bold ChatDockX-py-2 ChatDockX-px-4 ChatDockX-rounded"
+							className="cdx-flex cdx-gap-2 disabled:cdx-bg-slate-500 disabled:cdx-text-slate-400 cdx-items-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white cdx-font-bold cdx-py-2 cdx-px-4 cdx-rounded"
 						>
 							<span>Send</span> <IoSend size={10} />
 						</button>
 					) : (
 						<button
 							onClick={cancelRequest}
-							className="ChatDockX-flex ChatDockX-gap-2 disabled:ChatDockX-bg-slate-500 disabled:ChatDockX-text-slate-400 ChatDockX-items-center ChatDockX-bg-red-500 hover:ChatDockX-bg-red-700 ChatDockX-text-white ChatDockX-font-bold ChatDockX-py-2 ChatDockX-px-4 ChatDockX-rounded"
+							className="cdx-flex cdx-gap-2 disabled:cdx-bg-slate-500 disabled:cdx-text-slate-400 cdx-items-center cdx-bg-red-500 hover:cdx-bg-red-700 cdx-text-white cdx-font-bold cdx-py-2 cdx-px-4 cdx-rounded"
 						>
 							<HiHand size={18} /> <span>Stop</span>
 						</button>

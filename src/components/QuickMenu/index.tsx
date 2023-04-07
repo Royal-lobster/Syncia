@@ -6,7 +6,7 @@ export const QuickMenu = () => {
 	return (
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger asChild>
-				<button type="button" className="p-2 ChatDockX-bg-neutral-50">
+				<button type="button" className="cdx-p-2 cdx-bg-neutral-50">
 					ChatDock X
 				</button>
 			</DropdownMenu.Trigger>
