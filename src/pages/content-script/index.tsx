@@ -63,7 +63,7 @@ function init() {
         borderColor: 'none',
         background: 'transparent',
         boxShadow: 'none',
-        zIndex: 9999999999,
+        zIndex: 2147483647,
         borderRadius: '0',
         padding: '0',
         margin: '10px',

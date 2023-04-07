@@ -3,6 +3,7 @@ import { BsRobot } from 'react-icons/bs'
 import { promptOptions } from '../../prompts/list'
 import { HiOutlineChevronRight } from 'react-icons/hi'
 import { toggleSidebar } from '../../pages/content-script'
+import { useEffect } from 'react'
 
 interface QuickMenuProps {
   selectedText: string
@@ -10,6 +11,13 @@ interface QuickMenuProps {
 }
 
 export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
+  useEffect(() => {
+    const highlightMenu = document.getElementById(
+      'react-highlight-menu-container',
+    ) as HTMLDivElement
+    highlightMenu.style.zIndex = '2147483647'
+  }, [])
+
   const generateInDock = (prompt: string) => {
     const fullPrompt = `${prompt}: \n\n ${selectedText}`
     const sideBarIframe = document.getElementById(
@@ -35,17 +43,23 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
       <DropdownMenu.Trigger asChild>
         <button
           type="button"
-          className="cdx-flex cdx-rounded cdx-leading-none cdx-cursor-pointer hover:!cdx-brightness-95 cdx-overflow-hidden cdx-p-0 cdx-m-0 cdx-items-center cdx-border-none cdx-bg-neutral-50 dark:cdx-bg-neutral-800 cdx-text-neutral-950 dark:cdx-text-neutral-100"
+          style={{ zIndex: 2147483647 }}
+          className="cdx-flex cdx-items-stretch cdx-rounded cdx-leading-none cdx-cursor-pointer hover:!cdx-brightness-95 cdx-overflow-hidden cdx-p-0 cdx-m-0 cdx-border-none cdx-bg-neutral-50 dark:cdx-bg-neutral-800 cdx-text-neutral-950 dark:cdx-text-neutral-100"
         >
           <div className="cdx-py-1 cdx-px-1.5 cdx-bg-neutral-400 dark:cdx-bg-neutral-700">
             <BsRobot size={15} className='cdx-mt-0.5' />
           </div>
-          <span className='cdx-py-1 cdx-px-1.5 cdx-mt-0.5'>ChatDock X</span>
+          <span className='cdx-py-1 cdx-text-sm !cdx-font-sans cdx-px-1.5 cdx-mt-0.5'>
+            ChatDock X
+          </span>
         </button>
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Portal>
-        <DropdownMenu.Content className='!cdx-font-sans cdx-my-1 cdx-bg-neutral-50 cdx-p-1 cdx-rounded dark:cdx-bg-neutral-800 cdx-text-neutral-950 dark:cdx-text-neutral-100'>
+        <DropdownMenu.Content
+          style={{ zIndex: 2147483647 }}
+          className='!cdx-font-sans cdx-m-2 cdx-bg-neutral-50 cdx-p-1 cdx-rounded dark:cdx-bg-neutral-800 cdx-text-neutral-950 dark:cdx-text-neutral-100'
+        >
           {promptOptions.map((prompt) => (
             <DropdownMenu.Group key={prompt.sectionName}>
               <DropdownMenu.Label className='cdx-text-[10px] cdx-font-semibold cdx-mt-2 cdx-my-1 font-bold cdx-text-neutral-500 cdx-uppercase'>
@@ -60,7 +74,10 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
                         <HiOutlineChevronRight size={10} />
                       </DropdownMenu.SubTrigger>
                       <DropdownMenu.Portal>
-                        <DropdownMenu.SubContent className='!cdx-font-sans cdx-my-1 cdx-bg-neutral-50 cdx-p-1 cdx-rounded dark:cdx-bg-neutral-800 cdx-text-neutral-950 dark:cdx-text-neutral-100'>
+                        <DropdownMenu.SubContent
+                          style={{ zIndex: 2147483647 }}
+                          className='!cdx-font-sans cdx-my-1 cdx-bg-neutral-50 cdx-p-1 cdx-rounded dark:cdx-bg-neutral-800 cdx-text-neutral-950 dark:cdx-text-neutral-100'
+                        >
                           {item.items.map((subItem) => (
                             <DropdownMenu.Item
                               key={subItem.name}
