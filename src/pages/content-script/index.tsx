@@ -65,7 +65,7 @@ function init() {
         zIndex: 9999999999,
         borderRadius: '0',
         padding: '0',
-        margin: '0',
+        margin: '10px',
       }}
     />,
   )
