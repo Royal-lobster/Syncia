@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ChatList from './chatList'
 import { SidebarInput } from './chatInput'
 import { GPT35, useChatCompletion } from '../../../hooks/useOpenAI'
@@ -15,6 +15,24 @@ const Chat = ({ apiKey }: ChatProps) => {
       apiKey,
       systemPrompt: SYSTEM_PROMPT,
     })
+
+  useEffect(() => {
+    const handleWindowMessage = (event: MessageEvent) => {
+      const { action, prompt } = event.data as {
+        action: string
+        prompt: string
+      }
+      if (action === 'generate') {
+        submitQuery([{ content: prompt, role: 'user' }])
+      }
+    }
+    window.addEventListener('message', handleWindowMessage)
+
+    return () => {
+      window.removeEventListener('message', handleWindowMessage)
+    }
+  }, [])
+
   return (
     <>
       <ChatList messages={messages} />

@@ -22,11 +22,12 @@ const createSidebar = () => {
   iframe.style.border = '0px'
   iframe.style.colorScheme = 'normal'
   iframe.src = chrome.runtime.getURL('/src/pages/sidebar/index.html')
+  iframe.id = 'ChatDockX_Sidebar'
 
   return iframe
 }
 
-const toggleSidebar = (iframe: HTMLIFrameElement) => {
+export const toggleSidebar = (iframe: HTMLIFrameElement) => {
   if (iframe.style.width === '0px') {
     iframe.style.width = '400px'
   } else {

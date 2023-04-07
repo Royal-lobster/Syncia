@@ -26,7 +26,7 @@ export function SidebarInput({
   useEffect(() => {
     const handleLoadingTimeout = setTimeout(() => {
       setDelayedLoading(loading)
-    }, 2000)
+    }, 1000)
     return () => {
       clearTimeout(handleLoadingTimeout)
     }

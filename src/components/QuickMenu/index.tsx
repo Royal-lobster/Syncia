@@ -2,6 +2,7 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { BsRobot } from 'react-icons/bs'
 import { promptOptions } from '../../prompts/list'
 import { HiOutlineChevronRight } from 'react-icons/hi'
+import { toggleSidebar } from '../../pages/content-script'
 
 interface QuickMenuProps {
   selectedText: string
@@ -9,7 +10,22 @@ interface QuickMenuProps {
 }
 
 export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
-  console.log(selectedText, setMenuOpen)
+  const generateInDock = (prompt: string) => {
+    const fullPrompt = `${prompt}: \n\n ${selectedText}`
+    const sideBarIframe = document.getElementById(
+      'ChatDockX_Sidebar',
+    ) as HTMLIFrameElement
+    if (sideBarIframe.style.width === '0px') {
+      toggleSidebar(sideBarIframe)
+    }
+    sideBarIframe.contentWindow?.postMessage(
+      {
+        action: 'generate',
+        prompt: fullPrompt,
+      },
+      '*',
+    )
+  }
   return (
     <DropdownMenu.Root
       onOpenChange={(e) => {
@@ -19,7 +35,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
       <DropdownMenu.Trigger asChild>
         <button
           type="button"
-          className="cdx-flex cdx-rounded cdx-cursor-pointer hover:!cdx-brightness-95 cdx-overflow-hidden cdx-p-0 cdx-m-0 cdx-items-center cdx-border-none cdx-bg-neutral-50 dark:cdx-bg-neutral-800 cdx-text-neutral-950 dark:cdx-text-neutral-100"
+          className="cdx-flex cdx-rounded cdx-leading-none cdx-cursor-pointer hover:!cdx-brightness-95 cdx-overflow-hidden cdx-p-0 cdx-m-0 cdx-items-center cdx-border-none cdx-bg-neutral-50 dark:cdx-bg-neutral-800 cdx-text-neutral-950 dark:cdx-text-neutral-100"
         >
           <div className="cdx-py-1 cdx-px-1.5 cdx-bg-neutral-400 dark:cdx-bg-neutral-700">
             <BsRobot size={15} className='cdx-mt-0.5' />
@@ -48,6 +64,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
                           {item.items.map((subItem) => (
                             <DropdownMenu.Item
                               key={subItem.name}
+                              onSelect={() => generateInDock(item.prompt!)}
                               className='cdx-p-1 cdx-border-0 cdx-select-none cdx-outline-0 cdx-rounded cdx-text-sm data-[highlighted]:cdx-bg-neutral-600'
                             >
                               {subItem.name}
@@ -60,6 +77,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
                 return (
                   <DropdownMenu.Item
                     key={item.name}
+                    onSelect={() => generateInDock(item.prompt)}
                     className='cdx-p-1 cdx-rounded cdx-border-0 cdx-select-none cdx-outline-0 cdx-text-sm data-[highlighted]:cdx-bg-neutral-600'
                   >
                     {item.name}

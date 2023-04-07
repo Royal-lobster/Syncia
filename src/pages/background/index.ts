@@ -30,6 +30,9 @@ export const initSidebarListeners = () => {
     if (message.action === 'close-sidebar') {
       toggleSidebar()
     }
+    if (message.action === 'generate') {
+      message.prompt
+    }
     sendResponse({ action: 'close-sidebar' })
   })
 }
