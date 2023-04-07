@@ -19,21 +19,12 @@ const Auth = () => {
 			<div className="cdx-text-2xl cdx-mt-48">Enter your OpenAI API key</div>
 			<div className="cdx-text-sm cdx-text-gray-400 cdx-mt-2">
 				You can get one{" "}
-				<a
-					href="https://beta.openai.com/account/api-keys"
-					target="_blank"
-					rel="noreferrer"
-					className="text-blue-400"
-				>
+				<a href="https://beta.openai.com/account/api-keys" target="_blank" rel="noreferrer" className="text-blue-400">
 					here
 				</a>
 			</div>
-			<div className="cdx-text-sm cdx-text-gray-400 cdx-mt-2">
-				It should look something like this:
-			</div>
-			<div className="cdx-text-sm cdx-text-gray-400 cdx-mt-2">
-				sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-			</div>
+			<div className="cdx-text-sm cdx-text-gray-400 cdx-mt-2">It should look something like this:</div>
+			<div className="cdx-text-sm cdx-text-gray-400 cdx-mt-2">sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
 			<input
 				name="openAiKey"
 				placeholder="Enter your OpenAI API key"
@@ -47,12 +38,8 @@ const Auth = () => {
 				Submit
 			</button>
 			<div className="cdx-text-sm cdx-text-gray-400 cdx-mt-2">
-				(Note: we only store your key locally. We do not send it anywhere. You
-				can check the{" "}
-				<a
-					href="https://github.com/Royal-lobster/ChatDockX"
-					className="cdx-text-blue-400"
-				>
+				(Note: we only store your key locally. We do not send it anywhere. You can check the{" "}
+				<a href="https://github.com/Royal-lobster/ChatDockX" className="cdx-text-blue-400">
 					source code
 				</a>{" "}
 				and inspect network tab to verify this.)

@@ -11,7 +11,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
 			<DropdownMenu.Trigger asChild>
 				<button
 					type="button"
-					className="cdx-p-2 cdx-border-none cdx-bg-neutral-50 dark:cdx-bg-neutral-800 cdx-text-neutral-950 dark:cdx-text-neutral-100"
+					className="cdx-px-3 cdx-py-2 cdx-border-none cdx-bg-neutral-50 dark:cdx-bg-neutral-800 cdx-text-neutral-950 dark:cdx-text-neutral-100"
 				>
 					ChatDock X
 				</button>

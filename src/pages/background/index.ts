@@ -22,11 +22,7 @@ export const initSidebarListeners = () => {
 		}
 	});
 
-	chrome.runtime.onMessage.addListener(function (
-		message,
-		sender,
-		sendResponse,
-	) {
+	chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 		if (message.action === "close-sidebar") {
 			toggleSidebar();
 		}

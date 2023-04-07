@@ -2,14 +2,11 @@ import { defineManifest } from "@crxjs/vite-plugin";
 import packageJson from "./package.json";
 const { version } = packageJson;
 
-const [major, minor, patch, label = "0"] = version
-	.replace(/[^\d.-]+/g, "")
-	.split(/[.-]/);
+const [major, minor, patch, label = "0"] = version.replace(/[^\d.-]+/g, "").split(/[.-]/);
 
 export default defineManifest(async (env) => ({
 	name: env.mode === "staging" ? "[INTERNAL] ChatDock X" : "ChatDock X",
-	description:
-		"A simple chrome extension for interacting with Chat GPT with in your comfort",
+	description: "A simple chrome extension for interacting with Chat GPT with in your comfort",
 	version: `${major}.${minor}.${patch}.${label}`,
 	version_name: version,
 	commands: {

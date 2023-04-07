@@ -54,9 +54,7 @@ function init() {
 	root.render(
 		<HighlightMenu
 			target=".ChatDockX_Body"
-			menu={({ selectedText, setMenuOpen }) => (
-				<QuickMenu selectedText={selectedText} setMenuOpen={setMenuOpen} />
-			)}
+			menu={({ selectedText, setMenuOpen }) => <QuickMenu selectedText={selectedText} setMenuOpen={setMenuOpen} />}
 			placement="bottom-start"
 			styles={{
 				borderColor: "none",

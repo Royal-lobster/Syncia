@@ -27,16 +27,8 @@ const ChatList = ({ messages }: ChatListProps) => {
 		>
 			{filteredMsgs.length < 1 ? (
 				<div className="cdx-mt-10 cdx-text-center">
-					<img
-						alt="robot"
-						src="/images/robot.png"
-						className="cdx-mx-auto"
-						height={300}
-						width={300}
-					/>
-					<h1 className="cdx-text-xl cdx-text-gray-400">
-						Start a new conversation ✨
-					</h1>
+					<img alt="robot" src="/images/robot.png" className="cdx-mx-auto" height={300} width={300} />
+					<h1 className="cdx-text-xl cdx-text-gray-400">Start a new conversation ✨</h1>
 					<p className="cdx-text-gray-400 cdx-mt-1 cdx-leading-tight cdx-font-light">
 						Type your message at the bottom <br /> and press send button
 					</p>

@@ -13,13 +13,7 @@ interface SidebarInputProps {
 	cancelRequest: () => void;
 }
 
-export function SidebarInput({
-	loading,
-	submitMessage,
-	clearMessages,
-	chatIsEmpty,
-	cancelRequest,
-}: SidebarInputProps) {
+export function SidebarInput({ loading, submitMessage, clearMessages, chatIsEmpty, cancelRequest }: SidebarInputProps) {
 	const [text, setText] = useState("");
 	const [delayedLoading, setDelayedLoading] = useState(false);
 

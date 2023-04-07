@@ -30,10 +30,7 @@ declare module "sse" {
 				payload: string;
 			},
 		);
-		addEventListener(
-			event: string,
-			listener: (event: { data: string; readyState: number }) => void,
-		): void;
+		addEventListener(event: string, listener: (event: { data: string; readyState: number }) => void): void;
 		stream(): void;
 		close(): void;
 	}

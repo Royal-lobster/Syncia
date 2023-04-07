@@ -1,9 +1,6 @@
 import { CodeProps } from "react-markdown/lib/ast-to-react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import {
-	atomDark,
-	materialLight,
-} from "react-syntax-highlighter/dist/esm/styles/prism";
+import { atomDark, materialLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const isDarkMode = () => {
 	if (window.matchMedia?.("(prefers-color-scheme: dark)").matches) {
