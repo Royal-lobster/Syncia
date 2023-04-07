@@ -19,7 +19,8 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
   }, [])
 
   const generateInDock = (prompt: string) => {
-    const fullPrompt = `${prompt}: \n\n ${selectedText}`
+    const fullPrompt = `${prompt}\n\n #### Original Text: \n\n ${selectedText}`
+
     const sideBarIframe = document.getElementById(
       'ChatDockX_Sidebar',
     ) as HTMLIFrameElement
@@ -49,7 +50,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
           <div className="cdx-py-1 cdx-px-1.5 cdx-bg-neutral-200 dark:cdx-bg-neutral-700">
             <BsRobot
               size={15}
-              className='cdx-mt-0.5 cdx-text-neutral-800 dark:cdx-text-white'
+              className='cdx-mt-0.5 cdx-fill-neutral-800 dark:cdx-fill-white'
             />
           </div>
           <span className='cdx-py-1 cdx-text-sm !cdx-font-sans cdx-px-1.5 cdx-mt-0.5'>
@@ -65,7 +66,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
         >
           {promptOptions.map((prompt) => (
             <DropdownMenu.Group key={prompt.sectionName}>
-              <DropdownMenu.Label className='cdx-text-[10px] cdx-font-semibold cdx-mt-2 cdx-my-1 font-bold cdx-text-neutral-500 cdx-uppercase'>
+              <DropdownMenu.Label className='cdx-text-[10px] cdx-font-semibold cdx-mt-1 font-bold cdx-text-neutral-500 cdx-uppercase'>
                 {prompt.sectionName}
               </DropdownMenu.Label>
               {prompt.items.map((item) => {

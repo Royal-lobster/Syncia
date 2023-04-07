@@ -24,7 +24,6 @@ const CodeBlock = (props: CodeProps) => {
       language={language}
       PreTag="div"
       style={isDarkMode() ? atomDark : materialLight}
-      showLineNumbers
     >
       {String(children)}
     </SyntaxHighlighter>
