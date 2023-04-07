@@ -57,7 +57,7 @@ const ChatList = ({ messages }: ChatListProps) => {
                   table: Table,
                 }}
               >
-                {msg.content}
+                {msg.content.replace(/\n/gi, '\n &nbsp;')}
               </ReactMarkdown>
             </div>
           ))

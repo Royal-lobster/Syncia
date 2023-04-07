@@ -66,4 +66,22 @@ export const promptOptions = [
       },
     ],
   },
+  {
+    sectionName: 'Reply',
+    items: [
+      {
+        name: 'Reply positively',
+        prompt: 'Read the following text and reply positively',
+      },
+      {
+        name: 'Reply negatively',
+        prompt: 'Read the following text and reply negatively',
+      },
+      {
+        name: 'Needs information',
+        prompt:
+          'Analyze the following text and reply and ask for possible more information',
+      },
+    ],
+  },
 ]
