@@ -47,7 +47,10 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
           className="cdx-flex cdx-items-stretch cdx-rounded cdx-shadow-md cdx-leading-none cdx-cursor-pointer hover:!cdx-brightness-95 cdx-overflow-hidden cdx-p-0 cdx-m-0 cdx-border-none cdx-bg-neutral-50 dark:cdx-bg-neutral-800 cdx-text-neutral-950 dark:cdx-text-neutral-100"
         >
           <div className="cdx-py-1 cdx-px-1.5 cdx-bg-neutral-200 dark:cdx-bg-neutral-700">
-            <BsRobot size={15} className='cdx-mt-0.5' />
+            <BsRobot
+              size={15}
+              className='cdx-mt-0.5 cdx-text-neutral-800 dark:cdx-text-white'
+            />
           </div>
           <span className='cdx-py-1 cdx-text-sm !cdx-font-sans cdx-px-1.5 cdx-mt-0.5'>
             ChatDock X
@@ -81,7 +84,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
                           {item.items.map((subItem) => (
                             <DropdownMenu.Item
                               key={subItem.name}
-                              onSelect={() => generateInDock(item.prompt!)}
+                              onSelect={() => generateInDock(subItem.prompt)}
                               className='cdx-p-1 cdx-border-0 cdx-select-none cdx-outline-0 cdx-rounded cdx-text-sm data-[highlighted]:cdx-bg-neutral-200 data-[highlighted]:dark:cdx-bg-neutral-600'
                             >
                               {subItem.name}
