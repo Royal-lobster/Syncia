@@ -4,6 +4,8 @@ import remarkGfm from 'remark-gfm'
 import { useEffect, useRef } from 'react'
 import { ChatMessage, ChatRole } from '../../../hooks/useOpenAI'
 import { Table } from './markdown-components/Table'
+import remarkBreaks from 'remark-breaks'
+import rehypeRaw from 'rehype-raw'
 
 interface ChatListProps {
   messages: ChatMessage[]
@@ -19,6 +21,8 @@ const ChatList = ({ messages }: ChatListProps) => {
   }, [messages])
 
   const filteredMsgs = messages.filter((msg) => msg.role !== ChatRole.SYSTEM)
+
+  console.log(messages)
 
   return (
     <div
@@ -51,13 +55,14 @@ const ChatList = ({ messages }: ChatListProps) => {
               key={msg.timestamp}
             >
               <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
+                remarkPlugins={[remarkGfm, remarkBreaks]}
+                rehypePlugins={[rehypeRaw]}
                 components={{
                   code: CodeBlock,
                   table: Table,
                 }}
               >
-                {msg.content.replace(/\n/gi, '\n &nbsp;')}
+                {msg.content}
               </ReactMarkdown>
             </div>
           ))
