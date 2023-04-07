@@ -24,7 +24,7 @@ export const initSidebarListeners = () => {
 
   chrome.runtime.onMessage.addListener(function (
     message,
-    sender,
+    _sender,
     sendResponse,
   ) {
     if (message.action === 'close-sidebar') {

@@ -4,7 +4,7 @@
     "enabled": false
   },
   "files": {
-    "ignore": ["**/node_modules", "dist", "yarn.lock"]
+    "ignore": ["node_modules", "dist", "yarn.lock"]
   },
   "formatter": {
     "enabled": true,

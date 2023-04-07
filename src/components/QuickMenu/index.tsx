@@ -6,6 +6,7 @@ interface QuickMenuProps {
 }
 
 export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
+  console.log(selectedText, setMenuOpen)
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>

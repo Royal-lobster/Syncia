@@ -44,7 +44,7 @@ const ChatList = ({ messages }: ChatListProps) => {
       ) : (
         filteredMsgs
           .filter((msg) => msg.role !== ChatRole.SYSTEM)
-          .map((msg, i) => (
+          .map((msg) => (
             <div
               data-user={msg.role === ChatRole.USER || undefined}
               className="markdown cdx-p-4 data-[user]:cdx-border-l-4 cdx-border-blue-400 data-[user]:cdx-bg-black/10 data-[user]:dark:cdx-bg-neutral-800/95 cdx-max-w-[400px]"

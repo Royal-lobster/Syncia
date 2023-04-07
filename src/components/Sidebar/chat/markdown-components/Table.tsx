@@ -1,6 +1,6 @@
 import { ReactMarkdownProps } from 'react-markdown/lib/ast-to-react'
 
-type Table =
+type TableType =
   | keyof JSX.IntrinsicElements
   | React.ComponentType<
       Omit<
@@ -13,7 +13,7 @@ type Table =
         ReactMarkdownProps
     >
 
-export const Table: Table = (props) => {
+export const Table: TableType = (props) => {
   return (
     <div className="ChatDockX_table-container">
       <table {...props} />

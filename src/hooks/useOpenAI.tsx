@@ -138,7 +138,7 @@ export const useChatCompletion = ({
       const payload = JSON.stringify({
         model,
         messages: updatedMessages
-          .filter((m, i) => updatedMessages.length - 1 !== i)
+          .filter((_m, i) => updatedMessages.length - 1 !== i)
           .map(officialOpenAIParams),
         stream: true,
       })
@@ -193,7 +193,7 @@ export const useChatCompletion = ({
         if (e.readyState && e.readyState > 1) {
           const afterTimestamp = Date.now()
           const diffInSeconds = (afterTimestamp - beforeTimestamp) / 1000
-          const formattedDiff = diffInSeconds.toFixed(2) + ' sec.'
+          const formattedDiff = `${diffInSeconds.toFixed(2)} sec.`
 
           setMessages((msgs) =>
             msgs.map((message, i) => {
