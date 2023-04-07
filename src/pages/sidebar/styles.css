@@ -1,72 +1,91 @@
 .ChatDockX_table-container {
-  @apply w-full h-full overflow-x-auto relative my-1;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  position: relative;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
 }
 table {
-  @apply border border-[#ffffff2a] border-collapse overflow-x-auto;
+  border: 1px solid #ffffff2a;
+  border-collapse: collapse;
+  overflow-x: auto;
 }
 td,
 tr {
-  @apply border border-[#ffffff2a] p-1 text-center;
+  border: 1px solid #ffffff2a;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  text-align: center;
 }
 th {
-  @apply bg-[#0000002a] p-1;
+  background-color: #0000002a;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
 }
-
 /* WRITE BASIC MARKDOWN HTML STYLES  */
-
 .markdown h1,
 .markdown h2,
 .markdown h3,
 .markdown h4,
 .markdown h5,
 .markdown h6 {
-  @apply !font-bold;
+  font-weight: bold;
 }
-
 .markdown h1 {
-  @apply !text-3xl;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
 }
-
 .markdown h2 {
-  @apply !text-2xl;
+  font-size: 1.5rem;
+  line-height: 1.75rem;
 }
-
 .markdown h3 {
-  @apply !text-xl;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
 }
-
 .markdown h4 {
-  @apply !text-lg;
+  font-size: 1.125rem;
+  line-height: 1.25rem;
 }
-
 .markdown h5 {
-  @apply !text-base;
+  font-size: 1rem;
+  line-height: 1.25rem;
 }
-
 .markdown h6 {
-  @apply !text-sm;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
-
 .markdown a {
-  @apply text-blue-500;
+  color: #3490dc;
+  text-decoration: underline;
 }
-
 .markdown hr {
-  @apply !border-[#ffffff2a] !my-1;
+  border-top: 1px solid #ffffff2a;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
 }
-
 .markdown ul {
-  @apply !list-disc !list-inside !pl-4;
+  list-style-type: disc;
+  list-style-position: inside;
+  padding-left: 1rem;
 }
-
 .markdown ol {
-  @apply !list-decimal !list-inside !pl-4;
+  list-style-type: decimal;
+  list-style-position: inside;
+  padding-left: 1rem;
 }
-
 .markdown li {
-  @apply !my-1;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
 }
-
 .markdown blockquote {
-  @apply !border-l-4 !border-blue-400 !pl-2 !my-1 dark:bg-[#161616] bg-gray-200 p-0.5;
+  border-left-width: 0.25rem;
+  border-left-color: #3490dc;
+  padding-left: 0.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  background-color: #f7fafc;
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
 }

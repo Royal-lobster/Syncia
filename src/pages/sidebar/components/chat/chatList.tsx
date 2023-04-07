@@ -23,19 +23,21 @@ const ChatList = ({ messages }: ChatListProps) => {
 	return (
 		<div
 			ref={containerRef}
-			className="h-[calc(100vh-200px)] text-sm overflow-y-auto pb-12 break-words"
+			className="ChatDockX-h-[calc(100vh-200px)] ChatDockX-text-sm ChatDockX-overflow-y-auto ChatDockX-pb-12 ChatDockX-break-words"
 		>
 			{filteredMsgs.length < 1 ? (
-				<div className="mt-10 text-center">
+				<div className="ChatDockX-mt-10 ChatDockX-text-center">
 					<img
 						alt="robot"
 						src="/images/robot.png"
-						className="mx-auto"
+						className="ChatDockX-mx-auto"
 						height={300}
 						width={300}
 					/>
-					<h1 className="text-xl text-gray-400">Start a new conversation ✨</h1>
-					<p className="text-gray-400 mt-1 leading-tight font-light">
+					<h1 className="ChatDockX-text-xl ChatDockX-text-gray-400">
+						Start a new conversation ✨
+					</h1>
+					<p className="ChatDockX-text-gray-400 ChatDockX-mt-1 ChatDockX-leading-tight ChatDockX-font-light">
 						Type your message at the bottom <br /> and press send button
 					</p>
 				</div>
@@ -45,7 +47,7 @@ const ChatList = ({ messages }: ChatListProps) => {
 					.map((msg, i) => (
 						<div
 							data-user={msg.role === ChatRole.USER || undefined}
-							className="markdown p-4 data-[user]:border-l-4 border-blue-400 data-[user]:bg-black/10 data-[user]:dark:bg-neutral-800/95 max-w-[400px]"
+							className="markdown ChatDockX-p-4 data-[user]:ChatDockX-border-l-4 ChatDockX-border-blue-400 data-[user]:ChatDockX-bg-black/10 data-[user]:dark:ChatDockX-bg-neutral-800/95 ChatDockX-max-w-[400px]"
 							key={msg.timestamp}
 						>
 							<ReactMarkdown

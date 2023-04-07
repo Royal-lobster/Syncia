@@ -6,11 +6,14 @@ const Header = () => {
 	};
 
 	return (
-		<div className="flex justify-between p-3.5 border-b dark:border-neutral-800 border-neutral-200">
-			<h1 className="text-2xl m-0 p-0">
-				ChatDock <span className="dark:text-blue-300 text-blue-500">X</span>
+		<div className="ChatDockX-flex ChatDockX-justify-between ChatDockX-p-3.5 ChatDockX-border-b dark:ChatDockX-border-neutral-800 ChatDockX-border-neutral-200">
+			<h1 className="ChatDockX-text-2xl ChatDockX-m-0 ChatDockX-p-0">
+				ChatDock{" "}
+				<span className="dark:ChatDockX-text-blue-300 ChatDockX-text-blue-500">
+					X
+				</span>
 			</h1>
-			<button className="text-xl" onClick={onToggle}>
+			<button className="ChatDockX-text-xl" onClick={onToggle}>
 				<HiX />
 			</button>
 		</div>

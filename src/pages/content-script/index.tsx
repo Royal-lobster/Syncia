@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { contentScriptLog } from "../../logs";
 import { QuickMenu } from "./components/QuickMenu";
+import HighlightMenu from "react-highlight-menu";
 
 contentScriptLog();
 
@@ -49,7 +50,22 @@ document.body.classList.add("ChatDockX_Body");
 
 function init() {
 	const root = createRoot(document.createElement("div"));
-	root.render(<QuickMenu />);
+	root.render(
+		<HighlightMenu
+			target=".ChatDockX_Body"
+			menu={({ selectedText, setClipboard, setMenuOpen }) => <QuickMenu />}
+			placement="bottom-start"
+			styles={{
+				borderColor: "none",
+				background: "transparent",
+				boxShadow: "none",
+				zIndex: 9999999999,
+				borderRadius: "0px",
+				padding: "0px",
+				margin: "0px",
+			}}
+		/>,
+	);
 }
 
 init();
