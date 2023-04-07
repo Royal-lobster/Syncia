@@ -63,9 +63,9 @@ function init() {
         background: 'transparent',
         boxShadow: 'none',
         zIndex: 9999999999,
-        borderRadius: '0px',
-        padding: '0px',
-        margin: '10px',
+        borderRadius: '0',
+        padding: '0',
+        margin: '0',
       }}
     />,
   )
