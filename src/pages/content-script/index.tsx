@@ -20,7 +20,7 @@ const createSidebar = () => {
   iframe.style.right = '0px'
   iframe.style.zIndex = '9000000000000000000'
   iframe.style.border = '0px'
-  iframe.style.colorScheme = 'normal'
+  iframe.style.colorScheme = 'auto'
   iframe.src = chrome.runtime.getURL('/src/pages/sidebar/index.html')
   iframe.id = 'ChatDockX_Sidebar'
 
