@@ -902,6 +902,11 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
+"@thedutchcoder/postcss-rem-to-px@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@thedutchcoder/postcss-rem-to-px/-/postcss-rem-to-px-0.0.2.tgz#632a3cabae8454d2c50ee61bfb88d77d31213e3c"
+  integrity sha512-M2T3bJSTgLtZF8+KDYDtSDAFGuTlaxYfitpjkmNswnfJ8AjbQ/g7NC+bqgAAViYWFV9I3tdrQuQ3Bu8j7GrjwA==
+
 "@types/aria-query@^5.0.1":
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@types/aria-query/-/aria-query-5.0.1.tgz#3286741fb8f1e1580ac28784add4c7a1d49bdfbc"
