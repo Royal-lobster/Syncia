@@ -34,7 +34,12 @@ export default defineManifest(async (env) => ({
   content_scripts: [
     {
       matches: ['http://*/*', 'https://*/*', '<all_urls>'],
-      js: ['src/pages/content-script/index.tsx'],
+      js: ['src/pages/content/sidebar.tsx'],
+    },
+    {
+      matches: ['http://*/*', 'https://*/*', '<all_urls>'],
+      js: ['src/pages/content/quickmenu.tsx'],
+      all_frames: true,
     },
   ],
   web_accessible_resources: [

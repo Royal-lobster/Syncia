@@ -2,8 +2,8 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { BsRobot } from 'react-icons/bs'
 import { promptOptions } from '../../prompts/list'
 import { HiOutlineChevronRight } from 'react-icons/hi'
-import { toggleSidebar } from '../../pages/content-script'
 import { useEffect } from 'react'
+import './index.css'
 
 interface QuickMenuProps {
   selectedText: string
@@ -25,7 +25,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
       'ChatDockX_Sidebar',
     ) as HTMLIFrameElement
     if (sideBarIframe.style.width === '0px') {
-      toggleSidebar(sideBarIframe)
+      sideBarIframe.style.width = '400px'
     }
     sideBarIframe.contentWindow?.postMessage(
       {
@@ -66,7 +66,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
         >
           {promptOptions.map((prompt) => (
             <DropdownMenu.Group key={prompt.sectionName}>
-              <DropdownMenu.Label className='cdx-text-[10px] cdx-font-semibold cdx-mb-1 cdx-mx-1 font-bold cdx-text-neutral-500 cdx-uppercase'>
+              <DropdownMenu.Label className='cdx-text-[10px] cdx-font-semibold cdx-m-1 font-bold cdx-text-neutral-500 cdx-uppercase'>
                 {prompt.sectionName}
               </DropdownMenu.Label>
               {prompt.items.map((item) => {
