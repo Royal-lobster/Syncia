@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .input {
+    @apply cdx-p-2 cdx-text-base cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/95 cdx-bg-neutral-200/95 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50;
+  }
+  .input-success {
+    @apply cdx-border-green-500 cdx-text-green-500 cdx-bg-green-500/10;
+  }
+  .btn {
+    @apply cdx-flex cdx-gap-2 cdx-text-base disabled:cdx-bg-slate-500 disabled:cdx-text-slate-400 cdx-items-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white cdx-font-bold cdx-py-2 cdx-px-4 cdx-rounded;
+  }
+}

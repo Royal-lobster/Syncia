@@ -1,18 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { SSE } from 'sse'
 import { useStorage } from './useStorage'
-
-export enum GPT35 {
-  TURBO = 'gpt-3.5-turbo',
-  TURBO_0301 = 'gpt-3.5-turbo-0301',
-}
-
-export enum GPT4 {
-  BASE = 'gpt-4',
-  BASE_0314 = 'gpt-4-0314',
-  BASE_32K = 'gpt-4-32k',
-  BASE_32K_0314 = 'gpt-4-32k-0314',
-}
+import { AvailableModels, Mode } from './useSettings'
 
 export enum ChatRole {
   USER = 'user',
@@ -54,7 +43,8 @@ export interface ChatMessage extends ChatMessageParams {
 
 export interface OpenAIStreamingProps {
   apiKey: string
-  model: GPT35 | GPT4
+  model: AvailableModels
+  mode?: Mode
   systemPrompt?: string
 }
 
@@ -85,6 +75,7 @@ export const useChatCompletion = ({
   model,
   apiKey,
   systemPrompt,
+  mode,
 }: OpenAIStreamingProps) => {
   const systemMessage = createChatMessage({
     content: systemPrompt || '',
@@ -140,6 +131,7 @@ export const useChatCompletion = ({
         messages: updatedMessages
           .filter((_m, i) => updatedMessages.length - 1 !== i)
           .map(officialOpenAIParams),
+        temperature: Number(mode),
         stream: true,
       })
 

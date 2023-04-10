@@ -1,18 +1,20 @@
 import React, { useEffect } from 'react'
 import ChatList from './chatList'
 import { SidebarInput } from './chatInput'
-import { GPT35, useChatCompletion } from '../../../hooks/useOpenAI'
+import { useChatCompletion } from '../../../hooks/useOpenAI'
 import { SYSTEM_PROMPT } from '../../../prompts'
+import { Settings } from '../../../hooks/useSettings'
 
 interface ChatProps {
-  apiKey: string
+  settings: Settings
 }
 
-const Chat = ({ apiKey }: ChatProps) => {
+const Chat = ({ settings }: ChatProps) => {
   const { messages, submitQuery, clearMessages, loading, cancelRequest } =
     useChatCompletion({
-      model: GPT35.TURBO,
-      apiKey,
+      model: settings.chat.modal,
+      apiKey: settings.chat.openAIKey!,
+      mode: settings.chat.mode,
       systemPrompt: SYSTEM_PROMPT,
     })
 
