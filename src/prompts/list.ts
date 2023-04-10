@@ -3,7 +3,7 @@ const resetText =
 const retainLang =
   '[To bot] Respond with same language variety and dialect as the original text.'
 
-export const promptOptions = [
+export const defaultPrompts = [
   {
     sectionName: 'Review Selection',
     items: [
@@ -70,6 +70,7 @@ export const promptOptions = [
             prompt: [
               '#### Instructions',
               "- Take the following text and change it's tone to professional.",
+              `- ${retainLang}`,
               `- ${resetText}`,
             ].join('\n'),
           },
@@ -78,6 +79,7 @@ export const promptOptions = [
             prompt: [
               '#### Instructions',
               "- Take the following text and change it's tone to casual.",
+              `- ${retainLang}`,
               `- ${resetText}`,
             ].join('\n'),
           },
@@ -86,6 +88,7 @@ export const promptOptions = [
             prompt: [
               '#### Instructions',
               "- Take the following text and change it's tone to straight forward.",
+              `- ${retainLang}`,
               `- ${resetText}`,
             ].join('\n'),
           },
@@ -94,6 +97,7 @@ export const promptOptions = [
             prompt: [
               '#### Instructions',
               "- Take the following text and change it's tone to friendly.",
+              `- ${retainLang}`,
               `- ${resetText}`,
             ].join('\n'),
           },
@@ -102,6 +106,7 @@ export const promptOptions = [
             prompt: [
               '#### Instructions',
               "- Take the following text and change it's tone to confident.",
+              `- ${retainLang}`,
               `- ${resetText}`,
             ].join('\n'),
           },

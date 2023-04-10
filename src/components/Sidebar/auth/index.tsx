@@ -1,14 +1,20 @@
 import React from 'react'
-import { useOpenAIKey } from '../../../hooks/useOpenAIKey'
+import { useSettings } from '../../../hooks/useSettings'
 
 const Auth = () => {
-  const [, setOpenAiKey] = useOpenAIKey()
+  const [, setSettings] = useSettings()
   const handleOpenAiKeySubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
     const key = data.get('openAiKey')
     if (key) {
-      setOpenAiKey(key as string)
+      setSettings((prev) => ({
+        ...prev,
+        chat: {
+          ...prev.chat,
+          openAIKey: key as string,
+        },
+      }))
     }
   }
   return (

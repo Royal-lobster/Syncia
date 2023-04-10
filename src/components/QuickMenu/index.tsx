@@ -1,6 +1,6 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { BsRobot } from 'react-icons/bs'
-import { promptOptions } from '../../prompts/list'
+import { defaultPrompts } from '../../prompts/list'
 import { HiOutlineChevronRight } from 'react-icons/hi'
 import { useEffect } from 'react'
 import './index.css'
@@ -64,7 +64,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
           style={{ zIndex: 2147483647 }}
           className='cdx-flex cdx-flex-col cdx-gap-2 !cdx-font-sans cdx-m-2 cdx-bg-neutral-50 cdx-shadow-md cdx-p-2 cdx-rounded dark:cdx-bg-neutral-800 cdx-text-neutral-950 dark:cdx-text-neutral-100'
         >
-          {promptOptions.map((prompt) => (
+          {defaultPrompts.map((prompt) => (
             <DropdownMenu.Group key={prompt.sectionName}>
               <DropdownMenu.Label className='cdx-text-[10px] cdx-font-semibold cdx-m-1 font-bold cdx-text-neutral-500 cdx-uppercase'>
                 {prompt.sectionName}
