@@ -14,8 +14,8 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
   useEffect(() => {
     const highlightMenu = document.getElementById(
       'react-highlight-menu-container',
-    ) as HTMLDivElement
-    highlightMenu.style.zIndex = '2147483647'
+    ) as HTMLDivElement | null
+    if (highlightMenu) highlightMenu.style.zIndex = '2147483647'
   }, [])
 
   const generateInDock = (prompt: string) => {
