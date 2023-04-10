@@ -18,11 +18,11 @@ const FieldWrapper = ({
   return (
     <form
       data-row={row || undefined}
-      className='cdx-flex cdx-flex-col cdx-p-3 cdx-gap-1 data-[row]:cdx-items-center cdx-my-4 data-[row]:cdx-flex-row data-[row]:cdx-justify-between data-[row]:cdx-gap-2'
+      className='cdx-flex cdx-flex-col cdx-gap-1 data-[row]:cdx-items-center cdx-my-4 data-[row]:cdx-flex-row data-[row]:cdx-justify-between data-[row]:cdx-gap-2'
       onSubmit={onSubmit}
     >
       <div>
-        <label className='cdx-text-xl cdx-text-neutral-200 cdx-font-bold'>
+        <label className='cdx-text-xl dark:cdx-text-neutral-200 cdx-text-neutral-700 cdx-font-bold'>
           {title}
         </label>
         {description && (
