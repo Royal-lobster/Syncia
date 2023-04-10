@@ -57,7 +57,7 @@ const ChatSettings = () => {
   console.log(Object.entries(Mode))
 
   return (
-    <div className='cdx-w-full cdx-flex-1 cdx-bg-black/10 cdx-p-4 cdx-rounded-md'>
+    <div className='cdx-w-full cdx-flex-shrink-0 cdx-flex-1 cdx-bg-black/10 cdx-p-4 cdx-rounded-md'>
       <SectionHeading title='Chat' />
 
       {/* =========================

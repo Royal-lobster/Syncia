@@ -41,28 +41,6 @@ declare module 'sse' {
   export { SSE }
 }
 
-// <HighlightMenu
-// 				target=".app"
-// 				menu={({ selectedText, setClipboard, setMenuOpen }) => (
-// 					<React.Fragment>
-// 						<button type="button" onClick={() => setClipboard(selectedText)}>
-// 							📋
-// 						</button>
-// 						<button type="button" onClick={() => setMenuOpen(false)}>
-// 							❌
-// 						</button>
-// 					</React.Fragment>
-// 				)}
-// 				styles={{
-// 					borderColor: "black",
-// 					background: "black",
-// 					boxShadow: "0px 5px 5px 0px rgba(0, 0, 0, 0.15)",
-// 					zIndex: 10,
-// 					borderRadius: "5px",
-// 					padding: "3px",
-// 				}}
-// 			/>
-
 declare module 'react-highlight-menu' {
   import React = require('react')
 
@@ -93,4 +71,12 @@ declare module 'react-highlight-menu' {
   }
 
   export default class HighlightMenu extends React.Component<HighlightMenuProps> {}
+}
+
+declare module 'redirect-whitelister' {
+  export default class RedirectWhitelister {
+    allowedProtocols: string[]
+    constructor(allowedDomains: string | string[])
+    verify(url: string): boolean
+  }
 }

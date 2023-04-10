@@ -24,7 +24,10 @@ const QuickMenuSettings = () => {
   const handleExcludeSitesChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
-    const sites = event.target.value.split(',').map((site) => site.trim())
+    const sites = event.target.value
+      .split(',')
+      .map((site) => site.trim())
+      .filter(Boolean)
     setSettings({
       ...settings,
       quickMenu: {
@@ -35,9 +38,12 @@ const QuickMenuSettings = () => {
   }
 
   return (
-    <div className='cdx-w-full cdx-flex-1 cdx-bg-black/10 cdx-p-4 cdx-rounded-md'>
+    <div className='cdx-w-full cdx-flex-shrink-0 cdx-flex-1 cdx-bg-black/10 cdx-p-4 cdx-rounded-md'>
       <SectionHeading title='Quick Menu' />
 
+      {/* =========================
+              Enable Quick Menu 
+      ===========================*/}
       <FieldWrapper
         title='Enable Quick Menu'
         description='This will enable the quick menu which appears bellow text selection on any webpage.'
@@ -52,13 +58,16 @@ const QuickMenuSettings = () => {
         </Switch.Root>
       </FieldWrapper>
 
+      {/* =========================
+              Exclude Sites
+      ===========================*/}
       <FieldWrapper
         title="Exclude Sites"
-        description="You can exclude sites from the quick menu by adding them here. (separated by comma) It supports wildcards !"
+        description="You can exclude sites from the quick menu by adding them here. (separated by comma) supports wildcards."
       >
         <TextareaAutosize
           className='input'
-          placeholder='Eg: *.google.com, youtube.com, twitter.com'
+          placeholder='Eg: google.com, youtube.com, twitter.com'
           minRows={2}
           value={quickMenuSettings.excludedSites.join(', ')}
           onChange={handleExcludeSitesChange}

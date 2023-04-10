@@ -10,6 +10,10 @@
     @apply cdx-border-green-500 cdx-text-green-500 cdx-bg-green-500/10;
   }
   .btn {
-    @apply cdx-flex cdx-gap-2 cdx-text-base disabled:cdx-bg-slate-500 disabled:cdx-text-slate-400 cdx-items-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white cdx-font-bold cdx-py-2 cdx-px-4 cdx-rounded;
+    @apply cdx-flex cdx-whitespace-nowrap cdx-gap-2 cdx-text-base disabled:cdx-bg-slate-500 disabled:cdx-text-slate-400 cdx-items-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white cdx-font-bold cdx-py-2 cdx-px-4 cdx-rounded;
   }
+}
+
+* {
+  word-break: break-word;
 }

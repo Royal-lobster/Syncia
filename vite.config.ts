@@ -9,6 +9,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         sidebar: 'src/pages/sidebar/index.html',
+        settings: 'src/pages/settings/index.html',
       },
     },
   },
