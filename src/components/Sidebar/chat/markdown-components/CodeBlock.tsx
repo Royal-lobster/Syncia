@@ -2,7 +2,7 @@ import { CodeProps } from 'react-markdown/lib/ast-to-react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import {
   atomDark,
-  materialLight,
+  tomorrow,
 } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 const isDarkMode = () => {
@@ -23,7 +23,7 @@ const CodeBlock = (props: CodeProps) => {
       className={modClass}
       language={language}
       PreTag="div"
-      style={isDarkMode() ? atomDark : materialLight}
+      style={isDarkMode() ? atomDark : tomorrow}
     >
       {String(children)}
     </SyntaxHighlighter>

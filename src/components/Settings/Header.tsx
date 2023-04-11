@@ -1,13 +1,14 @@
 import React from 'react'
+import { BsRobot } from 'react-icons/bs'
 
 const Header = () => {
   return (
     <div>
-      <span className='cdx-uppercase cdx-font-bold cdx-text-lg cdx-mb-2 cdx-text-neutral-500'>
-        ChatDock X
-      </span>
-      <h1 className='cdx-text-6xl cdx-font-black cdx-text-blue-400'>
-        Settings
+      <h1 className='cdx-flex cdx-items-center cdx-gap-3 items-center cdx-text-5xl cdx-mb-2 dark:cdx-text-neutral-100 cdx-text-neutral-800'>
+        <BsRobot className='cdx-text-blue-400' />
+        <span>
+          ChatDock <span className='cdx-text-blue-400'>X</span>
+        </span>
       </h1>
     </div>
   )

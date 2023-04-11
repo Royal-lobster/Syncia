@@ -22,7 +22,7 @@ const FieldWrapper = ({
       onSubmit={onSubmit}
     >
       <div>
-        <label className='cdx-text-xl dark:cdx-text-neutral-200 cdx-text-neutral-700 cdx-font-bold'>
+        <label className='cdx-text-xl dark:cdx-text-neutral-200 cdx-text-neutral-700'>
           {title}
         </label>
         {description && (

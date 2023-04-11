@@ -62,11 +62,11 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           style={{ zIndex: 2147483647 }}
-          className='cdx-flex cdx-flex-col cdx-gap-2 !cdx-font-sans cdx-m-2 cdx-bg-neutral-50 cdx-shadow-md cdx-p-2 cdx-rounded dark:cdx-bg-neutral-800 cdx-text-neutral-950 dark:cdx-text-neutral-100'
+          className='cdx-flex cdx-flex-col cdx-gap-2 cdx-backdrop-blur-sm !cdx-font-sans cdx-m-2 cdx-bg-neutral-50/90 cdx-shadow-md cdx-p-2 cdx-rounded dark:cdx-bg-neutral-800/90 cdx-text-neutral-800 dark:cdx-text-neutral-100'
         >
           {defaultPrompts.map((prompt) => (
             <DropdownMenu.Group key={prompt.sectionName}>
-              <DropdownMenu.Label className='cdx-text-[10px] cdx-font-semibold cdx-m-1 font-bold cdx-text-neutral-500 cdx-uppercase'>
+              <DropdownMenu.Label className='cdx-text-[10px] cdx-m-1 cdx-text-neutral-500 cdx-uppercase'>
                 {prompt.sectionName}
               </DropdownMenu.Label>
               {prompt.items.map((item) => {
@@ -80,13 +80,13 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
                       <DropdownMenu.Portal>
                         <DropdownMenu.SubContent
                           style={{ zIndex: 2147483647 }}
-                          className='!cdx-font-sans cdx-my-1 cdx-bg-neutral-50 cdx-shadow-md cdx-p-2 cdx-rounded dark:cdx-bg-neutral-800 cdx-text-neutral-950 dark:cdx-text-neutral-100'
+                          className='!cdx-font-sans cdx-my-1 cdx-backdrop-blur-sm cdx-bg-neutral-50/90 cdx-shadow-md cdx-p-2 cdx-rounded dark:cdx-bg-neutral-800/90 cdx-text-neutral-950 dark:cdx-text-neutral-100'
                         >
                           {item.items.map((subItem) => (
                             <DropdownMenu.Item
                               key={subItem.name}
                               onSelect={() => generateInDock(subItem.prompt)}
-                              className='cdx-p-1 cdx-border-0 cdx-select-none cdx-outline-0 cdx-rounded cdx-text-sm data-[highlighted]:cdx-bg-neutral-200 data-[highlighted]:dark:cdx-bg-neutral-600'
+                              className='cdx-p-1 cdx-border-0 cdx-select-none cdx-outline-0 cdx-rounded cdx-text-sm data-[highlighted]:cdx-bg-neutral-200/90 data-[highlighted]:dark:cdx-bg-neutral-600/90'
                             >
                               {subItem.name}
                             </DropdownMenu.Item>
@@ -99,7 +99,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
                   <DropdownMenu.Item
                     key={item.name}
                     onSelect={() => generateInDock(item.prompt)}
-                    className='cdx-p-1 cdx-rounded cdx-border-0 cdx-select-none cdx-outline-0 cdx-text-sm data-[highlighted]:cdx-bg-neutral-200 data-[highlighted]:dark:cdx-bg-neutral-600'
+                    className='cdx-p-1 cdx-rounded cdx-border-0 cdx-select-none cdx-outline-0 cdx-text-sm data-[highlighted]:cdx-bg-neutral-200/90 data-[highlighted]:dark:cdx-bg-neutral-600/90'
                   >
                     {item.name}
                   </DropdownMenu.Item>

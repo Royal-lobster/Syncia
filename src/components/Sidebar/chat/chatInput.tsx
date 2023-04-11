@@ -43,14 +43,14 @@ export function SidebarInput({
         {!chatIsEmpty && (
           <button
             onClick={clearMessages}
-            className="cdx-rounded-full cdx-h-10 cdx-w-10 cdx-grid cdx-place-items-center cdx-text-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white cdx-font-bold cdx-m-2"
+            className="cdx-rounded-full cdx-h-10 cdx-w-10 cdx-grid cdx-place-items-center cdx-text-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white cdx-m-2"
           >
             <GiMagicBroom size={18} className="mx-auto" />
           </button>
         )}
       </div>
 
-      <div className="cdx-m-2 cdx-rounded-md cdx-border dark:cdx-border-neutral-800 cdx-border-neutral-300 dark:cdx-bg-neutral-900/90 cdx-bg-neutral-200/95 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50">
+      <div className="cdx-m-2 cdx-rounded-md cdx-border dark:cdx-border-neutral-800 cdx-border-neutral-300 dark:cdx-bg-neutral-900/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50">
         <TextareaAutosize
           minRows={2}
           maxLength={10000}
@@ -71,7 +71,7 @@ export function SidebarInput({
         />
         <div className="cdx-flex cdx-justify-between cdx-items-center cdx-p-3">
           <div>
-            <span className="cdx-text-xs cdx-font-semibold cdx-text-neutral-500 dark:cdx-text-neutral-200">
+            <span className="cdx-text-xs cdx-text-neutral-500 dark:cdx-text-neutral-200">
               {text.length} / 10,000
             </span>
           </div>
@@ -79,14 +79,14 @@ export function SidebarInput({
             <button
               disabled={loading}
               onClick={handleSubmit}
-              className="cdx-flex cdx-gap-2 disabled:cdx-bg-slate-500 disabled:cdx-text-slate-400 cdx-items-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white cdx-font-bold cdx-py-2 cdx-px-4 cdx-rounded"
+              className="cdx-flex cdx-gap-2 disabled:cdx-bg-slate-500 disabled:cdx-text-slate-400 cdx-items-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white cdx-py-2 cdx-px-4 cdx-rounded"
             >
               <span>Send</span> <IoSend size={10} />
             </button>
           ) : (
             <button
               onClick={cancelRequest}
-              className="cdx-flex cdx-gap-2 disabled:cdx-bg-slate-500 disabled:cdx-text-slate-400 cdx-items-center cdx-bg-red-500 hover:cdx-bg-red-700 cdx-text-white cdx-font-bold cdx-py-2 cdx-px-4 cdx-rounded"
+              className="cdx-flex cdx-gap-2 disabled:cdx-bg-slate-500 disabled:cdx-text-slate-400 cdx-items-center cdx-bg-red-500 hover:cdx-bg-red-700 cdx-text-white cdx-py-2 cdx-px-4 cdx-rounded"
             >
               <HiHand size={18} /> <span>Stop</span>
             </button>
