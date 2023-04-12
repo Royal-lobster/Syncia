@@ -34,30 +34,35 @@ th {
 .markdown h5,
 .markdown h6 {
   font-weight: bold;
+  margin-block: 0.5rem;
 }
 .markdown h1 {
   font-size: 1.875rem;
-  line-height: 3.25rem;
+  line-height: 2.25rem;
 }
 .markdown h2 {
   font-size: 1.5rem;
-  line-height: 2.75rem;
+  line-height: 1.75rem;
 }
 .markdown h3 {
   font-size: 1.25rem;
-  line-height: 2.5rem;
+  line-height: 1.5rem;
 }
 .markdown h4 {
   font-size: 1.125rem;
-  line-height: 2.25rem;
+  line-height: 1.25rem;
 }
 .markdown h5 {
   font-size: 1rem;
-  line-height: 2.25rem;
+  line-height: 1.25rem;
 }
 .markdown h6 {
   font-size: 0.875rem;
   line-height: 2.25rem;
+}
+.markdown p {
+  margin-block-start: 1em;
+  margin-block-end: 1em;
 }
 .markdown a {
   color: #3490dc;

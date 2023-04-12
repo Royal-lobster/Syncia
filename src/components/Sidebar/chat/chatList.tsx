@@ -51,7 +51,7 @@ const ChatList = ({ messages }: ChatListProps) => {
           .map((msg) => (
             <div
               data-user={msg.role === ChatRole.USER || undefined}
-              className="markdown cdx-p-4 data-[user]:cdx-border-l-2 cdx-border-blue-400 data-[user]:cdx-bg-black/5 data-[user]:dark:cdx-bg-neutral-900/50 cdx-max-w-[400px]"
+              className="markdown cdx-px-4 cdx-py-2 data-[user]:cdx-border-l-2 cdx-border-blue-400 data-[user]:cdx-bg-black/5 data-[user]:dark:cdx-bg-neutral-900/50 cdx-max-w-[400px]"
               key={msg.timestamp}
             >
               <ReactMarkdown
@@ -62,7 +62,7 @@ const ChatList = ({ messages }: ChatListProps) => {
                   table: Table,
                 }}
               >
-                {msg.content}
+                {msg.content.replace(/(?<=\n\n)(?![*-])\n/gi, '&nbsp;\n ')}
               </ReactMarkdown>
             </div>
           ))
