@@ -22,8 +22,6 @@ const ChatList = ({ messages }: ChatListProps) => {
 
   const filteredMsgs = messages.filter((msg) => msg.role !== ChatRole.SYSTEM)
 
-  console.log(messages)
-
   return (
     <div
       ref={containerRef}

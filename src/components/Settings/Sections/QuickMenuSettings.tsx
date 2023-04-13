@@ -1,15 +1,13 @@
 import React from 'react'
-import SectionHeading from './Elements/SectionHeading'
-import FieldWrapper from './Elements/FieldWrapper'
+import SectionHeading from '../Elements/SectionHeading'
+import FieldWrapper from '../Elements/FieldWrapper'
 import * as Switch from '@radix-ui/react-switch'
 import TextareaAutosize from 'react-textarea-autosize'
-import { useSettings } from '../../hooks/useSettings'
+import { useSettings } from '../../../hooks/useSettings'
 
 const QuickMenuSettings = () => {
   const [settings, setSettings] = useSettings()
   const quickMenuSettings = settings.quickMenu
-
-  console.log(settings)
 
   const handleEnableQuickMenuChange = (enabled: boolean) => {
     setSettings({

@@ -32,18 +32,14 @@ const initQuickMenu = () => {
 
 chrome.storage.sync.get(['SETTINGS'], (result) => {
   const quickMenuSettings = result.SETTINGS?.quickMenu as Settings['quickMenu']
-  console.log('SETTINGS', quickMenuSettings)
   if (quickMenuSettings) {
-    console.log('INSIDE QUICKMENU IF STATEMENT')
     if (quickMenuSettings.enabled) {
-      console.log('INSIDE QUICKMENU IF STATEMENT 2')
       if (quickMenuSettings.excludedSites.length === 0) initQuickMenu()
       else {
         const whitelister = new Whitelister(
           quickMenuSettings.excludedSites || '*',
         )
         const isExcluded = whitelister.verify(window.location.href)
-        console.log(isExcluded)
         if (!isExcluded) initQuickMenu()
       }
     }

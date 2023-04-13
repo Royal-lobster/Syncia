@@ -2,6 +2,12 @@ import { Dispatch, SetStateAction } from 'react'
 import { useStorage } from './useStorage'
 import { defaultPrompts } from '../prompts/list'
 
+export enum ThemeOptions {
+  LIGHT = 'light',
+  DARK = 'dark',
+  SYSTEM = 'system',
+}
+
 export enum AvailableModels {
   GPT_4 = 'gpt-4',
   GPT_4_0314 = 'gpt-4-0314',
@@ -30,6 +36,9 @@ export type Settings = {
     modal: AvailableModels
     mode: Mode
   }
+  general: {
+    theme: ThemeOptions
+  }
 }
 
 const defaultSettings: Settings = {
@@ -42,6 +51,9 @@ const defaultSettings: Settings = {
     openAIKey: null,
     modal: AvailableModels.GPT_3_5_TURBO,
     mode: Mode.BALANCED,
+  },
+  general: {
+    theme: ThemeOptions.SYSTEM,
   },
 }
 

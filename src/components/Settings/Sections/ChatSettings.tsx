@@ -1,7 +1,7 @@
 import React from 'react'
-import SectionHeading from './Elements/SectionHeading'
-import FieldWrapper from './Elements/FieldWrapper'
-import { AvailableModels, Mode, useSettings } from '../../hooks/useSettings'
+import SectionHeading from '../Elements/SectionHeading'
+import FieldWrapper from '../Elements/FieldWrapper'
+import { AvailableModels, Mode, useSettings } from '../../../hooks/useSettings'
 
 const ChatSettings = () => {
   const [settings, setSettings] = useSettings()
@@ -53,8 +53,6 @@ const ChatSettings = () => {
       },
     })
   }
-
-  console.log(Object.entries(Mode))
 
   return (
     <div className='cdx-w-full cdx-flex-shrink-0 cdx-flex-1 cdx-rounded-md'>

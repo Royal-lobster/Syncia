@@ -1,0 +1,44 @@
+import React from 'react'
+import SectionHeading from '../Elements/SectionHeading'
+import FieldWrapper from '../Elements/FieldWrapper'
+import { ThemeOptions, useSettings } from '../../../hooks/useSettings'
+
+const GeneralSettings = () => {
+  const [settings, setSettings] = useSettings()
+  const generalSettings = settings.general
+
+  const handleThemeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value
+    setSettings({
+      ...settings,
+      general: {
+        ...generalSettings,
+        theme: value as ThemeOptions,
+      },
+    })
+  }
+
+  return (
+    <div>
+      <SectionHeading title='General Settings' />
+
+      <FieldWrapper
+        title='Theme'
+        description='Change theme of the sidebar and quick menu'
+        row
+      >
+        <select
+          value={generalSettings?.theme || ThemeOptions.SYSTEM}
+          className='input cdx-w-44'
+          onChange={handleThemeChange}
+        >
+          {Object.values(ThemeOptions).map((theme) => (
+            <option value={theme}>{theme}</option>
+          ))}
+        </select>
+      </FieldWrapper>
+    </div>
+  )
+}
+
+export default GeneralSettings

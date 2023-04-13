@@ -4,6 +4,7 @@ import { defaultPrompts } from '../../prompts/list'
 import { HiOutlineChevronRight } from 'react-icons/hi'
 import { useEffect } from 'react'
 import './index.css'
+import useThemeSync from '../../hooks/useThemeSync'
 
 interface QuickMenuProps {
   selectedText: string
@@ -11,6 +12,7 @@ interface QuickMenuProps {
 }
 
 export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
+  useThemeSync()
   useEffect(() => {
     const highlightMenu = document.getElementById(
       'react-highlight-menu-container',
