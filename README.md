@@ -55,17 +55,13 @@ When you select a text, a quick menu will appear with the following options:
 
 Note that these are default options and can be changed in the settings page.
 
-## Contributors
+## 💖 Contributing
 
 Thank you to all the contributors who have helped make ChatDockX better! 👏
 
 [![Contributors](https://contrib.rocks/image?repo=Royal-lobster/ChatDockX)](https://github.com/Royal-lobster/ChatDockX/graphs/contributors)
 
-You can also contribute to the project by creating a pull request. Check out below for more information.
-
-## 💖 Contributing
-
-Contributions to ChatDockX are always welcome! If you want to contribute to the project, please follow these steps:
+You can also contribute to the project by creating a pull request. please follow these steps:
 
 1. Fork the repository by clicking on the "Fork" button on this page.
 2. Clone your fork to your local machine.
@@ -73,6 +69,10 @@ Contributions to ChatDockX are always welcome! If you want to contribute to the 
 4. Make your changes and commit them with a descriptive commit message.
 5. Push your branch to your fork.
 6. Create a pull request on this repository with a descriptive title and message.
+
+Checkout the [CONTRIBUTING.md](
+    https://github.com/Royal-lobster/ChatDockX/blob/main/CONTRIBUTING.md
+) file for more information. 
 
 ## 🔎 Issues and Pull Requests
 
