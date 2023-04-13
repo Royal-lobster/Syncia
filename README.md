@@ -1,6 +1,6 @@
 # 🌟 ChatDockX
 
-ChatDockX is a Chrome extension that enables users to chat with ChatGPT by opening a sidebar on any website by using the shortcut ctrl+shift+i. In addition, it provides a floating menu underneath any selected text on any website that allows users to generate text summaries, check grammar issues, and customize text length.
+ChatDockX is a Chrome extension that enables users to chat with ChatGPT by opening a sidebar on any website by using the shortcut `ctrl+shift+i`. In addition, it provides a floating menu underneath any selected text on any website that allows users to generate text summaries, check grammar issues, and customize text length.
 
 
 ## 🦾 Features
