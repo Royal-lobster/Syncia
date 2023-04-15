@@ -1,10 +1,17 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { BsRobot } from 'react-icons/bs'
-import { defaultPrompts } from '../../prompts/list'
-import { HiOutlineChevronRight } from 'react-icons/hi'
+import { defaultPrompts } from '../../prompts/default'
 import { useEffect } from 'react'
 import './index.css'
 import useThemeSync from '../../hooks/useThemeSync'
+import { RecursiveItem } from './RecursiveItem'
+import { getTransformedPrompt } from '../../prompts'
+
+export const ContentClassNames =
+  'cdx-flex cdx-flex-col cdx-min-w-[150px] cdx-gap-2 cdx-backdrop-blur-sm !cdx-font-sans cdx-m-2 cdx-bg-neutral-50/90 cdx-shadow-md cdx-p-2 cdx-rounded dark:cdx-bg-neutral-800/90 cdx-text-neutral-800 dark:cdx-text-neutral-100'
+
+export const ItemClassNames =
+  'cdx-p-1 cdx-rounded cdx-border-0 cdx-select-none cdx-outline-0 cdx-text-sm cdx-flex cdx-items-center cdx-justify-between data-[highlighted]:cdx-bg-neutral-200 data-[highlighted]:dark:cdx-bg-neutral-600'
 
 interface QuickMenuProps {
   selectedText: string
@@ -20,9 +27,8 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
     if (highlightMenu) highlightMenu.style.zIndex = '2147483647'
   }, [])
 
-  const generateInDock = (prompt: string) => {
-    const fullPrompt = `${prompt}\n\n #### Original Text: \n\n ${selectedText}`
-
+  const handleGenerate = (prompt: string) => {
+    const fullPrompt = getTransformedPrompt(prompt, selectedText)
     const sideBarIframe = document.getElementById(
       'ChatDockX_Sidebar',
     ) as HTMLIFrameElement
@@ -37,6 +43,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
       '*',
     )
   }
+
   return (
     <DropdownMenu.Root
       onOpenChange={(e) => {
@@ -60,55 +67,23 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
           </span>
         </button>
       </DropdownMenu.Trigger>
-
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           style={{ zIndex: 2147483647 }}
-          className='cdx-flex cdx-flex-col cdx-gap-2 cdx-backdrop-blur-sm !cdx-font-sans cdx-m-2 cdx-bg-neutral-50/90 cdx-shadow-md cdx-p-2 cdx-rounded dark:cdx-bg-neutral-800/90 cdx-text-neutral-800 dark:cdx-text-neutral-100'
+          className={ContentClassNames}
         >
-          {defaultPrompts.map((prompt) => (
-            <DropdownMenu.Group key={prompt.sectionName}>
-              <DropdownMenu.Label className='cdx-text-[10px] cdx-m-1 cdx-text-neutral-500 cdx-uppercase'>
-                {prompt.sectionName}
-              </DropdownMenu.Label>
-              {prompt.items.map((item) => {
-                if (item.items)
-                  return (
-                    <DropdownMenu.Sub key={item.name}>
-                      <DropdownMenu.SubTrigger className='cdx-p-1 cdx-rounded cdx-border-0 cdx-select-none cdx-outline-0 cdx-text-sm cdx-flex cdx-items-center cdx-justify-between data-[highlighted]:cdx-bg-neutral-200 data-[highlighted]:dark:cdx-bg-neutral-600'>
-                        <span>{item.name}</span>
-                        <HiOutlineChevronRight size={10} />
-                      </DropdownMenu.SubTrigger>
-                      <DropdownMenu.Portal>
-                        <DropdownMenu.SubContent
-                          style={{ zIndex: 2147483647 }}
-                          className='!cdx-font-sans cdx-my-1 cdx-backdrop-blur-sm cdx-bg-neutral-50/90 cdx-shadow-md cdx-p-2 cdx-rounded dark:cdx-bg-neutral-800/90 cdx-text-neutral-950 dark:cdx-text-neutral-100'
-                        >
-                          {item.items.map((subItem) => (
-                            <DropdownMenu.Item
-                              key={subItem.name}
-                              onSelect={() => generateInDock(subItem.prompt)}
-                              className='cdx-p-1 cdx-border-0 cdx-select-none cdx-outline-0 cdx-rounded cdx-text-sm data-[highlighted]:cdx-bg-neutral-200/90 data-[highlighted]:dark:cdx-bg-neutral-600/90'
-                            >
-                              {subItem.name}
-                            </DropdownMenu.Item>
-                          ))}
-                        </DropdownMenu.SubContent>
-                      </DropdownMenu.Portal>
-                    </DropdownMenu.Sub>
-                  )
-                return (
-                  <DropdownMenu.Item
-                    key={item.name}
-                    onSelect={() => generateInDock(item.prompt)}
-                    className='cdx-p-1 cdx-rounded cdx-border-0 cdx-select-none cdx-outline-0 cdx-text-sm data-[highlighted]:cdx-bg-neutral-200/90 data-[highlighted]:dark:cdx-bg-neutral-600/90'
-                  >
-                    {item.name}
-                  </DropdownMenu.Item>
-                )
-              })}
-            </DropdownMenu.Group>
-          ))}
+          <DropdownMenu.Group>
+            {defaultPrompts.map((item) => (
+              <>
+                <DropdownMenu.Label className='cdx-text-[10px] cdx-m-1 cdx-text-neutral-500 cdx-uppercase'>
+                  {item.name}
+                </DropdownMenu.Label>
+                {item.children?.map((item) => (
+                  <RecursiveItem item={item} handleGenerate={handleGenerate} />
+                ))}
+              </>
+            ))}
+          </DropdownMenu.Group>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
