@@ -55,7 +55,7 @@ const ChatSettings = () => {
   }
 
   return (
-    <div className='cdx-w-full cdx-flex-shrink-0 cdx-flex-1 cdx-rounded-md'>
+    <div className='cdx-w-full cdx-flex-shrink-0 cdx-rounded-md'>
       <SectionHeading title='Chat' />
 
       {/* =========================

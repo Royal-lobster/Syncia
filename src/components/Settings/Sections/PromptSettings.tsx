@@ -1,0 +1,46 @@
+import { HiRefresh } from 'react-icons/hi'
+import { usePrompts } from '../../../hooks/usePrompts'
+import { defaultPrompts } from '../../../prompts/default'
+import FieldWrapper from '../Elements/FieldWrapper'
+import QuickMenuCustomizer from '../Elements/QuickMenuCustomizer'
+import SectionHeading from '../Elements/SectionHeading'
+
+const PromptSettings = () => {
+  const [, setPrompts] = usePrompts()
+
+  return (
+    <div className='cdx-w-full cdx-flex-shrink-0 cdx-flex-1 cdx-rounded-md'>
+      <SectionHeading title='Prompts' />
+
+      {/* =========================
+            Customize Prompts
+      ===========================*/}
+      <FieldWrapper
+        title='Customize Prompts'
+        description='You can organize the prompts in the quick menu by dragging these items around. You can also edit the prompts by clicking on the edit button and adding new prompts by clicking on the add button.'
+      >
+        <QuickMenuCustomizer />
+      </FieldWrapper>
+
+      {/* =========================
+          Restore Default Prompts
+      ===========================*/}
+      <FieldWrapper
+        title='Restore Default Prompts'
+        description='This will restore the default prompts. Be careful, this action cannot be undone. And any custom prompts you have added will be lost.'
+        row
+      >
+        <button
+          className='btn cdx-bg-red-500 hover:cdx-bg-red-600'
+          onClick={() => {
+            setPrompts(defaultPrompts)
+          }}
+        >
+          <HiRefresh /> Restore
+        </button>
+      </FieldWrapper>
+    </div>
+  )
+}
+
+export default PromptSettings

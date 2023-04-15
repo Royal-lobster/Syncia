@@ -1,10 +1,9 @@
-import React from 'react'
-import SectionHeading from '../Elements/SectionHeading'
-import FieldWrapper from '../Elements/FieldWrapper'
 import * as Switch from '@radix-ui/react-switch'
+import React from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 import { useSettings } from '../../../hooks/useSettings'
-import QuickMenuCustomizer from '../Elements/QuickMenuCustomizer'
+import FieldWrapper from '../Elements/FieldWrapper'
+import SectionHeading from '../Elements/SectionHeading'
 
 const QuickMenuSettings = () => {
   const [settings, setSettings] = useSettings()
@@ -38,7 +37,7 @@ const QuickMenuSettings = () => {
   }
 
   return (
-    <div className='cdx-w-full cdx-flex-shrink-0 cdx-flex-1 cdx-rounded-md'>
+    <div className='cdx-w-full cdx-flex-shrink-0 cdx-rounded-md'>
       <SectionHeading title='Quick Menu' />
 
       {/* =========================
@@ -72,16 +71,6 @@ const QuickMenuSettings = () => {
           value={quickMenuSettings.excludedSites.join(', ')}
           onChange={handleExcludeSitesChange}
         />
-      </FieldWrapper>
-
-      {/* =========================
-            Customize Prompts
-      ===========================*/}
-      <FieldWrapper
-        title='Customize Prompts'
-        description='You can customize default prompts by adding them here.'
-      >
-        <QuickMenuCustomizer />
       </FieldWrapper>
     </div>
   )

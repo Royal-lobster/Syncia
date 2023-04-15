@@ -1,11 +1,11 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { BsRobot } from 'react-icons/bs'
-import { defaultPrompts } from '../../prompts/default'
 import { useEffect } from 'react'
 import './index.css'
 import useThemeSync from '../../hooks/useThemeSync'
 import { RecursiveItem } from './RecursiveItem'
 import { getTransformedPrompt } from '../../prompts'
+import { usePrompts } from '../../hooks/usePrompts'
 
 export const ContentClassNames =
   'cdx-flex cdx-flex-col cdx-min-w-[150px] cdx-gap-2 cdx-backdrop-blur-sm !cdx-font-sans cdx-m-2 cdx-bg-neutral-50/90 cdx-shadow-md cdx-p-2 cdx-rounded dark:cdx-bg-neutral-800/90 cdx-text-neutral-800 dark:cdx-text-neutral-100'
@@ -20,6 +20,8 @@ interface QuickMenuProps {
 
 export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
   useThemeSync()
+  const [prompts] = usePrompts()
+
   useEffect(() => {
     const highlightMenu = document.getElementById(
       'react-highlight-menu-container',
@@ -73,7 +75,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
           className={ContentClassNames}
         >
           <DropdownMenu.Group>
-            {defaultPrompts.map((item) => (
+            {prompts.map((item) => (
               <>
                 <DropdownMenu.Label className='cdx-text-[10px] cdx-m-1 cdx-text-neutral-500 cdx-uppercase'>
                   {item.name}
