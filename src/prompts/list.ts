@@ -1,164 +1,147 @@
-const resetText =
-  "[To bot] Do not generate answer with filler words, unnecessary information or sentences that don't add value. No Self Reference, No openers. No Quotes. Just go straight to answer"
-const retainLang =
-  '[To bot] Respond with same language variety and dialect as the original text.'
+import endent from 'endent'
+import { Prompt } from '../hooks/usePrompts'
 
-export const defaultPrompts = [
+type PromptWithoutId = Omit<Prompt, 'id' | 'children'> & {
+  children?: PromptWithoutId[]
+}
+
+const prompts: PromptWithoutId[] = [
   {
-    sectionName: 'Review Selection',
-    items: [
+    name: 'Review Selection',
+    children: [
       {
         name: 'Summarize',
-        prompt: [
-          '#### Instructions',
-          '- I am going to provide you with a text and you will summarize it.',
-          `- ${retainLang}`,
-          `- ${resetText}`,
-          '- No more than half the length of the original text.',
-        ].join('\n'),
+        prompt: endent`
+          Read the following text and summarize it in less than half the original length.
+        `,
       },
       {
-        name: 'Simplify language',
-        prompt: [
-          '*Instructions*',
-          `- ${resetText}`,
-          '- Below is a text that is written in a complex language.',
-          '- I want you to simplify it as much as possible.',
-          `- ${retainLang}`,
-        ].join('\n'),
+        name: 'key takeaways',
+        prompt: endent`
+          Read the following text and identify the key takeaways in list format.
+        `,
       },
       {
-        name: 'Translate',
-        prompt: [
-          '#### Instructions',
-          '- Take the given text and translate it into a language of my choice.',
-          `- ${resetText}`,
-          '- Now ask me which language you should translate it into. After which you will translate it into that language.',
-        ].join('\n'),
-      },
-      {
-        name: 'Key takeaways',
-        prompt: [
-          '#### Instructions',
-          '- Take in the following text and identify the key takeaways.',
-          `- ${resetText}`,
-          `- ${retainLang}`,
-          '- Present it in a list format.',
-          '- Start directly with first point.',
-        ].join('\n'),
+        name: 'Questions',
+        prompt: endent`
+          Read the following text and identify the key questions that it raises.
+        `,
       },
     ],
   },
   {
-    sectionName: 'Edit Selection',
-    items: [
+    name: 'Edit Selection',
+    children: [
       {
-        name: 'Fix spelling and grammar',
-        prompt: [
-          '#### Instructions',
-          '- You are a proofreader and you are going to proofread the following text.',
-          `- ${resetText}`,
-          '- First, you will include the corrected text,',
-          'later talk about the mistakes you found and how you corrected them.',
-        ].join('\n'),
+        name: 'Fix Grammar and Spelling',
+        prompt: endent`
+          Read the following text and fix any grammar and spelling mistakes.
+        `,
       },
       {
-        name: 'Change tone',
-        items: [
+        name: 'Change Tone',
+        children: [
           {
-            name: 'Professional',
-            prompt: [
-              '#### Instructions',
-              "- Take the following text and change it's tone to professional.",
-              `- ${retainLang}`,
-              `- ${resetText}`,
-            ].join('\n'),
+            name: 'Formal',
+            prompt: endent`
+              Read the following text and make it more formal.
+            `,
           },
           {
-            name: 'Casual',
-            prompt: [
-              '#### Instructions',
-              "- Take the following text and change it's tone to casual.",
-              `- ${retainLang}`,
-              `- ${resetText}`,
-            ].join('\n'),
+            name: 'Informal',
+            prompt: endent`
+              Read the following text and make it more informal.
+            `,
           },
           {
-            name: 'Straight forward',
-            prompt: [
-              '#### Instructions',
-              "- Take the following text and change it's tone to straight forward.",
-              `- ${retainLang}`,
-              `- ${resetText}`,
-            ].join('\n'),
+            name: 'Neutral',
+            prompt: endent`
+              Read the following text and make it more neutral.
+            `,
           },
           {
-            name: 'Friendly',
-            prompt: [
-              '#### Instructions',
-              "- Take the following text and change it's tone to friendly.",
-              `- ${retainLang}`,
-              `- ${resetText}`,
-            ].join('\n'),
-          },
-          {
-            name: 'Confident',
-            prompt: [
-              '#### Instructions',
-              "- Take the following text and change it's tone to confident.",
-              `- ${retainLang}`,
-              `- ${resetText}`,
-            ].join('\n'),
+            name: 'Strong',
+            prompt: endent`
+              Read the following text and make it more strong and assertive.
+            `,
           },
         ],
       },
       {
-        name: 'Make shorter',
-        prompt: [
-          '#### Instructions',
-          '- Read the following text and make it shorter.',
-          `- ${retainLang}`,
-          `- ${resetText}`,
-        ].join('\n'),
+        name: 'Change Length',
+        children: [
+          {
+            name: 'Shorter',
+            prompt: endent`
+              Read the following text and make it shorter.
+            `,
+          },
+          {
+            name: 'Longer',
+            prompt: endent`
+              Read the following text and make it longer.
+            `,
+          },
+        ],
       },
       {
-        name: 'Make longer',
-        prompt: [
-          '#### Instructions',
-          '- Read the following text and make it longer.',
-          `- ${retainLang}`,
-          `- ${resetText}`,
-        ].join('\n'),
+        name: 'Change Structure',
+        children: [
+          {
+            name: 'Add Details',
+            prompt: endent`
+              Read the following text and add details to make it more informative.
+            `,
+          },
+          {
+            name: 'Add Examples',
+            prompt: endent`
+              Read the following text and add examples to make it more informative.
+            `,
+          },
+          {
+            name: 'Add Emphasis',
+            prompt: endent`
+              Read the following text and add emphasis to make it more impactful.
+            `,
+          },
+        ],
       },
     ],
   },
   {
-    sectionName: 'Reply',
-    items: [
+    name: 'reply',
+    children: [
       {
-        name: 'Reply positively',
-        prompt: [
-          '#### Instructions',
-          '- Read the following text and reply positively',
-          `- ${resetText}`,
-        ].join('\n'),
+        name: 'Positive',
+        prompt: endent`
+          Read the following text and reply to it in a positive way.
+        `,
       },
       {
-        name: 'Reply negatively',
-        prompt: [
-          '#### Instructions',
-          '- Read the following text and reply negatively',
-          `- ${resetText}`,
-        ].join('\n'),
-      },
-      {
-        name: 'Needs information',
-        prompt: [
-          '#### Instructions',
-          '- Read the following text and reply with a question that needs information.',
-          `- ${resetText}`,
-        ].join('\n'),
+        name: 'Negative',
+        prompt: endent`
+          Read the following text and reply to it in a negative way.
+        `,
       },
     ],
   },
 ]
+
+const recursiveAddId = (
+  prompts: PromptWithoutId[],
+  _parentId: string = '',
+): Prompt[] => {
+  return prompts.map((prompt) => {
+    const id = crypto.randomUUID()
+    return {
+      id,
+      ...prompt,
+      children: prompt.children
+        ? recursiveAddId(prompt.children, id)
+        : undefined,
+    }
+  }) as Prompt[]
+}
+
+export const defaultPrompts = recursiveAddId(prompts)

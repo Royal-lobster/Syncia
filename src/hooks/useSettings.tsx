@@ -18,11 +18,9 @@ export enum AvailableModels {
 }
 
 export enum Mode {
-  BALANCED = '1',
   CREATIVE = '0.5',
-  HIGHLY_CREATIVE = '0',
+  BALANCED = '1',
   PRECISE = '1.5',
-  HIGHLY_PRECISE = '2',
 }
 
 export type Settings = {

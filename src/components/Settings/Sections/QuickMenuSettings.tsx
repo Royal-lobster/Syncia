@@ -4,9 +4,11 @@ import FieldWrapper from '../Elements/FieldWrapper'
 import * as Switch from '@radix-ui/react-switch'
 import TextareaAutosize from 'react-textarea-autosize'
 import { useSettings } from '../../../hooks/useSettings'
+import QuickMenuCustomizer from '../Elements/QuickMenuCustomizer'
 
 const QuickMenuSettings = () => {
   const [settings, setSettings] = useSettings()
+
   const quickMenuSettings = settings.quickMenu
 
   const handleEnableQuickMenuChange = (enabled: boolean) => {
@@ -70,6 +72,16 @@ const QuickMenuSettings = () => {
           value={quickMenuSettings.excludedSites.join(', ')}
           onChange={handleExcludeSitesChange}
         />
+      </FieldWrapper>
+
+      {/* =========================
+            Customize Prompts
+      ===========================*/}
+      <FieldWrapper
+        title='Customize Prompts'
+        description='You can customize default prompts by adding them here.'
+      >
+        <QuickMenuCustomizer />
       </FieldWrapper>
     </div>
   )
