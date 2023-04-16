@@ -16,7 +16,7 @@ ChatDockX is a Chrome extension that enables users to chat with ChatGPT by openi
 
 ## 🐳 Installation
 
-You can install ChatDockX through the [Chrome Web Store](https://chrome.google.com/webstore/detail/chatdockx/npkbngooipjniglddnmhdekhjapieimf).
+You can install ChatDockX through the Chrome Web Store. (Under Review)
 
 Alternatively, you can install ChatDockX manually by following these steps:
 
