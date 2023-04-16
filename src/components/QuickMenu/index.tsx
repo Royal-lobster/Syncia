@@ -8,7 +8,7 @@ import { getTransformedPrompt } from '../../prompts'
 import { usePrompts } from '../../hooks/usePrompts'
 
 export const ContentClassNames =
-  'cdx-flex cdx-flex-col cdx-min-w-[150px] cdx-gap-2 cdx-backdrop-blur-sm !cdx-font-sans cdx-m-2 cdx-bg-neutral-50/90 cdx-shadow-md cdx-p-2 cdx-rounded dark:cdx-bg-neutral-800/90 cdx-text-neutral-800 dark:cdx-text-neutral-100'
+  'cdx-flex cdx-flex-col cdx-min-w-[150px] cdx-gap-2 cdx-backdrop-blur-sm !cdx-font-sans cdx-m-2 cdx-bg-neutral-50 cdx-shadow-md cdx-p-2 cdx-rounded dark:cdx-bg-neutral-800 cdx-text-neutral-800 dark:cdx-text-neutral-100'
 
 export const ItemClassNames =
   'cdx-p-1 cdx-rounded cdx-border-0 cdx-select-none cdx-outline-0 cdx-text-sm cdx-flex cdx-items-center cdx-justify-between data-[highlighted]:cdx-bg-neutral-200 data-[highlighted]:dark:cdx-bg-neutral-600'
