@@ -10,6 +10,7 @@ ChatDockX is a Chrome extension that enables users to chat with ChatGPT by openi
 - 🔑 User your own Open AI API key.
 - 📜 Quick menu underneath any selected text which allows you to summarize, simplify language, translate, and more.
 - 💯 Fully customizable settings page.
+- 🎨 Has both light mode and dark mode !
 - 🔐 Secure and fully Free and open source forever. (Please consider giving this project a star 🌟 and contributing 💖 to support the project.)
 
 
