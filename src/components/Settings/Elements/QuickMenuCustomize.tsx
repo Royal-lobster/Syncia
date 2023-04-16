@@ -5,11 +5,10 @@ import {
   TreeItems,
 } from 'dnd-kit-sortable-tree'
 import React from 'react'
-import { HiPencilAlt, HiTrash } from 'react-icons/hi'
 import { IoMove } from 'react-icons/io5'
 import { Prompt, usePrompts } from '../../../hooks/usePrompts'
-import * as Dialog from '@radix-ui/react-dialog'
-import DialogPortal from '../../Layout/DialogPortal'
+import { DeletePromptButton } from './DeletePromptButton'
+import { EditPromptButton } from './EditPromptButton'
 
 const selectPromptItems = (items?: TreeItems<Prompt>): Prompt[] | undefined =>
   items?.map(
@@ -41,8 +40,6 @@ const TreeItem = React.forwardRef<
   HTMLDivElement,
   TreeItemComponentProps<Prompt>
 >((props, ref) => {
-  const handleEdit = () => {}
-
   return (
     <FolderTreeItemWrapper manualDrag {...props} ref={ref}>
       <div
@@ -60,69 +57,12 @@ const TreeItem = React.forwardRef<
         </div>
 
         <div className='cdx-flex cdx-gap-2 cdx-items-center'>
-          <EditPromptButton handleEdit={handleEdit} />
+          <EditPromptButton item={props.item} isLeafNode={!props.childCount} />
           <DeletePromptButton id={props.item.id} />
         </div>
       </div>
     </FolderTreeItemWrapper>
   )
 })
-
-const DeletePromptButton = ({ id }: { id: string }) => {
-  const [open, setOpen] = React.useState(false)
-  const [prompts, setPrompts] = usePrompts()
-
-  const handleDelete = () => {
-    const removeItem = (items: Prompt[], id: string): Prompt[] => {
-      const newItems = items.filter((item) => item.id !== id)
-      newItems.forEach((item) => {
-        if (item.children) {
-          item.children = removeItem(item.children, id)
-        }
-      })
-      return newItems
-    }
-    setPrompts([])
-    setPrompts(removeItem(prompts, id))
-  }
-
-  return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger asChild>
-        <button
-          className='cdx-rounded-sm cdx-p-1 cdx-bg-red-500/30'
-          type="button"
-        >
-          <HiTrash />
-        </button>
-      </Dialog.Trigger>
-      <DialogPortal
-        title='Delete Prompt ?'
-        primaryAction={() => {
-          handleDelete()
-          setOpen(false)
-        }}
-        secondaryAction={() => setOpen(false)}
-        primaryText='Delete'
-      >
-        You are about to delete this prompt. This action cannot be undone.
-      </DialogPortal>
-    </Dialog.Root>
-  )
-}
-
-const EditPromptButton = ({
-  handleEdit,
-}: {
-  handleEdit: () => void
-}) => (
-  <button
-    onClick={handleEdit}
-    className='cdx-flex cdx-items-center cdx-gap-2 cdx-rounded-sm cdx-px-1 cdx-bg-blue-500/30'
-    type="button"
-  >
-    <HiPencilAlt /> Edit
-  </button>
-)
 
 export default QuickMenuCustomize
