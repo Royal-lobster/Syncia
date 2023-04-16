@@ -46,6 +46,8 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
     )
   }
 
+  const noCategoryPrompts = prompts.filter((i) => !!i.prompt)
+
   return (
     <DropdownMenu.Root
       onOpenChange={(e) => {
@@ -75,15 +77,29 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
           className={ContentClassNames}
         >
           <DropdownMenu.Group>
-            {prompts.map((item) => (
-              <>
-                <DropdownMenu.Label className='cdx-text-[10px] cdx-m-1 cdx-text-neutral-500 cdx-uppercase'>
-                  {item.name}
-                </DropdownMenu.Label>
-                {item.children?.map((item) => (
-                  <RecursiveItem item={item} handleGenerate={handleGenerate} />
-                ))}
-              </>
+            {prompts
+              .filter((i) => !i.prompt)
+              .map((item) => (
+                <>
+                  <DropdownMenu.Label className='cdx-text-[10px] cdx-m-1 cdx-text-neutral-500 cdx-uppercase'>
+                    {item.name}
+                  </DropdownMenu.Label>
+                  {item.children?.map((item) => (
+                    <RecursiveItem
+                      item={item}
+                      handleGenerate={handleGenerate}
+                    />
+                  ))}
+                </>
+              ))}
+
+            {noCategoryPrompts.length > 0 && (
+              <DropdownMenu.Label className='cdx-text-[10px] cdx-m-1 cdx-text-neutral-500 cdx-uppercase'>
+                Uncategorized
+              </DropdownMenu.Label>
+            )}
+            {noCategoryPrompts.map((item) => (
+              <RecursiveItem item={item} handleGenerate={handleGenerate} />
             ))}
           </DropdownMenu.Group>
         </DropdownMenu.Content>
