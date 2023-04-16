@@ -53,7 +53,7 @@ export const EditPromptButton = ({
         </button>
       </Dialog.Trigger>
       <DialogPortal
-        title="Edit"
+        title={isLeafNode ? 'Edit Prompt' : 'Edit Category'}
         primaryAction={handleEdit}
         secondaryAction={() => setOpen(false)}
         primaryText="Save"
