@@ -110,7 +110,7 @@ const prompts: PromptWithoutId[] = [
     ],
   },
   {
-    name: 'reply',
+    name: 'Reply',
     children: [
       {
         name: 'Positive',
