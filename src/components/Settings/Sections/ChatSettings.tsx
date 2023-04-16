@@ -97,7 +97,9 @@ const ChatSettings = () => {
           onChange={handleModalChange}
         >
           {Object.values(AvailableModels).map((modal) => (
-            <option value={modal}>{modal}</option>
+            <option key={modal} value={modal}>
+              {modal}
+            </option>
           ))}
         </select>
       </FieldWrapper>
@@ -117,7 +119,7 @@ const ChatSettings = () => {
           className='input cdx-w-36'
         >
           {Object.entries(Mode).map(([mode, value]) => (
-            <option value={value}>
+            <option key={value} value={value}>
               {mode.replace('_', ' ').toLowerCase()}
             </option>
           ))}
