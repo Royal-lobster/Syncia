@@ -1,10 +1,9 @@
 import * as Dialog from '@radix-ui/react-dialog'
+import { useRef, useState } from 'react'
 import { HiPencilAlt } from 'react-icons/hi'
+import TextareaAutosize from 'react-textarea-autosize'
 import { Prompt, usePrompts } from '../../../hooks/usePrompts'
 import DialogPortal from '../../Layout/DialogPortal'
-import TextareaAutosize from 'react-textarea-autosize'
-import FieldWrapper from './FieldWrapper'
-import { useRef, useState } from 'react'
 
 export const EditPromptButton = ({
   item,
@@ -18,14 +17,17 @@ export const EditPromptButton = ({
     if (!formRef.current || !formRef.current.reportValidity()) return
 
     const formData = new FormData(formRef.current)
+
+    console.log(formData)
+
+    const newName = formData.get('promptName') as string
     const newPrompt = formData.get('prompt') as string
-    const newName = formData.get('name') as string
 
     const editItem = (items: Prompt[], id: string): Prompt[] => {
       const newItems = items.map((item) => {
         if (item.id === id) {
           item.name = newName
-          item.prompt = newPrompt
+          if (isLeafNode) item.prompt = newPrompt
         }
         if (item.children) {
           item.children = editItem(item.children, id)
@@ -34,15 +36,17 @@ export const EditPromptButton = ({
       })
       return newItems
     }
+
     setPrompts([])
     setPrompts((p) => editItem(p, item.id))
+    setOpen(false)
   }
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
         <button
-          className='cdx-flex cdx-items-center cdx-gap-2 cdx-rounded-sm cdx-px-1 cdx-bg-blue-500/30'
+          className='cdx-flex cdx-items-center cdx-gap-2 cdx-rounded-sm cdx-px-1 cdx-bg-blue-300 dark:cdx-bg-blue-500'
           type="button"
         >
           <HiPencilAlt /> Edit
@@ -50,36 +54,34 @@ export const EditPromptButton = ({
       </Dialog.Trigger>
       <DialogPortal
         title="Edit"
-        primaryAction={() => {
-          handleEdit()
-          setOpen(false)
-        }}
+        primaryAction={handleEdit}
         secondaryAction={() => setOpen(false)}
         primaryText="Save"
         secondaryText='Cancel'
       >
-        <form ref={formRef}>
-          <FieldWrapper title="Name">
-            <input
-              name="name"
-              className='input'
-              type="text"
-              required
-              defaultValue={item.name}
-              placeholder='Enter Name'
-            />
-          </FieldWrapper>
+        <form className='cdx-flex cdx-flex-col cdx-gap-2' ref={formRef}>
+          <label htmlFor="promptName">Name</label>
+          <input
+            name="promptName"
+            className='input'
+            type="text"
+            required
+            defaultValue={item.name}
+            placeholder='Enter Name'
+          />
           {isLeafNode && (
-            <FieldWrapper title="Prompt">
+            <>
+              <label htmlFor="prompt">Prompt</label>
               <TextareaAutosize
                 name="prompt"
                 className='input'
                 required
                 placeholder='Enter Prompt'
                 minRows={2}
+                maxRows={15}
                 defaultValue={item.prompt}
               />
-            </FieldWrapper>
+            </>
           )}
         </form>
       </DialogPortal>

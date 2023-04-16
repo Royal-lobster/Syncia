@@ -44,11 +44,11 @@ const TreeItem = React.forwardRef<
     <FolderTreeItemWrapper manualDrag {...props} ref={ref}>
       <div
         data-top-level={props.depth === 0 ? 'true' : undefined}
-        className='cdx-bg-neutral-900 cdx-pr-2 cdx-min-w-[200px] cdx-justify-between cdx-overflow-hidden cdx-whitespace-nowrap cdx-flex cdx-items-center cdx-gap-3 cdx-rounded-sm data-[top-level]:cdx-bg-neutral-700 data-[top-level]:cdx-w-full'
+        className='dark:cdx-bg-neutral-900 cdx-bg-neutral-200 cdx-pr-2 cdx-min-w-[200px] cdx-justify-between cdx-overflow-hidden cdx-whitespace-nowrap cdx-flex cdx-items-center cdx-gap-3 cdx-rounded-sm data-[top-level]:dark:cdx-bg-neutral-700  data-[top-level]:cdx-bg-blue-300 data-[top-level]:cdx-w-full'
       >
         <div className='cdx-flex cdx-gap-3 cdx-items-center'>
           <div
-            className='cdx-p-2 cdx-h-full cdx-bg-blue-500/50 cdx-cursor-move'
+            className='cdx-p-2 cdx-h-full cdx-bg-blue-400 dark:cdx-bg-blue-500 cdx-cursor-move'
             {...props.handleProps}
           >
             <IoMove />

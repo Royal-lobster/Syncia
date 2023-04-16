@@ -26,7 +26,7 @@ export const DeletePromptButton = ({ id }: { id: string }) => {
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
         <button
-          className='cdx-rounded-sm cdx-p-1 cdx-bg-red-500/30'
+          className='cdx-rounded-sm cdx-p-1 dark:cdx-bg-red-500 cdx-bg-red-300'
           type="button"
         >
           <HiTrash />
