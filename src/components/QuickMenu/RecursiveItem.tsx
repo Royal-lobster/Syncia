@@ -9,7 +9,7 @@ type RecursiveItemProps = {
 }
 
 export const RecursiveItem = ({ item, handleGenerate }: RecursiveItemProps) => {
-  if (item.prompt) {
+  if (item.prompt && !(item.children as [Prompt] | undefined)?.length) {
     return (
       <DropdownMenu.Item
         className={ItemClassNames}

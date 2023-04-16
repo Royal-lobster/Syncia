@@ -73,7 +73,13 @@ const TreeItem = React.forwardRef<
         </div>
 
         <div className='cdx-flex cdx-gap-2 cdx-items-center'>
-          <EditPromptButton item={props.item} isLeafNode={!props.childCount} />
+          <EditPromptButton
+            item={props.item}
+            isLeafNode={
+              !props.childCount &&
+              (props.depth === 0 ? !!props.item.prompt : true)
+            }
+          />
           <DeletePromptButton id={props.item.id} />
         </div>
       </div>
