@@ -83,7 +83,7 @@ Checkout the [CONTRIBUTING.md](
 [![Last commit](https://flat.badgen.net/github/last-commit/Royal-lobster/ChatDockX)](https://github.com/Royal-lobster/ChatDockX/commits/main)
 
 
-If you encounter any issues while using ChatDockX or want to suggest new features, please create an issue on this repository. If you want to contribute to the project, please create a pull request for existing Issues - https://github.com/Royal-lobster/ChatDockX/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc.
+If you encounter any issues while using ChatDockX or want to suggest new features, please create an issue on this repository. If you want to contribute to the project, please create a pull request for existing [Issues](https://github.com/Royal-lobster/ChatDockX/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
 
 ## 📦 License
 
