@@ -10,12 +10,13 @@ ChatDockX is a Chrome extension that enables users to chat with ChatGPT by openi
 - 🔑 User your own Open AI API key.
 - 📜 Quick menu underneath any selected text which allows you to summarize, simplify language, translate, and more.
 - 💯 Fully customizable settings page.
+- 🎨 Has both light mode and dark mode !
 - 🔐 Secure and fully Free and open source forever. (Please consider giving this project a star 🌟 and contributing 💖 to support the project.)
 
 
 ## 🐳 Installation
 
-You can install ChatDockX through the [Chrome Web Store](https://chrome.google.com/webstore/detail/chatdockx/npkbngooipjniglddnmhdekhjapieimf).
+You can install ChatDockX through the Chrome Web Store. (Under Review)
 
 Alternatively, you can install ChatDockX manually by following these steps:
 
@@ -83,7 +84,7 @@ Checkout the [CONTRIBUTING.md](
 [![Last commit](https://flat.badgen.net/github/last-commit/Royal-lobster/ChatDockX)](https://github.com/Royal-lobster/ChatDockX/commits/main)
 
 
-If you encounter any issues while using ChatDockX or want to suggest new features, please create an issue on this repository. If you want to contribute to the project, please create a pull request.
+If you encounter any issues while using ChatDockX or want to suggest new features, please create an issue on this repository. If you want to contribute to the project, please create a pull request for existing [Issues](https://github.com/Royal-lobster/ChatDockX/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
 
 ## 📦 License
 
