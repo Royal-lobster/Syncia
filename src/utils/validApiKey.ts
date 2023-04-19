@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const VERIFY_API_KEY_URL =
-  "https://api.openai.com/v1/engines/davinci-codex/completions";
+const VERIFY_API_KEY_URL = "https://api.openai.com/v1/models";
+// "https://api.openai.com/v1/engines/davinci-codex/completions";
 
 export const validateApiKey = async (apiKey: string): Promise<boolean> => {
   try {
@@ -15,6 +15,8 @@ export const validateApiKey = async (apiKey: string): Promise<boolean> => {
     return true;
   } catch (error) {
     console.error("API key is invalid!");
+    console.log(error);
+
     return false;
   }
 };
