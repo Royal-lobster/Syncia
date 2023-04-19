@@ -9,6 +9,9 @@
   .input-success {
     @apply cdx-border-green-500 cdx-text-green-500 cdx-bg-green-500/10;
   }
+  .input-failed {
+    @apply cdx-border-red-500 cdx-text-red-500 cdx-bg-red-500/10;
+  }
   .btn {
     @apply cdx-flex cdx-whitespace-nowrap cdx-gap-2 cdx-text-base disabled:cdx-bg-slate-500 disabled:cdx-text-slate-400 cdx-items-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white cdx-py-2 cdx-px-4 cdx-rounded;
   }

@@ -180,6 +180,42 @@ export const useChatCompletion = ({
         }
       })
 
+      source.addEventListener('error', (e) => {
+        if (e?.data !== '[DONE]') {
+          const payload = JSON.parse(e?.data || '{}')
+          console.log(payload);
+
+          const chunk: ChatMessageIncomingChunk = { content: payload.error?.message }
+
+          setMessages((msgs) =>
+            msgs.map((message, i) => {
+              if (updatedMessages.length - 1 === i) {
+                return {
+                  content: message.content + (chunk?.content || ''),
+                  role: message.role + (chunk?.role || ''),
+                  timestamp: 0,
+                  meta: {
+                    ...message.meta,
+                    chunks: [
+                      ...message.meta.chunks,
+                      {
+                        content: chunk?.content || '',
+                        role: chunk?.role || '',
+                        timestamp: Date.now(),
+                      },
+                    ],
+                  },
+                }
+              }
+
+              return message
+            }),
+          )
+        } else {
+          if (source) source.close()
+        }
+      })
+
       source.addEventListener('readystatechange', (e) => {
         // readyState: 0 - connecting, 1 - open, 2 - closed
         if (e.readyState && e.readyState > 1) {
