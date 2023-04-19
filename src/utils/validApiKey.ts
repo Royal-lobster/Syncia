@@ -10,12 +10,8 @@ export const validateApiKey = async (apiKey: string): Promise<boolean> => {
         Authorization: `Bearer ${apiKey}`,
       },
     });
-    console.log("API key is valid!");
     return true;
   } catch (error) {
-    console.error("API key is invalid!");
-    console.log(error);
-
     return false;
   }
 };
