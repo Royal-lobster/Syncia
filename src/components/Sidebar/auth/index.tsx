@@ -1,13 +1,16 @@
 import React from 'react'
 import { useSettings } from '../../../hooks/useSettings'
+import { validateApiKey } from '../../../utils/validApiKey'
 
 const Auth = () => {
   const [, setSettings] = useSettings()
-  const handleOpenAiKeySubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleOpenAiKeySubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
     const key = data.get('openAiKey')
-    if (key) {
+    const isVaildApiKey: boolean = await validateApiKey(key as string);
+
+    if (key && isVaildApiKey) {
       setSettings((prev) => ({
         ...prev,
         chat: {
@@ -15,6 +18,9 @@ const Auth = () => {
           openAIKey: key as string,
         },
       }))
+    }
+    else {
+      alert(`Please enter valid api key😒`)
     }
   }
   return (
