@@ -15,6 +15,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "publish": "yarn build && publish-browser-extension --dry-run --chrome-zip=extension.zip --chrome-extension-id=",
     "format": "rome format . --write",
     "lint": "rome check .",
     "lint:fix": "yarn lint --apply"
@@ -28,6 +29,7 @@
     "@thedutchcoder/postcss-rem-to-px": "^0.0.2",
     "dnd-kit-sortable-tree": "^0.1.58",
     "endent": "^2.1.0",
+    "publish-browser-extension": "^1.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-highlight-menu": "^1.0.2",
@@ -40,6 +42,7 @@
     "remark-breaks": "^3.0.2",
     "remark-gfm": "^3.0.1",
     "sse": "github:mpetazzoni/sse.js",
+    "vite-plugin-zip-pack": "^1.0.5",
     "webextension-polyfill": "^0.10.0"
   },
   "devDependencies": {
