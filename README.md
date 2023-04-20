@@ -1,8 +1,8 @@
-# 🌟 ChatDockX
+# 🌟 Syncia
 
-ChatDockX is a Chrome extension that enables users to chat with ChatGPT by opening a sidebar on any website by using the shortcut `ctrl+shift+x`. In addition, it provides a floating menu underneath any selected text on any website that allows users to generate text summaries, check grammar issues, and customize text length.
+Syncia is a Chrome extension that enables users to chat with ChatGPT by opening a sidebar on any website by using the shortcut `ctrl+shift+x`. In addition, it provides a floating menu underneath any selected text on any website that allows users to generate text summaries, check grammar issues, and customize text length.
 
-![ChatDockX preview](preview.png)
+![Syncia preview](preview.png)
 
 ## 🦾 Features
 
@@ -16,9 +16,9 @@ ChatDockX is a Chrome extension that enables users to chat with ChatGPT by openi
 
 ## 🐳 Installation
 
-You can install ChatDockX through the Chrome Web Store. (Under Review)
+You can install Syncia through the Chrome Web Store. (Under Review)
 
-Alternatively, you can install ChatDockX manually by following these steps:
+Alternatively, you can install Syncia manually by following these steps:
 
 1. Download the ZIP file of the repository by clicking on the "Code" button on this page and selecting "Download ZIP".
 2. Extract the ZIP file to a folder on your computer.
@@ -29,7 +29,7 @@ Alternatively, you can install ChatDockX manually by following these steps:
 
 ## 💫 Usage
 
-To use ChatDockX, simply press the shortcut ctrl+shift+x on any website to open the sidebar and start chatting with ChatGPT. To use the text-related features, select the text on the website and click on the floating menu that appears underneath the selection.
+To use Syncia, simply press the shortcut ctrl+shift+x on any website to open the sidebar and start chatting with ChatGPT. To use the text-related features, select the text on the website and click on the floating menu that appears underneath the selection.
 
 ### Quick Menu
 
@@ -59,9 +59,9 @@ Note that these are default options and can be changed in the settings page.
 
 ## 💖 Contributing
 
-Thank you to all the contributors who have helped make ChatDockX better! 👏
+Thank you to all the contributors who have helped make Syncia better! 👏
 
-[![Contributors](https://contrib.rocks/image?repo=Royal-lobster/ChatDockX)](https://github.com/Royal-lobster/ChatDockX/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=Royal-lobster/Syncia)](https://github.com/Royal-lobster/Syncia/graphs/contributors)
 
 You can also contribute to the project by creating a pull request. please follow these steps:
 
@@ -73,19 +73,19 @@ You can also contribute to the project by creating a pull request. please follow
 6. Create a pull request on this repository with a descriptive title and message.
 
 Checkout the [CONTRIBUTING.md](
-    https://github.com/Royal-lobster/ChatDockX/blob/main/CONTRIBUTING.md
+    https://github.com/Royal-lobster/Syncia/blob/main/CONTRIBUTING.md
 ) file for more information. 
 
 ## 🔎 Issues and Pull Requests
 
-[![GitHub issues](https://flat.badgen.net/github/issues/Royal-lobster/ChatDockX)](https://github.com/Royal-lobster/ChatDockX/issues)
-[![GitHub pull requests](https://flat.badgen.net/github/prs/Royal-lobster/ChatdockX)](https://github.com/Royal-lobster/ChatDockX/pulls)
-[![Contributors](https://flat.badgen.net/github/contributors/Royal-lobster/ChatDockX)](https://github.com/Royal-lobster/ChatDockX/graphs/contributors)
-[![Last commit](https://flat.badgen.net/github/last-commit/Royal-lobster/ChatDockX)](https://github.com/Royal-lobster/ChatDockX/commits/main)
+[![GitHub issues](https://flat.badgen.net/github/issues/Royal-lobster/Syncia)](https://github.com/Royal-lobster/Syncia/issues)
+[![GitHub pull requests](https://flat.badgen.net/github/prs/Royal-lobster/Syncia)](https://github.com/Royal-lobster/Syncia/pulls)
+[![Contributors](https://flat.badgen.net/github/contributors/Royal-lobster/Syncia)](https://github.com/Royal-lobster/Syncia/graphs/contributors)
+[![Last commit](https://flat.badgen.net/github/last-commit/Royal-lobster/Syncia)](https://github.com/Royal-lobster/Syncia/commits/main)
 
 
-If you encounter any issues while using ChatDockX or want to suggest new features, please create an issue on this repository. If you want to contribute to the project, please create a pull request for existing [Issues](https://github.com/Royal-lobster/ChatDockX/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
+If you encounter any issues while using Syncia or want to suggest new features, please create an issue on this repository. If you want to contribute to the project, please create a pull request for existing [Issues](https://github.com/Royal-lobster/Syncia/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
 
 ## 📦 License
 
-ChatDockX is licensed under the MIT License. See the [LICENSE](https://github.com/Royal-lobster/ChatDockX/blob/main/LICENSE)
+Syncia is licensed under the MIT License. See the [LICENSE](https://github.com/Royal-lobster/Syncia/blob/main/LICENSE)

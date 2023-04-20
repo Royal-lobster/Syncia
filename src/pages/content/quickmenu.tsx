@@ -8,11 +8,11 @@ import Whitelister from 'redirect-whitelister'
 const initQuickMenu = () => {
   contentScriptLog('QuickMenu')
 
-  document.body.classList.add('ChatDockX_Body')
+  document.body.classList.add('syncia_body')
   const root = createRoot(document.createElement('div'))
   root.render(
     <HighlightMenu
-      target=".ChatDockX_Body"
+      target=".syncia_body"
       menu={({ selectedText, setMenuOpen }) => (
         <QuickMenu selectedText={selectedText} setMenuOpen={setMenuOpen} />
       )}

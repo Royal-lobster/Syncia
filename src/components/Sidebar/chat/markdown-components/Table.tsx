@@ -15,7 +15,7 @@ type TableType =
 
 export const Table: TableType = (props) => {
   return (
-    <div className="ChatDockX_table-container">
+    <div className="syncia_table-container">
       <table {...props} />
     </div>
   )

@@ -1,3 +1,4 @@
+import { BsRobot } from 'react-icons/bs'
 import { HiOutlineCog, HiX } from 'react-icons/hi'
 
 const Header = () => {
@@ -9,9 +10,9 @@ const Header = () => {
 
   return (
     <div className="cdx-flex cdx-justify-between cdx-p-3.5 cdx-border-b dark:cdx-border-neutral-700/50 cdx-border-neutral-200">
-      <h1 className="cdx-text-2xl cdx-m-0 cdx-p-0">
-        ChatDock{' '}
-        <span className="dark:cdx-text-blue-300 cdx-text-blue-500">X</span>
+      <h1 className="cdx-text-2xl cdx-flex cdx-items-center cdx-gap-2 cdx-m-0 cdx-p-0">
+        <BsRobot className='cdx-text-blue-400' />
+        Syncia
       </h1>
       <div className='cdx-flex cdx-text-neutral-500 cdx-gap-2 cdx-items-center'>
         <a
