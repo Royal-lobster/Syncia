@@ -32,7 +32,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
   const handleGenerate = (prompt: string) => {
     const fullPrompt = getTransformedPrompt(prompt, selectedText)
     const sideBarIframe = document.getElementById(
-      'ChatDockX_Sidebar',
+      'syncia_sidebar',
     ) as HTMLIFrameElement
     if (sideBarIframe.style.width === '0px') {
       sideBarIframe.style.width = '400px'
@@ -67,7 +67,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
             />
           </div>
           <span className='cdx-py-1 cdx-text-sm !cdx-font-sans cdx-px-1.5 cdx-mt-0.5'>
-            ChatDock X
+            Syncia
           </span>
         </button>
       </DropdownMenu.Trigger>

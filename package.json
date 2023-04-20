@@ -1,11 +1,11 @@
 {
-  "name": "chat-dock-x",
-  "displayName": "ChatDock X",
+  "name": "syncia",
+  "displayName": "Syncia",
   "version": "0.0.2",
   "description": "A simple chrome extension for interacting with chatgpt with in your confort",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Royal-lobster/ChatDockX.git"
+    "url": "https://github.com/Royal-lobster/Syncia.git"
   },
   "author": "Royal-lobster",
   "private": true,

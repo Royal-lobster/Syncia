@@ -56,7 +56,7 @@ const Auth = () => {
         (Note: we only store your key locally. We do not send it anywhere. You
         can check the{' '}
         <a
-          href="https://github.com/Royal-lobster/ChatDockX"
+          href="https://github.com/Royal-lobster/Syncia"
           className="cdx-text-blue-400"
         >
           source code

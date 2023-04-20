@@ -7,7 +7,7 @@ const [major, minor, patch, label = '0'] = version
   .split(/[.-]/)
 
 export default defineManifest(async (env) => ({
-  name: env.mode === 'staging' ? '[INTERNAL] ChatDock X' : 'ChatDock X',
+  name: env.mode === 'staging' ? '[INTERNAL] Syncia' : 'Syncia',
   description:
     'A simple chrome extension for interacting with Chat GPT with in your comfort',
   version: `${major}.${minor}.${patch}.${label}`,
