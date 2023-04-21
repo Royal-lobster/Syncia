@@ -15,6 +15,17 @@ const toggleSidebar = () => {
 }
 
 export const initSidebarListeners = () => {
+  chrome.commands.getAll(function (commands) {
+    const shortcut = commands.find((c) => c.name === 'open-sidebar')?.shortcut
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      if (tabs[0].id)
+        chrome.tabs.sendMessage(tabs[0].id, {
+          action: 'sidebar-shortcut',
+          shortcut,
+        })
+    })
+  })
+
   chrome.commands.onCommand.addListener(function (command) {
     console.log(`🚚 [Command Received] ${command}`)
     if (command === 'open-sidebar') {
