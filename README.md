@@ -81,7 +81,6 @@ Checkout the [CONTRIBUTING.md](
 [![GitHub issues](https://flat.badgen.net/github/issues/Royal-lobster/Syncia)](https://github.com/Royal-lobster/Syncia/issues)
 [![GitHub pull requests](https://flat.badgen.net/github/prs/Royal-lobster/Syncia)](https://github.com/Royal-lobster/Syncia/pulls)
 [![Contributors](https://flat.badgen.net/github/contributors/Royal-lobster/Syncia)](https://github.com/Royal-lobster/Syncia/graphs/contributors)
-[![Last commit](https://flat.badgen.net/github/last-commit/Royal-lobster/Syncia)](https://github.com/Royal-lobster/Syncia/commits/main)
 
 
 If you encounter any issues while using Syncia or want to suggest new features, please create an issue on this repository. If you want to contribute to the project, please create a pull request for existing [Issues](https://github.com/Royal-lobster/Syncia/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
