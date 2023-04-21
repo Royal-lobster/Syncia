@@ -1,4 +1,4 @@
-# 🌟 Syncia
+# ✨ Syncia - Power of GPT on Any Site
 
 Syncia is a Chrome extension that enables users to chat with ChatGPT by opening a sidebar on any website by using the shortcut `ctrl+shift+x`. In addition, it provides a floating menu underneath any selected text on any website that allows users to generate text summaries, check grammar issues, and customize text length.
 
@@ -20,12 +20,12 @@ You can install Syncia through the Chrome Web Store. (Under Review)
 
 Alternatively, you can install Syncia manually by following these steps:
 
-1. Download the ZIP file of the repository by clicking on the "Code" button on this page and selecting "Download ZIP".
-2. Extract the ZIP file to a folder on your computer.
+1. Clone the repo / Download by clicking Clone button
+2. Run `yarn build`. this should create a `dist` folder (make sure you have nodejs and yarn installed on your device)
 3. Open Google Chrome and go to the "Extensions" page by typing "chrome://extensions/" in the address bar.
 4. Turn on "Developer mode" by toggling the switch in the top right corner of the page.
 5. Click on the "Load unpacked" button in the top left corner of the page.
-6. Select the folder where you extracted the ZIP file.
+6. Select the `dist` folder. 
 
 ## 💫 Usage
 
