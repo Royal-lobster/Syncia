@@ -10,7 +10,9 @@ const ChatSettings = () => {
 
   const apiKeyInputRef = React.useRef<HTMLInputElement>(null)
 
-  const handleOpenAiKeySubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleOpenAiKeySubmit = async (
+    event: React.FormEvent<HTMLFormElement>,
+  ) => {
     event.preventDefault()
     const target = event.target as HTMLFormElement
     const input = target.querySelector('input') as HTMLInputElement
@@ -24,10 +26,12 @@ const ChatSettings = () => {
     })
 
     // checking the user open api key
-    const isValid: boolean = await validateApiKey(value);
+    const isValid: boolean = await validateApiKey(value)
 
-    // assign  the input styles 
-    const inputStyles = isValid ? { classname: 'input-success', value: `✅  ${value}` } : { classname: 'input-failed', value: `❌  ${value}` }
+    // assign  the input styles
+    const inputStyles = isValid
+      ? { classname: 'input-success', value: `✅  ${value}` }
+      : { classname: 'input-failed', value: `❌  ${value}` }
 
     if (apiKeyInputRef.current) {
       apiKeyInputRef.current.classList.add(inputStyles.classname)

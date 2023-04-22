@@ -8,7 +8,7 @@ const Auth = () => {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
     const key = data.get('openAiKey')
-    const isVaildApiKey: boolean = await validateApiKey(key as string);
+    const isVaildApiKey: boolean = await validateApiKey(key as string)
 
     if (key && isVaildApiKey) {
       setSettings((prev) => ({
@@ -18,8 +18,7 @@ const Auth = () => {
           openAIKey: key as string,
         },
       }))
-    }
-    else {
+    } else {
       alert(`Please enter valid api key😒`)
     }
   }
