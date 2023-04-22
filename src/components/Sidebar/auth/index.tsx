@@ -19,7 +19,7 @@ const Auth = () => {
         },
       }))
     } else {
-      alert(`Please enter valid api key😒`)
+      alert('Invalid API key. Please try with a valid one.')
     }
   }
   return (
