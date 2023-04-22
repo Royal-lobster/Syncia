@@ -15,7 +15,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "publish": "yarn build && publish-browser-extension --dry-run --chrome-zip=extension.zip --chrome-extension-id=",
+    "release": "source .env && publish-extension --dry-run --chrome-zip \"dist/chrome.zip\" --chrome-extension-id \"<cws-extension-id>\" --chrome-client-id \"$CHROME_CLIENT_ID\" --chrome-client-secret \"$CHROME_CLIENT_SECRET\" --chrome-refresh-token \"$CHROME_REFRESH_TOKEN\"",
     "format": "rome format . --write",
     "lint": "rome check .",
     "lint:fix": "yarn lint --apply"
