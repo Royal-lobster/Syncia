@@ -48,6 +48,8 @@ export interface OpenAIStreamingProps {
   systemPrompt?: string
 }
 
+type ChatHistory = ChatMessage[]
+
 const CHAT_COMPLETIONS_URL = 'https://api.openai.com/v1/chat/completions'
 
 const officialOpenAIParams = ({
@@ -82,11 +84,19 @@ export const useChatCompletion = ({
     role: ChatRole.SYSTEM,
   })
 
+
+  const [messageHistory, setMessageHistory] = useStorage<ChatHistory[]>(
+    'CHAT_HISTORY',
+    [],
+    'localStorage'
+  )
+
   const [storedMessages, setStoredMessages] = useStorage<ChatMessage[]>(
     'CHAT_MESSAGES',
     [systemMessage],
     'local',
   )
+
   const [messages, setMessages] = useState<ChatMessage[]>([systemMessage])
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -98,11 +108,32 @@ export const useChatCompletion = ({
 
   useEffect(() => {
     if (messages.length > 1 && !messages[messages.length - 1].meta.loading) {
+
       setStoredMessages(messages)
       setLoading(false)
     } else if (messages.length > 1) {
       setLoading(true)
     }
+  }, [messages])
+
+
+  // collecting message and store in messageHistory
+  useEffect(() => {
+    setMessageHistory((prev) => {
+      let updatedPrev = prev;
+      // after the chat clean messages are set default value that length was 1 
+      // storing new chat message in next index
+      console.log(messages, messages.length, "useEffect msg", loading);
+      console.log(storedMessages, storedMessages.length, "useEffect str msg", loading);
+
+      if (messages.length === 1) {
+        updatedPrev[prev.length] = messages
+        return updatedPrev
+      }
+      updatedPrev[prev.length - 1] = messages.filter(i => i != null)
+      return updatedPrev
+    })
+    console.log(messageHistory);
   }, [messages])
 
   let source: SSE | null = null
@@ -183,9 +214,9 @@ export const useChatCompletion = ({
       source.addEventListener('error', (e) => {
         if (e?.data !== '[DONE]') {
           const payload = JSON.parse(e?.data || '{}')
-          console.log(payload);
 
-          const chunk: ChatMessageIncomingChunk = { content: payload.error?.message }
+
+          const chunk: ChatMessageIncomingChunk = { content: payload.error?.message, role: ChatRole.ASSISTANT }
 
           setMessages((msgs) =>
             msgs.map((message, i) => {

@@ -1,3 +1,4 @@
+import { log } from 'console'
 import {
   Dispatch,
   SetStateAction,
@@ -7,7 +8,7 @@ import {
   useRef,
 } from 'react'
 
-export type StorageArea = 'sync' | 'local'
+export type StorageArea = 'sync' | 'local' | 'localStorage'
 
 // custom hook to set chrome local/sync storage
 // should also set a listener on this specific key
@@ -75,8 +76,12 @@ export async function readStorage<T>(
   area: StorageArea = 'local',
 ): Promise<T | undefined> {
   try {
-    const result = await chrome.storage[area].get(key)
-    return result?.[key]
+    if (area !== 'localStorage') {
+      const result = await chrome.storage[area].get(key)
+      return result?.[key]
+    }
+    const result = JSON.parse(localStorage.getItem(key) as string)
+    return result
   } catch (error) {
     console.warn(`Error reading ${area} storage key "${key}":`, error)
     return undefined
@@ -96,8 +101,12 @@ export async function setStorage<T>(
   area: StorageArea = 'local',
 ): Promise<boolean> {
   try {
-    await chrome.storage[area].set({ [key]: value })
-    return true
+    if (area !== "localStorage") {
+      await chrome.storage[area].set({ [key]: value });
+      return true;
+    }
+    localStorage.setItem(key, JSON.stringify(value));
+    return true;
   } catch (error) {
     console.warn(`Error setting ${area} storage key "${key}":`, error)
     return false
