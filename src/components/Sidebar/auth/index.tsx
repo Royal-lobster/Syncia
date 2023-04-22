@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSettings } from '../../../hooks/useSettings'
 import { validateApiKey } from '../../../utils/validApiKey'
 
 const Auth = () => {
   const [, setSettings] = useSettings()
+  const [error, setError] = React.useState<string | null>(null)
+
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError(null)
+      }, 3000)
+    }
+  }, [error])
+
   const handleOpenAiKeySubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
@@ -19,7 +29,7 @@ const Auth = () => {
         },
       }))
     } else {
-      alert('Invalid API key. Please try with a valid one.')
+      setError('Invalid API key. Please try with a valid one.')
     }
   }
   return (
@@ -34,7 +44,7 @@ const Auth = () => {
           href="https://beta.openai.com/account/api-keys"
           target="_blank"
           rel="noreferrer"
-          className="text-blue-400"
+          className="cdx-text-blue-400"
         >
           here
         </a>
@@ -48,9 +58,15 @@ const Auth = () => {
       <input
         name="openAiKey"
         placeholder="Enter your OpenAI API key"
-        className="cdx-mt-4 cdx-text-center cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50"
+        data-error={error ? 'true' : undefined}
+        className="cdx-mt-4 cdx-text-center cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50 data-[error]:cdx-text-red-500"
         pattern="sk-[a-zA-Z0-9]{48}"
       />
+
+      {error && (
+        <div className="cdx-text-sm cdx-text-red-500 cdx-mt-2">{error}</div>
+      )}
+
       <button
         type="submit"
         className="cdx-mt-4 cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50"
