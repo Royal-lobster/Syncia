@@ -1,7 +1,7 @@
 {
   "name": "syncia",
   "displayName": "Syncia",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simple chrome extension for interacting with chatgpt with in your confort",
   "repository": {
     "type": "git",
