@@ -3,7 +3,6 @@ import { SSE } from 'sse'
 import { useStorage } from './useStorage'
 import { AvailableModels, Mode } from './useSettings'
 import { getActiveTabUrl } from '../utils/getActiveTab'
-import { log } from 'console'
 
 export enum ChatRole {
   USER = 'user',
