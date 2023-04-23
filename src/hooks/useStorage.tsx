@@ -80,8 +80,10 @@ export async function readStorage<T>(
       const result = await chrome.storage[area].get(key)
       return result?.[key]
     }
-    const result = JSON.parse(localStorage.getItem(key) as string)
-    return result
+    else {
+      const result = JSON.parse(localStorage.getItem(key) as string)
+      return result
+    }
   } catch (error) {
     console.warn(`Error reading ${area} storage key "${key}":`, error)
     return undefined

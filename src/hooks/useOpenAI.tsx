@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { SSE } from 'sse'
 import { useStorage } from './useStorage'
 import { AvailableModels, Mode } from './useSettings'
+import { getActiveTabUrl } from '../utils/getActiveTab'
+import { log } from 'console'
 
 export enum ChatRole {
   USER = 'user',
@@ -48,7 +50,12 @@ export interface OpenAIStreamingProps {
   systemPrompt?: string
 }
 
-type ChatHistory = ChatMessage[]
+export interface ChatHistory {
+  timestamp: number,
+  id: number,
+  url: string,
+  ChatMessages: ChatMessage[],
+}
 
 const CHAT_COMPLETIONS_URL = 'https://api.openai.com/v1/chat/completions'
 
@@ -84,10 +91,11 @@ export const useChatCompletion = ({
     role: ChatRole.SYSTEM,
   })
 
+  const initialChatHistoryValue = [{ id: 0, url: window.location.href, timestamp: Date.now(), ChatMessages: [systemMessage] }]
 
   const [messageHistory, setMessageHistory] = useStorage<ChatHistory[]>(
     'CHAT_HISTORY',
-    [],
+    initialChatHistoryValue,
     'localStorage'
   )
 
@@ -108,7 +116,6 @@ export const useChatCompletion = ({
 
   useEffect(() => {
     if (messages.length > 1 && !messages[messages.length - 1].meta.loading) {
-
       setStoredMessages(messages)
       setLoading(false)
     } else if (messages.length > 1) {
@@ -117,24 +124,32 @@ export const useChatCompletion = ({
   }, [messages])
 
 
-  // collecting message and store in messageHistory
   useEffect(() => {
-    setMessageHistory((prev) => {
-      let updatedPrev = prev;
-      // after the chat clean messages are set default value that length was 1 
-      // storing new chat message in next index
-      console.log(messages, messages.length, "useEffect msg", loading);
-      console.log(storedMessages, storedMessages.length, "useEffect str msg", loading);
+    getActiveTabUrl().then((url) => {
+      setMessageHistory((prev) => {
+        const index = prev.findIndex((obj => obj.url === url));
 
-      if (messages.length === 1) {
-        updatedPrev[prev.length] = messages
-        return updatedPrev
-      }
-      updatedPrev[prev.length - 1] = messages.filter(i => i != null)
-      return updatedPrev
-    })
-    console.log(messageHistory);
-  }, [messages])
+        if (index == -1) {
+          return [
+            ...prev,
+            {
+              id: prev.length,
+              url,
+              timestamp: Date.now(),
+              ChatMessages: messages,
+            },
+          ];
+        }
+
+        let update = prev;
+        update[index] = {
+          ...update[index],
+          ChatMessages: messages
+        }
+        return update;
+      });
+    });
+  }, [messages]);
 
   let source: SSE | null = null
 
