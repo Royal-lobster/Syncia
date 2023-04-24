@@ -76,8 +76,6 @@ export async function readStorage<T>(
 ): Promise<T | undefined> {
   try {
     const result = await chrome.storage[area].get(key)
-    console.log(result, 'reading of result')
-
     return result?.[key]
   } catch (error) {
     console.warn(`Error reading ${area} storage key "${key}":`, error)
