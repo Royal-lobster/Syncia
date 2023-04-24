@@ -3,6 +3,9 @@ import { SSE } from 'sse'
 import { useStorage } from './useStorage'
 import { AvailableModels, Mode } from './useSettings'
 import { getActiveTabUrl } from '../utils/getActiveTab'
+import { useCurrentUrlandId } from './useCurrentUrlandId'
+import { getNewUUID } from '../utils/UUID'
+import { url } from 'inspector'
 
 export enum ChatRole {
   USER = 'user',
@@ -34,7 +37,8 @@ export interface ChatMessageParams extends OpenAIChatMessage {
 }
 
 export interface ChatMessage extends ChatMessageParams {
-  timestamp: number
+  timestamp: number,
+  url: string,
   meta: {
     loading: boolean
     responseTime: string
@@ -51,7 +55,7 @@ export interface OpenAIStreamingProps {
 
 export interface ChatHistory {
   timestamp: number,
-  id: number,
+  id: string,
   url: string,
   ChatMessages: ChatMessage[],
 }
@@ -63,21 +67,9 @@ const officialOpenAIParams = ({
   role,
 }: ChatMessage): OpenAIChatMessage => ({ content, role })
 
-const createChatMessage = ({
-  content,
-  role,
-  ...restOfParams
-}: ChatMessageParams): ChatMessage => ({
-  content,
-  role,
-  timestamp: restOfParams.timestamp || Date.now(),
-  meta: {
-    loading: false,
-    responseTime: '',
-    chunks: [],
-    ...restOfParams.meta,
-  },
-})
+
+
+
 
 export const useChatCompletion = ({
   model,
@@ -85,70 +77,99 @@ export const useChatCompletion = ({
   systemPrompt,
   mode,
 }: OpenAIStreamingProps) => {
+
+
+  // getting required data  
+  const uuid = getNewUUID()
+  const initialChatHistoryValue = [{ id: uuid, url: window.location.href, timestamp: Date.now(), ChatMessages: [] }]
+  const [chatHistory, setChatHistory] = useStorage<ChatHistory[]>(
+    'CHAT_HISTORY',
+    initialChatHistoryValue,
+    'local',
+  )
+  const [currentUrl, currentId, currentMessage] = useCurrentUrlandId(chatHistory)
+
+  console.log(currentId, 'id', currentUrl, 'url', currentMessage, 'msg of 1st value');
+
+
+  /**
+   * @param content
+   * @param role
+   * @param ...restOfParams
+   * @return {*}  {ChatMessage}
+   */
+  const createChatMessage = ({
+    content,
+    role,
+    ...restOfParams
+  }: ChatMessageParams): ChatMessage => ({
+    content,
+    role,
+    url: currentUrl,
+    timestamp: restOfParams.timestamp || Date.now(),
+    meta: {
+      loading: false,
+      responseTime: '',
+      chunks: [],
+      ...restOfParams.meta,
+    },
+  })
+
+  // Initial value of message
   const systemMessage = createChatMessage({
     content: systemPrompt || '',
     role: ChatRole.SYSTEM,
   })
+  const initialChatMessage = currentMessage.length > 0 ? currentMessage : [systemMessage]
 
-  const initialChatHistoryValue = [{ id: 0, url: window.location.href, timestamp: Date.now(), ChatMessages: [systemMessage] }]
-
-  const [messageHistory, setMessageHistory] = useStorage<ChatHistory[]>(
-    'CHAT_HISTORY',
-    initialChatHistoryValue,
-    'localStorage'
-  )
-
-  const [storedMessages, setStoredMessages] = useStorage<ChatMessage[]>(
-    'CHAT_MESSAGES',
-    [systemMessage],
-    'local',
-  )
-
-  const [messages, setMessages] = useState<ChatMessage[]>([systemMessage])
+  const [messages, setMessages] = useState<ChatMessage[]>(initialChatMessage)
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    if (storedMessages.length > 1 && messages.length <= 1) {
-      setMessages(storedMessages)
-    }
-  }, [storedMessages])
-
-  useEffect(() => {
+    let index: number;
     if (messages.length > 1 && !messages[messages.length - 1].meta.loading) {
-      setStoredMessages(messages)
+      setChatHistory((prev) => {
+        console.log(prev, 'prev of chat history', currentId, 'currentID', currentUrl, 'currentURL');
+        console.log(messages, "messages of ", currentUrl);
+
+        index = prev.findIndex((chatMessage) => chatMessage.url == currentUrl);
+        let update = prev;
+        if (index == -1) {
+          index = update.length;
+          update[index] = {
+            id: getNewUUID(),
+            url: currentUrl,
+            timestamp: Date.now(),
+            ChatMessages: messages,
+          }
+        }
+        else {
+          if (update[index].url = messages[messages.length - 2].url) {
+            update[index] = {
+              ...update[index],
+              ChatMessages: [...update[index].ChatMessages, messages[messages.length - 2], messages[messages.length - 1]]
+            }
+          }
+
+        }
+        return update;
+      })
       setLoading(false)
+      console.log(chatHistory, 'update of chat history');
     } else if (messages.length > 1) {
       setLoading(true)
     }
-  }, [messages])
+  }, [messages, currentUrl])
 
-
+  // updating message after changes of chatHistory
   useEffect(() => {
-    getActiveTabUrl().then((url) => {
-      setMessageHistory((prev) => {
-        const index = prev.findIndex((obj => obj.url === url));
-
-        if (index == -1) {
-          return [
-            ...prev,
-            {
-              id: prev.length,
-              url,
-              timestamp: Date.now(),
-              ChatMessages: messages,
-            },
-          ];
-        }
-
-        let update = prev;
-        update[index] = {
-          ...update[index],
-          ChatMessages: messages
-        }
-        return update;
-      });
-    });
-  }, [messages]);
+    if (chatHistory.length > 1 && messages.length <= 3) {
+      const initialMessage = chatHistory.filter(chatMessage => chatMessage.url === currentUrl)[0].ChatMessages
+      if (initialMessage.length > 1) {
+        setMessages(initialMessage)
+      }
+    }
+  }, [chatHistory, currentUrl])
 
   let source: SSE | null = null
 
@@ -203,6 +224,7 @@ export const useChatCompletion = ({
                   content: message.content + (chunk?.content || ''),
                   role: message.role + (chunk?.role || ''),
                   timestamp: 0,
+                  url: currentUrl,
                   meta: {
                     ...message.meta,
                     chunks: [
@@ -239,6 +261,7 @@ export const useChatCompletion = ({
                   content: message.content + (chunk?.content || ''),
                   role: message.role + (chunk?.role || ''),
                   timestamp: 0,
+                  url: currentUrl,
                   meta: {
                     ...message.meta,
                     chunks: [
@@ -301,8 +324,12 @@ export const useChatCompletion = ({
 
   const clearMessages = React.useCallback(() => {
     setMessages([systemMessage])
-    setStoredMessages([systemMessage])
-  }, [setMessages])
+    setChatHistory(initialChatHistoryValue)
+  }, [setMessages, setChatHistory])
+
+
+  console.log(messages, "messages before return ");
+
 
   return { messages, submitQuery, loading, clearMessages, cancelRequest }
 }

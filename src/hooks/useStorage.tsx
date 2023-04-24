@@ -8,8 +8,7 @@ import {
   useRef,
 } from 'react'
 
-export type StorageArea = 'sync' | 'local' | 'localStorage'
-
+export type StorageArea = 'sync' | 'local'
 // custom hook to set chrome local/sync storage
 // should also set a listener on this specific key
 
@@ -76,14 +75,10 @@ export async function readStorage<T>(
   area: StorageArea = 'local',
 ): Promise<T | undefined> {
   try {
-    if (area !== 'localStorage') {
-      const result = await chrome.storage[area].get(key)
-      return result?.[key]
-    }
-    else {
-      const result = JSON.parse(localStorage.getItem(key) as string)
-      return result
-    }
+    const result = await chrome.storage[area].get(key)
+    console.log(result, 'reading of result');
+
+    return result?.[key]
   } catch (error) {
     console.warn(`Error reading ${area} storage key "${key}":`, error)
     return undefined
@@ -103,11 +98,15 @@ export async function setStorage<T>(
   area: StorageArea = 'local',
 ): Promise<boolean> {
   try {
-    if (area !== "localStorage") {
-      await chrome.storage[area].set({ [key]: value });
-      return true;
-    }
-    localStorage.setItem(key, JSON.stringify(value));
+    // let prevValue = await readStorage<T>(key, area)
+    // console.log("prevValue", prevValue);
+    // if (prevValue && Array.isArray(prevValue) && Array.isArray(value)) {
+    //   prevValue.push(...value)
+    //   await chrome.storage[area].set({ [key]: prevValue });
+    // }
+    // else {
+    await chrome.storage[area].set({ [key]: value });
+    // }
     return true;
   } catch (error) {
     console.warn(`Error setting ${area} storage key "${key}":`, error)
