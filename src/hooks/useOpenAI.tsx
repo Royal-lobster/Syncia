@@ -138,10 +138,10 @@ export const useChatCompletion = ({
     if (messages.length > 1 && !messages[messages.length - 1].meta.loading) {
       setChatHistory((prev) => {
         let index = prev.findIndex(
-          (chatMessage) => chatMessage.url == currentUrl,
+          (chatMessage) => chatMessage.url === currentUrl,
         )
         let update = prev
-        if (index == -1) {
+        if (index === -1) {
           index = update.length
           console.log(messages.length, "if block");
           update[index] = {
@@ -151,7 +151,7 @@ export const useChatCompletion = ({
             ChatMessages: messages,
           }
         } else {
-          if (update[index].timestamp != messages[messages.length - 2].timestamp && messages.length >= 3) {
+          if (update[index].timestamp !== messages[messages.length - 2].timestamp && messages.length >= 3) {
             update[index] = {
               ...update[index],
               timestamp: messages[messages.length - 2].timestamp,
