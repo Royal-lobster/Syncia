@@ -1,3 +1,4 @@
+import { log } from 'console'
 import {
   Dispatch,
   SetStateAction,
@@ -8,7 +9,6 @@ import {
 } from 'react'
 
 export type StorageArea = 'sync' | 'local'
-
 // custom hook to set chrome local/sync storage
 // should also set a listener on this specific key
 
@@ -76,6 +76,8 @@ export async function readStorage<T>(
 ): Promise<T | undefined> {
   try {
     const result = await chrome.storage[area].get(key)
+    console.log(result, 'reading of result')
+
     return result?.[key]
   } catch (error) {
     console.warn(`Error reading ${area} storage key "${key}":`, error)

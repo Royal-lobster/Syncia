@@ -11,7 +11,7 @@ export const validateApiKey = async (apiKey: string): Promise<boolean> => {
       },
     })
     return true
-  } catch {
+  } catch (error) {
     return false
   }
 }
