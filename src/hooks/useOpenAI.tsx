@@ -3,7 +3,6 @@ import { SSE } from 'sse'
 import { useStorage } from './useStorage'
 import { AvailableModels, Mode } from './useSettings'
 import { getActiveTabUrl } from '../utils/getActiveTab'
-import { useCurrentUrlandId } from './useCurrentUrlandId'
 import { getNewUUID } from '../utils/UUID'
 import { url } from 'inspector'
 import { log } from 'console'
@@ -138,22 +137,21 @@ export const useChatCompletion = ({
 
     if (messages.length > 1 && !messages[messages.length - 1].meta.loading) {
       setChatHistory((prev) => {
-        console.log(prev, 'prev of chat history', currentUrl, 'currentURL')
-        console.log(messages, 'messages of ', currentUrl)
         let index = prev.findIndex(
           (chatMessage) => chatMessage.url == currentUrl,
         )
         let update = prev
         if (index == -1) {
           index = update.length
+          console.log(messages.length, "if block");
           update[index] = {
             id: getNewUUID(),
             url: currentUrl,
-            timestamp: Date.now(),
+            timestamp: messages[0].timestamp,
             ChatMessages: messages,
           }
         } else {
-          if (update[index].timestamp != messages[messages.length - 2].timestamp) {
+          if (update[index].timestamp != messages[messages.length - 2].timestamp && messages.length >= 3) {
             update[index] = {
               ...update[index],
               timestamp: messages[messages.length - 2].timestamp,
@@ -187,7 +185,6 @@ export const useChatCompletion = ({
         setMessages(initialMessage.ChatMessages)
       }
     }
-    console.log(initialMessage, 'initialMessage')
 
   }, [chatHistory, currentUrl])
 
@@ -348,8 +345,6 @@ export const useChatCompletion = ({
     setMessages([systemMessage])
     setChatHistory(initialChatHistoryValue)
   }, [setMessages, setChatHistory])
-
-  console.log(messages, 'messages before return ')
 
   return { messages, submitQuery, loading, clearMessages, cancelRequest }
 }
