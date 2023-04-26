@@ -20,5 +20,21 @@ export const getUUID = (url: string) => {
  */
 
 export const getNewUUID = (): string => {
+<<<<<<< HEAD
   return self.crypto.randomUUID();
 };
+=======
+  // const [urlMap, setUrlMap] = useStorage("urlMap", []);
+  // const uuid = self.crypto.randomUUID();
+  return self.crypto.randomUUID();
+};
+
+// const findORCreateUUID = (url: string) => {
+//   const [urlMap, setUrlMap] = useStorage<UrlMap>("urlMap", [], "local");
+//   const uuid = getUUID(url);
+//   if (uuid) {
+//     return uuid;
+//   }
+//   return getNewUUID();
+// };
+>>>>>>> c282520026a3d5f0ffba6eea500e0c8546f320e8

@@ -7,9 +7,15 @@ const [major, minor, patch, label = "0"] = version
   .split(/[.-]/);
 
 export default defineManifest(async (env) => ({
+<<<<<<< HEAD
   name: env.mode === "staging" ? "[INTERNAL] Syncia" : "Syncia",
   description:
     "Syncia is a browser extension that allows you to use Open AI's GPT in any website.",
+=======
+  name: env.mode === "staging" ? "[INTERNAL] ChatDock X" : "ChatDock X",
+  description:
+    "A simple chrome extension for interacting with Chat GPT with in your comfort",
+>>>>>>> c282520026a3d5f0ffba6eea500e0c8546f320e8
   version: `${major}.${minor}.${patch}.${label}`,
   version_name: version,
   commands: {
@@ -27,7 +33,11 @@ export default defineManifest(async (env) => ({
     "48": "images/icon-48.png",
     "128": "images/icon-128.png",
   },
+<<<<<<< HEAD
   permissions: ["storage", "unlimitedStorage", "tabs", "activeTab"],
+=======
+  permissions: ["storage", "unlimitedStorage", "activeTab", "tabs"],
+>>>>>>> c282520026a3d5f0ffba6eea500e0c8546f320e8
   background: {
     service_worker: "src/pages/background/index.ts",
   },

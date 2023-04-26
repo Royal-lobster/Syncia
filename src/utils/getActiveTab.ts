@@ -1,3 +1,25 @@
+<<<<<<< HEAD
+=======
+/*
+export enum BrowserType {
+  chrome = "Chrome",
+  firefox = "FF",
+}
+
+export const getBroswer = () => {
+  const ua = navigator.userAgent;
+  if (ua.indexOf("Firefox") > -1) {
+    return BrowserType.firefox;
+  }
+  if (ua.indexOf("Chrome") > -1) {
+    return BrowserType.chrome;
+  }
+ };
+*/
+
+import PromptSettings from "../components/Settings/Sections/PromptSettings";
+
+>>>>>>> c282520026a3d5f0ffba6eea500e0c8546f320e8
 /**
  * Get the url of the active tab
  * @returns {string} url of the active tab
