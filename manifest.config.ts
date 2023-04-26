@@ -15,10 +15,14 @@ export default defineManifest(async (env) => ({
     "Syncia is a browser extension that allows you to use Open AI's GPT in any website.",
   version: `${major}.${minor}.${patch}.${label}`,
   version_name: version,
+  action: {
+    default_title: 'Syncia - Open Sidebar',
+  },
   commands: {
     'open-sidebar': {
       suggested_key: {
         default: 'Ctrl+Shift+X',
+        mac: 'Command+Shift+X',
       },
       description: 'Open the sidebar',
     },
