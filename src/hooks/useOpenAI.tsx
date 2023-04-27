@@ -178,21 +178,17 @@ export const useChatCompletion = ({
 
   // updating message after changes of chatHistory
   useEffect(() => {
-    const check = async () => {
-      const url = await getActiveTabUrl();
-      if (chatHistory.length > 1 && messages.length <= 3) {
-        setCurrentChat((prev) => {
-          const index = chatHistory.findIndex(chatMessage => chatMessage.url === currentUrl)
-          if (index != -1) {
-            setMessages(chatHistory[index].ChatMessages)
-            return chatHistory[index]
-          }
-          return initialChatHistoryValue
-        })
-      }
+    if (chatHistory.length > 1 && messages.length <= 3) {
+      setCurrentChat((prev) => {
+        const index = chatHistory.findIndex(chatMessage => chatMessage.url === currentUrl)
+        if (index != -1) {
+          setMessages(chatHistory[index].ChatMessages)
+          return chatHistory[index]
+        }
+        return initialChatHistoryValue
+      })
     }
-    check()
-  }, [chatHistory])
+   }, [chatHistory])
 
 
   let source: SSE | null = null
