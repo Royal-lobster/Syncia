@@ -133,9 +133,19 @@ export const useChatCompletion = ({
    * @return  ChatHistory[]
    */
   const createOrUpdateChatHistory = (prev: ChatHistory[], url: string): ChatHistory[] => {
-    let index = prev.findIndex(
-      (chatMessage) => chatMessage.url === currentUrl,
-    )
+    console.log(currentUrl, 'currentUrl createorupdate');
+    let index;
+    if (currentUrl) {
+      index = prev.findIndex(
+        (chatMessage) => chatMessage.url === currentUrl,
+      )
+    }
+    else {
+      index = prev.findIndex(
+        (chatMessage) => chatMessage.url === url,
+      )
+    }
+
     let update = prev
     if (index === -1) {
       index = update.length
@@ -145,7 +155,7 @@ export const useChatCompletion = ({
         timestamp: messages[1].timestamp,
         ChatMessages: messages,
       }
-      setCurrentUrl(url)
+      // setCurrentChat(update[index])
     } else {
       if (update[index].timestamp !== messages[messages.length - 2].timestamp && messages.length >= 3) {
         update[index] = {
@@ -157,16 +167,22 @@ export const useChatCompletion = ({
             messages[messages.length - 1],
           ],
         }
+        // setCurrentChat(update[index])
       }
     }
     return update
   }
+  // TODO bug hischat overwriting?  goo
+
 
   useEffect(() => {
     const check = async () => {
       const url = await getActiveTabUrl();
       if (messages.length > 1 && !messages[messages.length - 1].meta.loading) {
+        console.log(currentUrl, 'currentUrl in check');
+        console.log(chatHistory, 'history in check');
         setChatHistory((prev) => createOrUpdateChatHistory(prev, url));
+        console.log(chatHistory, 'chatHistory in check');
       } else if (messages.length > 1) {
         setLoading(true)
       }
@@ -178,7 +194,8 @@ export const useChatCompletion = ({
 
   // updating message after changes of chatHistory
   useEffect(() => {
-    if (chatHistory.length > 1 && messages.length <= 3) {
+    if (chatHistory.length > 1 && messages.length <= 3 && currentUrl) {
+      console.log(currentUrl, currentChat, 'before currentUrl in setcurrentChat');
       setCurrentChat((prev) => {
         const index = chatHistory.findIndex(chatMessage => chatMessage.url === currentUrl)
         if (index != -1) {
@@ -187,8 +204,9 @@ export const useChatCompletion = ({
         }
         return initialChatHistoryValue
       })
+      console.log(currentUrl, currentChat, 'after currentUrl in setcurrentChat');
     }
-   }, [chatHistory])
+  }, [chatHistory, currentUrl])
 
 
   let source: SSE | null = null
@@ -350,12 +368,19 @@ export const useChatCompletion = ({
 
 
   const setChatMessage = React.useCallback((chatID: string) => {
-    setCurrentChat((prev) => {
-      const index = chatHistory.findIndex(chatMessages => chatMessages.id == chatID);
+    const index = chatHistory.findIndex(chatMessages => chatMessages.id === chatID);
+    console.log(currentChat, 'after set by id currentChat in setChatMessage');
+    if (index != -1) {
       setCurrentUrl(chatHistory[index].url)
-      return index != -1 ? chatHistory[index] : initialChatHistoryValue
-    })
-  }, [setCurrentChat])
+      setCurrentChat((prev) => {
+        return chatHistory[index]
+      })
+    }
+    console.log(currentChat, 'after set by id currentChat in setChatMessage');
+  }, [setCurrentChat, setCurrentUrl])
 
-  return { messages, submitQuery, loading, clearMessages, cancelRequest, currentChat, chatHistory, setChatMessage }
+  console.log(chatHistory, 'before sending to com chathis');
+  console.log(currentChat, 'before sending to com current chat');
+
+  return { submitQuery, loading, clearMessages, cancelRequest, chatHistory, currentChat, setChatMessage, setCurrentUrl, currentUrl }
 }

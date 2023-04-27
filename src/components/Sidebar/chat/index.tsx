@@ -10,13 +10,15 @@ interface ChatProps {
 }
 
 const Chat = ({ settings }: ChatProps) => {
-  const { messages, submitQuery, clearMessages, loading, cancelRequest } =
+  const { submitQuery, clearMessages, loading, cancelRequest, setChatMessage, currentChat, chatHistory, currentUrl, setCurrentUrl } =
     useChatCompletion({
       model: settings.chat.modal,
       apiKey: settings.chat.openAIKey!,
       mode: settings.chat.mode,
       systemPrompt: SYSTEM_PROMPT,
     })
+
+  console.log(currentChat, 'currentchat comp');
 
   useEffect(() => {
     const handleWindowMessage = (event: MessageEvent) => {
@@ -37,13 +39,17 @@ const Chat = ({ settings }: ChatProps) => {
 
   return (
     <>
-      <ChatList messages={messages} />
+      <ChatList messages={currentChat.ChatMessages} />
       <SidebarInput
         loading={loading}
         submitMessage={submitQuery}
-        chatIsEmpty={messages.length <= 1}
+        chatIsEmpty={currentChat.ChatMessages.length <= 1}
         clearMessages={clearMessages}
         cancelRequest={cancelRequest}
+        setChatMessage={setChatMessage}
+        chatHistory={chatHistory}
+        currentUrl={currentUrl}
+        setCurrentUrl={setCurrentUrl}
       />
     </>
   )
