@@ -33,7 +33,7 @@ export const initSidebarListeners = () => {
     }
   })
 
-  chrome.browserAction.onClicked.addListener(toggleSidebar)
+  chrome.action.onClicked.addListener(toggleSidebar)
 
   chrome.runtime.onMessage.addListener(function (
     message,
