@@ -109,26 +109,19 @@ export const useChatCompletion = ({
   const [messages, setMessages] = useState<ChatMessage[]>([systemMessage])
   const [currentId, setCurrentId] = useState<string>('')
 
-
-  // updating message after changes of chatHistory
-  // useEffect(() => {
-  //   if (chatHistory.length > 1 && messages.length <= 3) {
-  //     setCurrentChat(currentId)
-  //   }
-  // }, [chatHistory, currentId])
-
   useEffect(() => {
-    const checkUrl = async () => {
-      const currentUrl = await getActiveTabUrl()
-      if (messages.length > 1 && !messages[messages.length - 1].meta.loading) {
+    if (messages.length > 1 && !messages[messages.length - 1].meta.loading) {
+      const checkUrl = async () => {
+        const currentUrl = await getActiveTabUrl()
         setChatHistory(currentUrl, currentId, messages)
-        setLoading(false)
+        setCurrentId(chatHistory[chatHistory.length - 1].id)
+        setLoading(false);
       }
-      else {
-        setLoading(true);
-      }
+      checkUrl()
     }
-    checkUrl()
+    else {
+      setLoading(false)
+    }
   }, [messages])
 
 

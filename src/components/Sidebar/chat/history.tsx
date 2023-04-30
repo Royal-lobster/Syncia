@@ -12,7 +12,6 @@ export const History = ({ chatHistory, setCurrentId, currentUrl, currentId }: Hi
     const [showHistoryTab, setShowHistoryTab] = React.useState(false)
     console.log(chatHistory, 'component chat history');
 
-    const chats = chatHistory.splice(1)
     return (
         <div className="cdx-mx-3 cdx-my-2 cdx-w-[70%] cdx-relative">
             {
@@ -24,9 +23,11 @@ export const History = ({ chatHistory, setCurrentId, currentUrl, currentId }: Hi
                         <div className="cdx-flex cdx-flex-col">
                             <>
                                 {
-                                    chats.map((chatMessage, i) => {
+                                    chatHistory?.slice(1).map((chatMessage, i) => {
+                                        console.log(chatMessage, 'chatMessage');
+
                                         return (
-                                            <div className=" border-1 cdx-border-gray-400" key={chatMessage.id} onClick={() => { setCurrentId(chatMessage.id) }} >
+                                            <div className=" border-1 cdx-border-gray-400" key={chatMessage.id} onClick={() => { setCurrentId(chatMessage.id); setShowHistoryTab(false) }} >
                                                 <div className="cdx-px-4 cdx-py-1 cdx-border-l-2 cdx-border-blue-400 cdx-font-bold cdx-text-md">
                                                     <button>{chatMessage.url}</button>
                                                 </div>

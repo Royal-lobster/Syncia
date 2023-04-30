@@ -1,9 +1,8 @@
-import { Dispatch, SetStateAction, useCallback, useEffect } from "react"
+import { useCallback } from "react"
 import { getNewUUID } from "../utils/UUID"
 import { ChatHistory, ChatMessage, StorageKey } from "./useOpenAI"
 import { useStorage } from "./useStorage"
 import { getActiveTabUrl } from "../utils/getActiveTab"
-import { type } from "os"
 
 
 /**
@@ -37,10 +36,11 @@ export const useChatHistory = (
      * @param {ChatMessage[]} messages
      */
     const setChatHistory = useCallback((url: string, currentId: string, messages: ChatMessage[]): void => {
-        // if (messages.length > 1 && !messages[messages.length - 1].meta.loading) {
         let index;
+        console.log(chatHistory, 'chathistory in chat history');
 
         if (currentId) {
+            console.log(currentId, 'currentId in chat history');
             index = chatHistory.findIndex(
                 (chatMessage) => chatMessage.id === currentId,
             )
@@ -53,10 +53,11 @@ export const useChatHistory = (
 
         console.log(messages, 'messages');
 
-
         let update = chatHistory
         if (index === -1) {
+
             index = update.length
+            console.log(index, 'index in chat history');
             update[index] = {
                 id: getNewUUID(),
                 url: url,

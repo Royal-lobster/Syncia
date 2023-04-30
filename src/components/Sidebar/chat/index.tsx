@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ChatList from './chatList'
 import { SidebarInput } from './chatInput'
-import { useChatCompletion } from '../../../hooks/useOpenAI'
+import { ChatMessage, useChatCompletion } from '../../../hooks/useOpenAI'
 import { SYSTEM_PROMPT } from '../../../prompts'
 import { Settings } from '../../../hooks/useSettings'
 import { useCurrentMessage } from '../../../hooks/useCurrentMessage'
@@ -24,9 +24,13 @@ const Chat = ({ settings }: ChatProps) => {
 
   const [chatHistory, setChatHistory] = useChatHistory()
 
+  const [currentMessage, setCurrentMessage] = useState<ChatMessage[]>(currentChat.ChatMessages)
 
   console.log(currentChat, 'currentchat comp');
 
+  useEffect(() => {
+    setCurrentMessage(currentChat.ChatMessages)
+  }, [currentChat, setCurrentMessage, messages, currentId])
 
   useEffect(() => {
     const handleWindowMessage = (event: MessageEvent) => {
@@ -47,7 +51,7 @@ const Chat = ({ settings }: ChatProps) => {
 
   return (
     <>
-      <ChatList messages={currentChat.ChatMessages} />
+      <ChatList messages={currentMessage} />
       <SidebarInput
         loading={loading}
         submitMessage={submitQuery}

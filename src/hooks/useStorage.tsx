@@ -75,6 +75,7 @@ export async function readStorage<T>(
   area: StorageArea = 'local',
 ): Promise<T | undefined> {
   try {
+    console.log('value in set storage to local');
     const result = await chrome.storage[area].get(key)
     return result?.[key]
   } catch (error) {
@@ -96,6 +97,7 @@ export async function setStorage<T>(
   area: StorageArea = 'local',
 ): Promise<boolean> {
   try {
+    console.log(value, 'value in set storage');
     await chrome.storage[area].set({ [key]: value });
     return true;
   } catch (error) {

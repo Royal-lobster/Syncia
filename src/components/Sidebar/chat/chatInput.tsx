@@ -49,7 +49,7 @@ export function SidebarInput({
 
   useEffect(() => {
     setCurrentChat(currentId)
-  }, [currentId])
+  }, [currentId, chatHistory])
 
   const handleSubmit = () => {
     submitMessage([{ content: text, role: ChatRole.USER }])

@@ -8,7 +8,7 @@ export const getActiveTabUrl = async (): Promise<string> => {
       var activeTab = tabs[0];
       if (activeTab.url) {
         const url = new URL(activeTab.url);
-        resolve(`${url.protocol}//${url.hostname}`);
+        resolve(`${url.hostname}`);
       } else {
         reject(new Error("Unable to get active tab URL."));
       }

@@ -13,7 +13,7 @@ export function useCurrentMessage(
     // current chat local storage setup
     const [currentChat, setCurrent] = useStorage<ChatHistory>(
         StorageKey.CURRENT_CHAT,
-        chatHistory[0],
+        chatHistory[chatHistory.length - 1],
         'local',
     )
 
@@ -22,9 +22,11 @@ export function useCurrentMessage(
         if (!currentId) return;
 
         // clear current chat if clear button is clicked
-        if (currentId === "clear") setCurrent(chatHistory[0]);
+        if (currentId === "clear") setCurrent(chatHistory[chatHistory.length - 1]);
 
         // find index of current chat
+        console.log(currentId, 'currentId in useCurrentMessage');
+
         const index = chatHistory.findIndex(chatMessage => chatMessage.id === currentId)
         if (index != -1) {
             setCurrent(chatHistory[index])
