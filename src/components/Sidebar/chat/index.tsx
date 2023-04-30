@@ -1,16 +1,18 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ChatList from './chatList'
 import { SidebarInput } from './chatInput'
 import { useChatCompletion } from '../../../hooks/useOpenAI'
 import { SYSTEM_PROMPT } from '../../../prompts'
 import { Settings } from '../../../hooks/useSettings'
+import { useCurrentMessage } from '../../../hooks/useCurrentMessage'
+import { useChatHistory } from '../../../hooks/useChatHistoty'
 
 interface ChatProps {
   settings: Settings
 }
 
 const Chat = ({ settings }: ChatProps) => {
-  const { submitQuery, clearMessages, loading, cancelRequest, setChatMessage, currentChat, chatHistory, currentUrl, setCurrentUrl } =
+  const { submitQuery, clearMessages, loading, cancelRequest, messages, currentId, setCurrentId } =
     useChatCompletion({
       model: settings.chat.modal,
       apiKey: settings.chat.openAIKey!,
@@ -18,7 +20,13 @@ const Chat = ({ settings }: ChatProps) => {
       systemPrompt: SYSTEM_PROMPT,
     })
 
+  const [currentChat, setCurrentChat] = useCurrentMessage()
+
+  const [chatHistory, setChatHistory] = useChatHistory()
+
+
   console.log(currentChat, 'currentchat comp');
+
 
   useEffect(() => {
     const handleWindowMessage = (event: MessageEvent) => {
@@ -46,10 +54,11 @@ const Chat = ({ settings }: ChatProps) => {
         chatIsEmpty={currentChat.ChatMessages.length <= 1}
         clearMessages={clearMessages}
         cancelRequest={cancelRequest}
-        setChatMessage={setChatMessage}
+        setCurrentChat={setCurrentChat}
         chatHistory={chatHistory}
-        currentUrl={currentUrl}
-        setCurrentUrl={setCurrentUrl}
+        currentChat={currentChat}
+        currentId={currentId}
+        setCurrentId={setCurrentId}
       />
     </>
   )

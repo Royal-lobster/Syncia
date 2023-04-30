@@ -5,6 +5,7 @@ import { IoSend } from 'react-icons/io5'
 import { HiHand } from 'react-icons/hi'
 import { ChatHistory, ChatMessageParams, ChatRole } from '../../../hooks/useOpenAI'
 import { History } from './history'
+import { useChatHistory } from '../../../hooks/useChatHistoty'
 
 interface SidebarInputProps {
   loading: boolean
@@ -12,10 +13,11 @@ interface SidebarInputProps {
   clearMessages: () => void
   chatIsEmpty: boolean
   cancelRequest: () => void
-  setChatMessage: (chatID: string) => void
+  setCurrentChat: (chatID: string) => void
   chatHistory: ChatHistory[]
-  setCurrentUrl: (url: string) => void
-  currentUrl: string
+  currentChat: ChatHistory
+  currentId: string
+  setCurrentId: (currentId: string) => void
 }
 
 export function SidebarInput({
@@ -25,13 +27,16 @@ export function SidebarInput({
   chatIsEmpty,
   cancelRequest,
   chatHistory,
-  setChatMessage,
-  setCurrentUrl,
-  currentUrl,
-
+  setCurrentChat,
+  currentChat,
+  currentId,
+  setCurrentId,
 }: SidebarInputProps) {
   const [text, setText] = useState('')
   const [delayedLoading, setDelayedLoading] = useState(false)
+
+  console.log(chatHistory, "INPUT COMPONENT");
+
 
   useEffect(() => {
     const handleLoadingTimeout = setTimeout(() => {
@@ -41,6 +46,10 @@ export function SidebarInput({
       clearTimeout(handleLoadingTimeout)
     }
   }, [loading])
+
+  useEffect(() => {
+    setCurrentChat(currentId)
+  }, [currentId])
 
   const handleSubmit = () => {
     submitMessage([{ content: text, role: ChatRole.USER }])
@@ -59,19 +68,7 @@ export function SidebarInput({
           </button>
         ) : <div></div>}
         <div className=' '>
-          <>
-            {/* {
-              chatHistory.length >= 1 ? chatHistory.splice(1).map((chatMessage, i) => {
-                return (
-                  <div className="cdx-mx-4 cdx-my-2 cdx-rounded-md cdx-border  dark:cdx-bg-black/5 dark:cdx-border-neutral-800 cdx-borcdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50" key={i}>
-                    <p>{chatMessage.url || "google.om"}</p>
-                  </div>
-                )
-              })
-                : */}
-            <History chatHistory={chatHistory} setChatMessage={setChatMessage} setCurrentUrl={setCurrentUrl} currentUrl={currentUrl} />
-            {/* } */}
-          </>
+          <History chatHistory={chatHistory} setCurrentId={setCurrentId} currentUrl={currentChat?.url} currentId={currentId} />
         </div>
       </div>
 
