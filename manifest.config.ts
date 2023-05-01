@@ -7,15 +7,22 @@ const [major, minor, patch, label = '0'] = version
   .split(/[.-]/)
 
 export default defineManifest(async (env) => ({
-  name: env.mode === 'staging' ? '[INTERNAL] Syncia' : 'Syncia',
+  name:
+    env.mode === 'staging'
+      ? '[INTERNAL] Syncia'
+      : 'Syncia - Power of ChatGPT on any website',
   description:
     "Syncia is a browser extension that allows you to use Open AI's GPT in any website.",
   version: `${major}.${minor}.${patch}.${label}`,
   version_name: version,
+  action: {
+    default_title: 'Syncia - Open Sidebar',
+  },
   commands: {
     'open-sidebar': {
       suggested_key: {
         default: 'Ctrl+Shift+X',
+        mac: 'Command+Shift+X',
       },
       description: 'Open the sidebar',
     },

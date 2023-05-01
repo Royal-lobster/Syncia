@@ -1,7 +1,7 @@
 {
   "name": "syncia",
   "displayName": "Syncia",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "A simple chrome extension for interacting with ChatGPT with in your comfort",
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
     "release:cli": "source .env && publish-extension --chrome-zip \"dist/chrome.zip\" --chrome-extension-id \"$CHROME_EXTENSION_ID\" --chrome-client-id \"$CHROME_CLIENT_ID\" --chrome-client-secret \"$CHROME_CLIENT_SECRET\" --chrome-refresh-token \"$CHROME_REFRESH_TOKEN\"",
     "format": "rome format . --write",
     "lint": "rome check .",
+    "flush": "rm -rf artifacts/ dist/",
     "lint:fix": "yarn lint --apply"
   },
   "dependencies": {
