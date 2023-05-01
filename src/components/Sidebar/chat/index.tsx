@@ -26,8 +26,6 @@ const Chat = ({ settings }: ChatProps) => {
 
   const [currentMessage, setCurrentMessage] = useState<ChatMessage[]>(currentChat.ChatMessages)
 
-  console.log(currentChat, 'currentchat comp');
-
   useEffect(() => {
     setCurrentMessage(currentChat.ChatMessages)
   }, [currentChat, setCurrentMessage, messages, currentId])

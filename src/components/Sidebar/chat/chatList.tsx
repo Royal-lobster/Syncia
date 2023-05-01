@@ -13,8 +13,6 @@ interface ChatListProps {
 
 const ChatList = ({ messages }: ChatListProps) => {
 
-  console.log(messages, "CHATLIST COMPONENT");
-
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {

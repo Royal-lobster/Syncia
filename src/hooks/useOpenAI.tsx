@@ -279,7 +279,7 @@ export const useChatCompletion = ({
 
   const clearMessages = React.useCallback(() => {
     setMessages([systemMessage])
-    setCurrentChat('clear')
+    setCurrentId('clear')
   }, [setMessages, setCurrentChat])
 
   return { submitQuery, loading, clearMessages, cancelRequest, messages, currentId, setCurrentId }

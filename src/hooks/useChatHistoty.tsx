@@ -36,53 +36,47 @@ export const useChatHistory = (
      * @param {ChatMessage[]} messages
      */
     const setChatHistory = useCallback((url: string, currentId: string, messages: ChatMessage[]): void => {
-        let index;
         console.log(chatHistory, 'chathistory in chat history');
-
-        if (currentId) {
-            console.log(currentId, 'currentId in chat history');
-            index = chatHistory.findIndex(
-                (chatMessage) => chatMessage.id === currentId,
-            )
-        }
-        else {
-            index = chatHistory.findIndex(
+        setHistory((prev) => {
+            let index = prev.findIndex(
                 (chatMessage) => chatMessage.url === url,
             )
-        }
-
-        console.log(messages, 'messages');
-
-        let update = chatHistory
-        if (index === -1) {
-
-            index = update.length
-            console.log(index, 'index in chat history');
-            update[index] = {
-                id: getNewUUID(),
-                url: url,
-                timestamp: messages[1].timestamp,
-                ChatMessages: messages,
-            }
-            // setCurrentChat(update[index])
-        } else {
-            if (update[index].timestamp !== messages[messages.length - 2].timestamp && messages.length >= 3) {
+            let update = prev
+            if (index === -1) {
+                index = prev.length
                 update[index] = {
-                    ...update[index],
-                    timestamp: messages[messages.length - 2].timestamp,
-                    ChatMessages: [
-                        ...update[index].ChatMessages,
-                        messages[messages.length - 2],
-                        messages[messages.length - 1],
-                    ],
+                    id: getNewUUID(),
+                    url: url,
+                    timestamp: messages[1].timestamp,
+                    ChatMessages: messages,
                 }
-                // setCurrentChat(update[index])
-            }
-        }
-        setHistory(update)
-    }, [])
+                return update
+            } else {
+                let currentIdIndex;
+                if (currentId) {
+                    currentIdIndex = prev.findIndex(
+                        (chatMessage) => chatMessage.id === currentId,
+                    )
+                    if (currentIdIndex != -1) {
+                        index = currentIdIndex;
+                    }
+                }
 
-    console.log(chatHistory, 'before the sending');
+                if (update[index].timestamp !== messages[messages.length - 2].timestamp && messages.length >= 3) {
+                    update[index] = {
+                        ...update[index],
+                        timestamp: messages[messages.length - 2].timestamp,
+                        ChatMessages: [
+                            ...update[index].ChatMessages,
+                            messages[messages.length - 2],
+                            messages[messages.length - 1],
+                        ],
+                    }
+                }
+                return update
+            }
+        })
+    }, [])
 
     return [chatHistory, setChatHistory] as ReturnType
 }

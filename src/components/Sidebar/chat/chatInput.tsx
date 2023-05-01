@@ -35,8 +35,6 @@ export function SidebarInput({
   const [text, setText] = useState('')
   const [delayedLoading, setDelayedLoading] = useState(false)
 
-  console.log(chatHistory, "INPUT COMPONENT");
-
 
   useEffect(() => {
     const handleLoadingTimeout = setTimeout(() => {
