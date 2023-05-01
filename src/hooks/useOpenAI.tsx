@@ -37,7 +37,7 @@ export interface ChatMessageParams extends OpenAIChatMessage {
 }
 
 export interface ChatMessage extends ChatMessageParams {
-  timestamp: number,
+  timestamp: number
   meta: {
     loading: boolean
     responseTime: string
@@ -61,7 +61,7 @@ export interface ChatHistory {
 
 export enum StorageKey {
   CHAT_HISTORY = 'CHAT_HISTORY',
-  CURRENT_CHAT = 'CURRENT_CHAT'
+  CURRENT_CHAT = 'CURRENT_CHAT',
 }
 
 const CHAT_COMPLETIONS_URL = 'https://api.openai.com/v1/chat/completions'
@@ -72,12 +72,10 @@ export const useChatCompletion = ({
   systemPrompt,
   mode,
 }: OpenAIStreamingProps) => {
-
   const officialOpenAIParams = ({
     content,
     role,
   }: ChatMessage): OpenAIChatMessage => ({ content, role })
-
 
   const createChatMessage = ({
     content,
@@ -115,15 +113,13 @@ export const useChatCompletion = ({
         const currentUrl = await getActiveTabUrl()
         setChatHistory(currentUrl, currentId, messages)
         setCurrentId(chatHistory[chatHistory.length - 1].id)
-        setLoading(false);
+        setLoading(false)
       }
       checkUrl()
-    }
-    else {
+    } else {
       setLoading(false)
     }
   }, [messages])
-
 
   let source: SSE | null = null
 
@@ -209,7 +205,6 @@ export const useChatCompletion = ({
             role: ChatRole.ASSISTANT,
           }
 
-
           setMessages((msgs) =>
             msgs.map((message, i) => {
               if (updatedMessages.length - 1 === i) {
@@ -282,5 +277,13 @@ export const useChatCompletion = ({
     setCurrentId('clear')
   }, [setMessages, setCurrentChat])
 
-  return { submitQuery, loading, clearMessages, cancelRequest, messages, currentId, setCurrentId }
+  return {
+    submitQuery,
+    loading,
+    clearMessages,
+    cancelRequest,
+    messages,
+    currentId,
+    setCurrentId,
+  }
 }

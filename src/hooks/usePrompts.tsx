@@ -11,11 +11,11 @@ export type PromptWithChildren = {
 
 export type Prompt =
   | {
-    id: string
-    name: string
-    children?: never
-    prompt: string
-  }
+      id: string
+      name: string
+      children?: never
+      prompt: string
+    }
   | PromptWithChildren
 
 export function usePrompts(): [Prompt[], Dispatch<SetStateAction<Prompt[]>>] {

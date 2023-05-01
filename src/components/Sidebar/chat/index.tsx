@@ -12,19 +12,28 @@ interface ChatProps {
 }
 
 const Chat = ({ settings }: ChatProps) => {
-  const { submitQuery, clearMessages, loading, cancelRequest, messages, currentId, setCurrentId } =
-    useChatCompletion({
-      model: settings.chat.modal,
-      apiKey: settings.chat.openAIKey!,
-      mode: settings.chat.mode,
-      systemPrompt: SYSTEM_PROMPT,
-    })
+  const {
+    submitQuery,
+    clearMessages,
+    loading,
+    cancelRequest,
+    messages,
+    currentId,
+    setCurrentId,
+  } = useChatCompletion({
+    model: settings.chat.modal,
+    apiKey: settings.chat.openAIKey!,
+    mode: settings.chat.mode,
+    systemPrompt: SYSTEM_PROMPT,
+  })
 
   const [currentChat, setCurrentChat] = useCurrentMessage()
 
   const [chatHistory, setChatHistory] = useChatHistory()
 
-  const [currentMessage, setCurrentMessage] = useState<ChatMessage[]>(currentChat.ChatMessages)
+  const [currentMessage, setCurrentMessage] = useState<ChatMessage[]>(
+    currentChat.ChatMessages,
+  )
 
   useEffect(() => {
     setCurrentMessage(currentChat.ChatMessages)

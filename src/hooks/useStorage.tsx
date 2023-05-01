@@ -96,8 +96,8 @@ export async function setStorage<T>(
   area: StorageArea = 'local',
 ): Promise<boolean> {
   try {
-    await chrome.storage[area].set({ [key]: value });
-    return true;
+    await chrome.storage[area].set({ [key]: value })
+    return true
   } catch (error) {
     console.warn(`Error setting ${area} storage key "${key}":`, error)
     return false

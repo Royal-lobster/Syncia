@@ -12,7 +12,6 @@ interface ChatListProps {
 }
 
 const ChatList = ({ messages }: ChatListProps) => {
-
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {

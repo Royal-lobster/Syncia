@@ -1,14 +1,14 @@
-import { useStorage } from "../hooks/useStorage";
+import { useStorage } from '../hooks/useStorage'
 
 interface UrlMap {
-  url: string;
-  uuid: string;
+  url: string
+  uuid: string
 }
 
 export const getUUID = (url: string) => {
-  const urlObj = new URL(url);
-  return urlObj.searchParams.get("uuid");
-};
+  const urlObj = new URL(url)
+  return urlObj.searchParams.get('uuid')
+}
 
 /**
  * @description Generate a new UUID
@@ -20,5 +20,5 @@ export const getUUID = (url: string) => {
  */
 
 export const getNewUUID = (): string => {
-  return self.crypto.randomUUID();
-};
+  return self.crypto.randomUUID()
+}

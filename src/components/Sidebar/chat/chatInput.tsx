@@ -3,7 +3,11 @@ import TextareaAutosize from 'react-textarea-autosize'
 import { GiMagicBroom } from 'react-icons/gi'
 import { IoSend } from 'react-icons/io5'
 import { HiHand } from 'react-icons/hi'
-import { ChatHistory, ChatMessageParams, ChatRole } from '../../../hooks/useOpenAI'
+import {
+  ChatHistory,
+  ChatMessageParams,
+  ChatRole,
+} from '../../../hooks/useOpenAI'
 import { History } from './history'
 import { useChatHistory } from '../../../hooks/useChatHistoty'
 
@@ -35,7 +39,6 @@ export function SidebarInput({
   const [text, setText] = useState('')
   const [delayedLoading, setDelayedLoading] = useState(false)
 
-
   useEffect(() => {
     const handleLoadingTimeout = setTimeout(() => {
       setDelayedLoading(loading)
@@ -64,9 +67,16 @@ export function SidebarInput({
           >
             <GiMagicBroom size={18} className="mx-auto" />
           </button>
-        ) : <div></div>}
+        ) : (
+          <div></div>
+        )}
         <div className=' '>
-          <History chatHistory={chatHistory} setCurrentId={setCurrentId} currentUrl={currentChat?.url} currentId={currentId} />
+          <History
+            chatHistory={chatHistory}
+            setCurrentId={setCurrentId}
+            currentUrl={currentChat?.url}
+            currentId={currentId}
+          />
         </div>
       </div>
 
