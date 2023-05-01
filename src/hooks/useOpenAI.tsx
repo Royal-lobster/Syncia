@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { SSE } from 'sse'
 import { useStorage } from './useStorage'
 import { AvailableModels, Mode } from './useSettings'
+import { getActiveTabUrl } from '../utils/getActiveTab'
+import { getNewUUID } from '../utils/UUID'
+import { useChatHistory } from './useChatHistoty'
+import { useCurrentMessage } from './useCurrentMessage'
 
 export enum ChatRole {
   USER = 'user',
@@ -48,28 +52,19 @@ export interface OpenAIStreamingProps {
   systemPrompt?: string
 }
 
+export interface ChatHistory {
+  timestamp: number
+  id: string
+  url: string
+  ChatMessages: ChatMessage[]
+}
+
+export enum StorageKey {
+  CHAT_HISTORY = 'CHAT_HISTORY',
+  CURRENT_CHAT = 'CURRENT_CHAT',
+}
+
 const CHAT_COMPLETIONS_URL = 'https://api.openai.com/v1/chat/completions'
-
-const officialOpenAIParams = ({
-  content,
-  role,
-}: ChatMessage): OpenAIChatMessage => ({ content, role })
-
-const createChatMessage = ({
-  content,
-  role,
-  ...restOfParams
-}: ChatMessageParams): ChatMessage => ({
-  content,
-  role,
-  timestamp: restOfParams.timestamp || Date.now(),
-  meta: {
-    loading: false,
-    responseTime: '',
-    chunks: [],
-    ...restOfParams.meta,
-  },
-})
 
 export const useChatCompletion = ({
   model,
@@ -77,31 +72,52 @@ export const useChatCompletion = ({
   systemPrompt,
   mode,
 }: OpenAIStreamingProps) => {
+  const officialOpenAIParams = ({
+    content,
+    role,
+  }: ChatMessage): OpenAIChatMessage => ({ content, role })
+
+  const createChatMessage = ({
+    content,
+    role,
+    ...restOfParams
+  }: ChatMessageParams): ChatMessage => ({
+    content,
+    role,
+    timestamp: restOfParams.timestamp || Date.now(),
+    meta: {
+      loading: false,
+      responseTime: '',
+      chunks: [],
+      ...restOfParams.meta,
+    },
+  })
+
+  // Initial value of message
   const systemMessage = createChatMessage({
     content: systemPrompt || '',
     role: ChatRole.SYSTEM,
   })
 
-  const [storedMessages, setStoredMessages] = useStorage<ChatMessage[]>(
-    'CHAT_MESSAGES',
-    [systemMessage],
-    'local',
-  )
-  const [messages, setMessages] = useState<ChatMessage[]>([systemMessage])
-  const [loading, setLoading] = useState<boolean>(false)
+  // chat history local storage
+  const [chatHistory, setChatHistory] = useChatHistory()
+  const [currentChat, setCurrentChat] = useCurrentMessage()
 
-  useEffect(() => {
-    if (storedMessages.length > 1 && messages.length <= 1) {
-      setMessages(storedMessages)
-    }
-  }, [storedMessages])
+  const [loading, setLoading] = useState<boolean>(false)
+  const [messages, setMessages] = useState<ChatMessage[]>([systemMessage])
+  const [currentId, setCurrentId] = useState<string>('')
 
   useEffect(() => {
     if (messages.length > 1 && !messages[messages.length - 1].meta.loading) {
-      setStoredMessages(messages)
+      const checkUrl = async () => {
+        const currentUrl = await getActiveTabUrl()
+        setChatHistory(currentUrl, currentId, messages)
+        setCurrentId(chatHistory[chatHistory.length - 1].id)
+        setLoading(false)
+      }
+      checkUrl()
+    } else {
       setLoading(false)
-    } else if (messages.length > 1) {
-      setLoading(true)
     }
   }, [messages])
 
@@ -183,10 +199,10 @@ export const useChatCompletion = ({
       source.addEventListener('error', (e) => {
         if (e?.data !== '[DONE]') {
           const payload = JSON.parse(e?.data || '{}')
-          console.log(payload)
 
           const chunk: ChatMessageIncomingChunk = {
             content: payload.error?.message,
+            role: ChatRole.ASSISTANT,
           }
 
           setMessages((msgs) =>
@@ -258,8 +274,16 @@ export const useChatCompletion = ({
 
   const clearMessages = React.useCallback(() => {
     setMessages([systemMessage])
-    setStoredMessages([systemMessage])
-  }, [setMessages])
+    setCurrentId('clear')
+  }, [setMessages, setCurrentChat])
 
-  return { messages, submitQuery, loading, clearMessages, cancelRequest }
+  return {
+    submitQuery,
+    loading,
+    clearMessages,
+    cancelRequest,
+    messages,
+    currentId,
+    setCurrentId,
+  }
 }

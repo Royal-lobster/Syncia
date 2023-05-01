@@ -43,15 +43,14 @@
     "rehype-raw": "^6.1.1",
     "remark-breaks": "^3.0.2",
     "remark-gfm": "^3.0.1",
-    "sse": "github:mpetazzoni/sse.js",
-    "webextension-polyfill": "^0.10.0"
+    "sse": "github:mpetazzoni/sse.js"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.1",
     "@crxjs/vite-plugin": "^2.0.0-beta.15",
     "@types/chrome": "^0.0.213",
     "@types/node": "^18.13.0",
-    "@types/react": "^18.0.28",
+    "@types/react": "^18.2.0",
     "@types/react-dom": "^18.0.11",
     "@types/react-syntax-highlighter": "^15.5.6",
     "@vitejs/plugin-react": "^3.1.0",
