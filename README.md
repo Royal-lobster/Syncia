@@ -16,7 +16,7 @@ Syncia is a Chrome extension that enables users to chat with ChatGPT by opening 
 
 ## 🐳 Installation
 
-You can install Syncia through the Chrome Web Store. (Under Review)
+You can install Syncia through the [Chrome Web Store](https://chrome.google.com/webstore/detail/syncia-power-of-chatgpt-o/bhdfllifdfodbkihgmahlfmddlmfdjak?hl=en&authuser=0).
 
 Alternatively, you can install Syncia manually by following these steps:
 
