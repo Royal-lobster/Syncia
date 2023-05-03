@@ -14,7 +14,7 @@ export function useCurrentMessage() {
 
   const setCurrentChat = useCallback(
     (currentId: string) => {
-      console.log(currentId, 'currentId in use current message');
+      console.log(currentId, 'currentId in use current message')
 
       // falsy value check
       if (!currentId) return
@@ -30,8 +30,7 @@ export function useCurrentMessage() {
       )
       if (index != -1) {
         setCurrent(chatHistory[index])
-        console.log(chatHistory[index], 'chat history index');
-
+        console.log(chatHistory[index], 'chat history index')
       }
     },
     [currentChat, setCurrent, chatHistory],

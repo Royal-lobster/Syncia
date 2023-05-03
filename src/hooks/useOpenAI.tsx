@@ -59,8 +59,6 @@ export interface ChatHistory {
   ChatMessages: ChatMessage[]
 }
 
-
-
 const CHAT_COMPLETIONS_URL = 'https://api.openai.com/v1/chat/completions'
 
 export const useChatCompletion = ({
@@ -105,12 +103,11 @@ export const useChatCompletion = ({
   const [currentId, setCurrentId] = useState<string>('')
 
   useEffect(() => {
-    console.log(messages, ' messages');
+    console.log(messages, ' messages')
 
     if (messages.length > 1 && !messages[messages.length - 1].meta.loading) {
       const checkUrl = async () => {
-
-        console.log('hi im in');
+        console.log('hi im in')
         const currentUrl = await getActiveTabUrl()
         setChatHistory(currentUrl, currentId, messages)
         // setCurrentId(chatHistory[chatHistory.length - 1].id)

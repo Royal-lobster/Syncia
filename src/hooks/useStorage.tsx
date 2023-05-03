@@ -31,15 +31,14 @@ export function useStorage<T>(
       if (res) setStoredValue(res)
     })
 
-    browser
-      .storage.onChanged.addListener((changes, namespace) => {
-        if (
-          namespace === area &&
-          Object.prototype.hasOwnProperty.call(changes, key)
-        ) {
-          if (changes[key].newValue) setStoredValue(changes[key].newValue)
-        }
-      })
+    browser.storage.onChanged.addListener((changes, namespace) => {
+      if (
+        namespace === area &&
+        Object.prototype.hasOwnProperty.call(changes, key)
+      ) {
+        if (changes[key].newValue) setStoredValue(changes[key].newValue)
+      }
+    })
   }, [])
 
   const setValueRef = useRef<SetValue<T>>()
@@ -99,7 +98,7 @@ export async function setStorage<T>(
 ): Promise<boolean> {
   try {
     await browser.storage[area].set({ [key]: value })
-    console.log(value, 'seting value to storage');
+    console.log(value, 'seting value to storage')
 
     return true
   } catch (error) {
