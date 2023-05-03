@@ -1,22 +1,44 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ChatList from './chatList'
 import { SidebarInput } from './chatInput'
-import { useChatCompletion } from '../../../hooks/useOpenAI'
+import { ChatMessage, useChatCompletion } from '../../../hooks/useOpenAI'
 import { SYSTEM_PROMPT } from '../../../prompts'
 import { Settings } from '../../../hooks/useSettings'
+import { useCurrentMessage } from '../../../hooks/useCurrentMessage'
+import { useChatHistory } from '../../../hooks/useChatHistory'
 
 interface ChatProps {
   settings: Settings
 }
 
 const Chat = ({ settings }: ChatProps) => {
-  const { messages, submitQuery, clearMessages, loading, cancelRequest } =
-    useChatCompletion({
-      model: settings.chat.modal,
-      apiKey: settings.chat.openAIKey!,
-      mode: settings.chat.mode,
-      systemPrompt: SYSTEM_PROMPT,
-    })
+  const {
+    submitQuery,
+    clearMessages,
+    loading,
+    cancelRequest,
+    messages,
+    currentId,
+    setCurrentId,
+  } = useChatCompletion({
+    model: settings.chat.modal,
+    apiKey: settings.chat.openAIKey!,
+    mode: settings.chat.mode,
+    systemPrompt: SYSTEM_PROMPT,
+  })
+
+  const [currentChat, setCurrentChat] = useCurrentMessage()
+
+  const [chatHistory, setChatHistory] = useChatHistory()
+
+  const [currentMessage, setCurrentMessage] = useState<ChatMessage[]>(
+    currentChat.ChatMessages,
+  )
+  console.log(chatHistory, 'component chat history')
+
+  useEffect(() => {
+    setCurrentMessage(currentChat.ChatMessages)
+  }, [currentChat, setCurrentMessage, messages, currentId])
 
   useEffect(() => {
     const handleWindowMessage = (event: MessageEvent) => {
@@ -37,13 +59,18 @@ const Chat = ({ settings }: ChatProps) => {
 
   return (
     <>
-      <ChatList messages={messages} />
+      <ChatList messages={currentMessage} />
       <SidebarInput
         loading={loading}
         submitMessage={submitQuery}
-        chatIsEmpty={messages.length <= 1}
+        chatIsEmpty={currentChat.ChatMessages.length <= 1}
         clearMessages={clearMessages}
         cancelRequest={cancelRequest}
+        setCurrentChat={setCurrentChat}
+        chatHistory={chatHistory}
+        currentChat={currentChat}
+        currentId={currentId}
+        setCurrentId={setCurrentId}
       />
     </>
   )

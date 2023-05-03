@@ -9,6 +9,8 @@ import {
 
 export type StorageArea = 'sync' | 'local'
 
+import browser from 'webextension-polyfill'
+
 // custom hook to set chrome local/sync storage
 // should also set a listener on this specific key
 
@@ -29,14 +31,15 @@ export function useStorage<T>(
       if (res) setStoredValue(res)
     })
 
-    chrome.storage.onChanged.addListener((changes, namespace) => {
-      if (
-        namespace === area &&
-        Object.prototype.hasOwnProperty.call(changes, key)
-      ) {
-        if (changes[key].newValue) setStoredValue(changes[key].newValue)
-      }
-    })
+    browser
+      .storage.onChanged.addListener((changes, namespace) => {
+        if (
+          namespace === area &&
+          Object.prototype.hasOwnProperty.call(changes, key)
+        ) {
+          if (changes[key].newValue) setStoredValue(changes[key].newValue)
+        }
+      })
   }, [])
 
   const setValueRef = useRef<SetValue<T>>()
@@ -49,7 +52,6 @@ export function useStorage<T>(
       setStorage<T>(key, newValue, area).then((success) => {
         if (!success) setStoredValue(prevState)
       })
-
       return newValue
     })
   }
@@ -75,7 +77,7 @@ export async function readStorage<T>(
   area: StorageArea = 'local',
 ): Promise<T | undefined> {
   try {
-    const result = await chrome.storage[area].get(key)
+    const result = await browser.storage[area].get(key)
     return result?.[key]
   } catch (error) {
     console.warn(`Error reading ${area} storage key "${key}":`, error)
@@ -96,7 +98,9 @@ export async function setStorage<T>(
   area: StorageArea = 'local',
 ): Promise<boolean> {
   try {
-    await chrome.storage[area].set({ [key]: value })
+    await browser.storage[area].set({ [key]: value })
+    console.log(value, 'seting value to storage');
+
     return true
   } catch (error) {
     console.warn(`Error setting ${area} storage key "${key}":`, error)
