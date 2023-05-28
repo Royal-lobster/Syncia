@@ -8,17 +8,26 @@ import { defaultPrompts } from '../../../prompts/default'
  *
  * @see https://developer.chrome.com/docs/extensions/reference/contextMenus/
  *
+ * It performs the following steps:
+ * 1. Get the prompts from storage
+ * 2. Create the text actions at start
+ * 3. Create the menu for rest of the items
+ *
  */
+
 export const CreateContextMenu = () => {
   let prompts = defaultPrompts
   chrome.storage.local.get('PROMPTS', function (result) {
     prompts = (result.PROMPTS as Prompt[]) || defaultPrompts
   })
 
-  const createChildContextMenu = (prompts: Prompt[], parentId: string) => {
+  const contextMenuItems: chrome.contextMenus.CreateProperties[] = []
+
+  // Create text actions context menu
+  const createChildContextMenu = (prompts: Prompt[], parentId?: string) => {
     for (const prompt of prompts) {
       const id = parentId + prompt.id
-      chrome.contextMenus.create({
+      contextMenuItems.push({
         id,
         title: prompt.name,
         contexts: ['selection'],
@@ -27,14 +36,24 @@ export const CreateContextMenu = () => {
       if (prompt.children) createChildContextMenu(prompt.children, id)
     }
   }
+  createChildContextMenu(prompts)
 
-  // Create root context menu
-  chrome.contextMenus.create({
-    id: 'quick-menu',
-    title: 'Quick Menu',
-    contexts: ['selection'],
-  })
+  // Create Settings context menu
+  contextMenuItems.push(
+    {
+      id: 'separator',
+      type: 'separator',
+      contexts: ['selection'],
+    },
+    {
+      id: 'settings',
+      title: 'Settings',
+      contexts: ['selection'],
+    },
+  )
 
-  // Create child context menus
-  createChildContextMenu(prompts, 'quick-menu')
+  // Create context menu
+  for (const item of contextMenuItems) {
+    chrome.contextMenus.create(item)
+  }
 }
