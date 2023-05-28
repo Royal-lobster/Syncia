@@ -14,6 +14,12 @@ export default defineConfig({
       outFileName: 'chrome.zip',
     }),
   ],
+  server: {
+    port: 5173,
+    hmr: {
+      port: 5173,
+    },
+  },
   build: {
     rollupOptions: {
       input: {
