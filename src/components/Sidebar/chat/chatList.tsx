@@ -46,11 +46,11 @@ const ChatList = ({ messages }: ChatListProps) => {
       ) : (
         filteredMsgs
           .filter((msg) => msg.role !== ChatRole.SYSTEM)
-          .map((msg) => (
+          .map((msg, i) => (
             <div
-              data-user={msg.role === ChatRole.USER || undefined}
+              data-user={msg.role === ChatRole.USER ? 'true' : undefined}
               className="markdown cdx-px-4 cdx-py-2 data-[user]:cdx-border-l-2 cdx-border-blue-400 data-[user]:cdx-bg-black/5 data-[user]:dark:cdx-bg-neutral-900/50 cdx-max-w-[400px]"
-              key={msg.timestamp}
+              key={`${msg.timestamp}-${i}`}
             >
               <ReactMarkdown
                 remarkPlugins={[remarkGfm, remarkBreaks]}
