@@ -1,5 +1,4 @@
 import { backgroundLog } from '../../logs'
-
 backgroundLog()
 
 // =========================== //

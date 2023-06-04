@@ -3,7 +3,13 @@ import TextareaAutosize from 'react-textarea-autosize'
 import { GiMagicBroom } from 'react-icons/gi'
 import { IoSend } from 'react-icons/io5'
 import { HiHand } from 'react-icons/hi'
-import { ChatMessageParams, ChatRole } from '../../../hooks/useOpenAI'
+import {
+  ChatHistory,
+  ChatMessageParams,
+  ChatRole,
+} from '../../../hooks/useOpenAI'
+import { History } from './history'
+import { useChatHistory } from '../../../hooks/useChatHistory'
 
 interface SidebarInputProps {
   loading: boolean
@@ -11,6 +17,11 @@ interface SidebarInputProps {
   clearMessages: () => void
   chatIsEmpty: boolean
   cancelRequest: () => void
+  setCurrentChat: (chatID: string) => void
+  chatHistory: ChatHistory[]
+  currentChat: ChatHistory
+  currentId: string
+  setCurrentId: (currentId: string) => void
 }
 
 export function SidebarInput({
@@ -19,6 +30,11 @@ export function SidebarInput({
   clearMessages,
   chatIsEmpty,
   cancelRequest,
+  chatHistory,
+  setCurrentChat,
+  currentChat,
+  currentId,
+  setCurrentId,
 }: SidebarInputProps) {
   const [text, setText] = useState('')
   const [delayedLoading, setDelayedLoading] = useState(false)
@@ -32,6 +48,10 @@ export function SidebarInput({
     }
   }, [loading])
 
+  useEffect(() => {
+    setCurrentChat(currentId)
+  }, [currentId, chatHistory])
+
   const handleSubmit = () => {
     submitMessage([{ content: text, role: ChatRole.USER }])
     setText('')
@@ -40,14 +60,24 @@ export function SidebarInput({
   return (
     <div className="cdx-fixed cdx-bottom-0 cdx-left-0 cdx-right-0 cdx-flex cdx-flex-col ">
       <div className="cdx-flex cdx-items-center cdx-justify-between">
-        {!chatIsEmpty && (
+        {!chatIsEmpty ? (
           <button
             onClick={clearMessages}
             className="cdx-rounded-full cdx-h-10 cdx-w-10 cdx-grid cdx-place-items-center cdx-text-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white cdx-m-2"
           >
             <GiMagicBroom size={18} className="mx-auto" />
           </button>
+        ) : (
+          <div></div>
         )}
+        <div>
+          <History
+            chatHistory={chatHistory}
+            setCurrentId={setCurrentId}
+            currentUrl={currentChat?.url}
+            currentId={currentId}
+          />
+        </div>
       </div>
 
       <div className="cdx-m-2 cdx-rounded-md cdx-border dark:cdx-border-neutral-800 cdx-border-neutral-300 dark:cdx-bg-neutral-900/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50">
@@ -58,11 +88,11 @@ export function SidebarInput({
           value={text}
           disabled={loading}
           className="cdx-p-3 cdx-w-full cdx-text-sm cdx-resize-none cdx-max-h-96 cdx-pb-0 cdx-bg-transparent !cdx-border-none focus:!cdx-outline-none"
-          onChange={(e) => {
+          onChange={(e: any) => {
             e.preventDefault()
             setText(e.target.value)
           }}
-          onKeyDown={(e) => {
+          onKeyDown={(e: any) => {
             if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault()
               handleSubmit()
