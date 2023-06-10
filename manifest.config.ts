@@ -47,7 +47,7 @@ export default defineManifest(async (env) => ({
       matches: ['http://*/*', 'https://*/*', '<all_urls>'],
       js: [
         'src/pages/content/quick-menu/initQuickMenu.tsx',
-        'src/pages/content/quick-menu/listenContextMenu.ts',
+        'src/pages/content/quick-menu/listenContextMenu.tsx',
       ],
       all_frames: true,
     },

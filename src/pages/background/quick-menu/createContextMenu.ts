@@ -1,5 +1,5 @@
 import { Prompt } from '../../../hooks/usePrompts'
-import { getStoredPropts } from '../../../lib/getStoredPrompts'
+import { getStoredPrompts } from '../../../lib/getStoredPrompts'
 
 /**
  * Creates the native context menu for the quick menu.
@@ -13,11 +13,10 @@ import { getStoredPropts } from '../../../lib/getStoredPrompts'
  * 2. Create the text actions at start
  * 3. Remove all the existing context menus
  * 4. Create the menu for rest of the items
- *
  */
 
 export const createContextMenu = () => {
-  const prompts = getStoredPropts()
+  const prompts = getStoredPrompts()
 
   const contextMenuItems: chrome.contextMenus.CreateProperties[] = []
 
@@ -56,4 +55,15 @@ export const createContextMenu = () => {
   for (const item of contextMenuItems) {
     chrome.contextMenus.create(item)
   }
+}
+
+/**
+ * Creates the context menu on storage change.
+ * This will allow users to see the changes in the context menu when user
+ * change the prompts.
+ */
+export const createContextMenuOnStorageChange = () => {
+  chrome.storage.onChanged.addListener(() => {
+    createContextMenu()
+  })
 }

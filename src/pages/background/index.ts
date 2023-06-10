@@ -1,5 +1,8 @@
 import { backgroundLog } from '../../logs'
-import { createContextMenu } from './quick-menu/createContextMenu'
+import {
+  createContextMenu,
+  createContextMenuOnStorageChange,
+} from './quick-menu/createContextMenu'
 import { forwardContextMenuClicks } from './quick-menu/forwardContextMenu'
 import { sendSidebarShortcut } from './sidebar/sendSidebarShortcut'
 import { sidebarToggleListeners } from './sidebar/sidebarToggleListeners'
@@ -17,3 +20,4 @@ sendSidebarShortcut()
 // =========================== //
 createContextMenu()
 forwardContextMenuClicks()
+createContextMenuOnStorageChange()

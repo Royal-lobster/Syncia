@@ -183,7 +183,6 @@ export const useChatCompletion = ({
       source.addEventListener('error', (e) => {
         if (e?.data !== '[DONE]') {
           const payload = JSON.parse(e?.data || '{}')
-          console.log(payload)
 
           const chunk: ChatMessageIncomingChunk = {
             content: payload.error?.message,

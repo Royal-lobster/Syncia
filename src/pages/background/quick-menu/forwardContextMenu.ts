@@ -7,7 +7,12 @@ export const forwardContextMenuClicks = () => {
       })
     } else {
       const selectedText = info.selectionText
-      if (tab?.id) chrome.tabs.sendMessage(tab.id, { selectedText })
+      const id = info.menuItemId
+      if (tab?.id)
+        chrome.tabs.sendMessage(tab.id, {
+          action: 'forward-context-menu-click',
+          payload: { selectedText, id },
+        })
     }
   })
 }
