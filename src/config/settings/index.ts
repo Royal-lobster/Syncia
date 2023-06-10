@@ -24,8 +24,7 @@ export enum Mode {
 
 export type Settings = {
   quickMenu: {
-    visibleMenu: boolean
-    contextMenu: boolean
+    enabled: boolean
     items: typeof defaultPrompts
     excludedSites: string[]
   }
@@ -41,8 +40,7 @@ export type Settings = {
 
 export const defaultSettings: Settings = {
   quickMenu: {
-    visibleMenu: true,
-    contextMenu: true,
+    enabled: true,
     items: defaultPrompts,
     excludedSites: [],
   },
