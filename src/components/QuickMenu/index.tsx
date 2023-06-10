@@ -1,11 +1,11 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import { BsRobot } from 'react-icons/bs'
 import { useEffect } from 'react'
-import './index.css'
-import useThemeSync from '../../hooks/useThemeSync'
-import { RecursiveItem } from './RecursiveItem'
-import { getTransformedPrompt } from '../../prompts'
+import { BsRobot } from 'react-icons/bs'
 import { usePrompts } from '../../hooks/usePrompts'
+import useThemeSync from '../../hooks/useThemeSync'
+import { generatePromptInSidebar } from '../../lib/generatePromptInSidebar'
+import { RecursiveItem } from './RecursiveItem'
+import './index.css'
 
 export const ContentClassNames =
   'cdx-flex cdx-flex-col cdx-min-w-[150px] cdx-gap-2 cdx-backdrop-blur-sm !cdx-font-sans cdx-m-2 cdx-bg-neutral-50 cdx-shadow-md cdx-p-2 cdx-rounded dark:cdx-bg-neutral-800 cdx-text-neutral-800 dark:cdx-text-neutral-100'
@@ -29,24 +29,11 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
     if (highlightMenu) highlightMenu.style.zIndex = '2147483647'
   }, [])
 
-  const handleGenerate = (prompt: string) => {
-    const fullPrompt = getTransformedPrompt(prompt, selectedText)
-    const sideBarIframe = document.getElementById(
-      'syncia_sidebar',
-    ) as HTMLIFrameElement
-    if (sideBarIframe.style.width === '0px') {
-      sideBarIframe.style.width = '400px'
-    }
-    sideBarIframe.contentWindow?.postMessage(
-      {
-        action: 'generate',
-        prompt: fullPrompt,
-      },
-      '*',
-    )
-  }
-
   const noCategoryPrompts = prompts.filter((i) => !!i.prompt)
+
+  const handleGenerate = (prompt: string) => {
+    generatePromptInSidebar(prompt, selectedText)
+  }
 
   return (
     <DropdownMenu.Root
