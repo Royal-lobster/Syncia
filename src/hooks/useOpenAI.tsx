@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { SSE } from 'sse'
 import { useStorage } from './useStorage'
-import { AvailableModels, Mode } from './useSettings'
+import { AvailableModels } from '../config/settings'
+import { Mode } from 'fs'
 
 export enum ChatRole {
   USER = 'user',

@@ -1,4 +1,4 @@
-import { getTransformedPrompt } from '../prompts'
+import { getTransformedPrompt } from '../config/prompts'
 
 export const generatePromptInSidebar = (
   prompt: string,

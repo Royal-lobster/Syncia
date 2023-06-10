@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import ChatList from './chatList'
 import { SidebarInput } from './chatInput'
 import { useChatCompletion } from '../../../hooks/useOpenAI'
-import { SYSTEM_PROMPT } from '../../../prompts'
-import { Settings } from '../../../hooks/useSettings'
+import { SYSTEM_PROMPT } from '../../../config/prompts'
+import { Settings } from '../../../config/settings'
 
 interface ChatProps {
   settings: Settings

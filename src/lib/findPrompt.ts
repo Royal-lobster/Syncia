@@ -4,8 +4,8 @@ import { getStoredPrompts } from './getStoredPrompts'
  * Find a prompt by its id. It uses depth-first search to get the
  * first prompt with the given id.
  */
-export const findPrompt = (id: string) => {
-  const prompts = getStoredPrompts()
+export const findPrompt = async (id: string) => {
+  const prompts = await getStoredPrompts()
 
   const find = (prompts: any): any => {
     for (const prompt of prompts) {

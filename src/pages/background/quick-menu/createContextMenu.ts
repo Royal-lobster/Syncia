@@ -15,9 +15,8 @@ import { getStoredPrompts } from '../../../lib/getStoredPrompts'
  * 4. Create the menu for rest of the items
  */
 
-export const createContextMenu = () => {
-  const prompts = getStoredPrompts()
-
+export const createContextMenu = async () => {
+  const prompts = await getStoredPrompts()
   const contextMenuItems: chrome.contextMenus.CreateProperties[] = []
 
   // Create text actions context menu
@@ -64,6 +63,7 @@ export const createContextMenu = () => {
  */
 export const createContextMenuOnStorageChange = () => {
   chrome.storage.onChanged.addListener(() => {
+    console.log('📝 Storage changed')
     createContextMenu()
   })
 }

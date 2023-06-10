@@ -1,16 +1,21 @@
 import { Prompt } from '../hooks/usePrompts'
-import { defaultPrompts } from '../prompts/default'
+import { defaultPrompts } from '../config/prompts/default'
 
-export const getStoredPrompts = () => {
-  let prompts = null
-  chrome.storage.local.get('PROMPTS', function (result) {
-    prompts = (result.PROMPTS as Prompt[]) || defaultPrompts
-  })
-  if (!prompts) {
-    chrome.storage.local.set({ PROMPTS: defaultPrompts }, function () {
+export const getStoredPrompts = async () => {
+  const storedPrompts = await getStoredLocalPrompts()
+  if (!storedPrompts) {
+    chrome.storage.local.set({ PROMPTS: defaultPrompts }, () => {
       console.log('ℹ️ Default prompts stored from getStoredPrompts.ts')
     })
-    prompts = defaultPrompts
   }
-  return prompts
+  return storedPrompts ?? defaultPrompts
+}
+
+const getStoredLocalPrompts = async () => {
+  const storedLocalPrompts = await new Promise((resolve) => {
+    chrome.storage.local.get('PROMPTS', function (result) {
+      resolve(result.PROMPTS)
+    })
+  })
+  return storedLocalPrompts as Prompt[] | null
 }

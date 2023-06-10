@@ -15,7 +15,17 @@ const QuickMenuSettings = () => {
       ...settings,
       quickMenu: {
         ...quickMenuSettings,
-        enabled,
+        visibleMenu: enabled,
+      },
+    })
+  }
+
+  const handleEnableContextMenuChange = (enabled: boolean) => {
+    setSettings({
+      ...settings,
+      quickMenu: {
+        ...quickMenuSettings,
+        contextMenu: enabled,
       },
     })
   }
@@ -41,7 +51,7 @@ const QuickMenuSettings = () => {
       <SectionHeading title='Quick Menu' />
 
       {/* =========================
-              Enable Quick Menu 
+        Enable Visible Quick Menu 
       ===========================*/}
       <FieldWrapper
         title='Enable Quick Menu'
@@ -49,8 +59,25 @@ const QuickMenuSettings = () => {
         row={true}
       >
         <Switch.Root
-          checked={quickMenuSettings.enabled}
+          checked={quickMenuSettings.visibleMenu}
           onCheckedChange={handleEnableQuickMenuChange}
+          className="cdx-w-[42px] cdx-h-[25px] cdx-bg-neutral-500 cdx-rounded-full cdx-relative data-[state=checked]:cdx-bg-blue-500 cdx-outline-none cdx-cursor-default"
+        >
+          <Switch.Thumb className="cdx-block cdx-w-[21px] cdx-h-[21px] cdx-bg-white cdx-rounded-full cdx-transition-transform cdx-duration-100 cdx-translate-x-0.5 cdx-will-change-transform data-[state=checked]:cdx-translate-x-[19px]" />
+        </Switch.Root>
+      </FieldWrapper>
+
+      {/* =========================
+          Enable Context Menu 
+      ===========================*/}
+      <FieldWrapper
+        title='Enable Context Menu'
+        description='This will enable the context menu which appears when you select text and right click on any webpage. I recommend enabling this and disabling the quick menu if you feel the quick menu is too intrusive. (browser restart needed)'
+        row={true}
+      >
+        <Switch.Root
+          checked={quickMenuSettings.contextMenu}
+          onCheckedChange={handleEnableContextMenuChange}
           className="cdx-w-[42px] cdx-h-[25px] cdx-bg-neutral-500 cdx-rounded-full cdx-relative data-[state=checked]:cdx-bg-blue-500 cdx-outline-none cdx-cursor-default"
         >
           <Switch.Thumb className="cdx-block cdx-w-[21px] cdx-h-[21px] cdx-bg-white cdx-rounded-full cdx-transition-transform cdx-duration-100 cdx-translate-x-0.5 cdx-will-change-transform data-[state=checked]:cdx-translate-x-[19px]" />

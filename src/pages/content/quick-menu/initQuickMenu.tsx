@@ -2,8 +2,8 @@ import { QuickMenu } from '../../../components/QuickMenu'
 import HighlightMenu from 'react-highlight-menu'
 import { createRoot } from 'react-dom/client'
 import { contentScriptLog } from '../../../logs'
-import { Settings } from '../../../hooks/useSettings'
 import Whitelister from 'redirect-whitelister'
+import { Settings } from '../../../config/settings'
 
 /**
  * Initializes the visual quick menu. (when the user selects text)
@@ -38,7 +38,7 @@ const initQuickMenu = () => {
 chrome.storage.sync.get(['SETTINGS'], (result) => {
   const quickMenuSettings = result.SETTINGS?.quickMenu as Settings['quickMenu']
   if (quickMenuSettings) {
-    if (quickMenuSettings.enabled) {
+    if (quickMenuSettings.visibleMenu) {
       if (quickMenuSettings.excludedSites.length === 0) initQuickMenu()
       else {
         const whitelister = new Whitelister(
