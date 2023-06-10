@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { SSE } from 'sse'
 import { useStorage } from './useStorage'
-import { AvailableModels, Mode } from './useSettings'
+import { AvailableModels } from '../config/settings'
+import { Mode } from 'fs'
 
 export enum ChatRole {
   USER = 'user',
@@ -183,7 +184,6 @@ export const useChatCompletion = ({
       source.addEventListener('error', (e) => {
         if (e?.data !== '[DONE]') {
           const payload = JSON.parse(e?.data || '{}')
-          console.log(payload)
 
           const chunk: ChatMessageIncomingChunk = {
             content: payload.error?.message,

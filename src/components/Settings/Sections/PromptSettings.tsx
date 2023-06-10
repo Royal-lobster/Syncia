@@ -1,6 +1,6 @@
 import { HiRefresh } from 'react-icons/hi'
 import { usePrompts } from '../../../hooks/usePrompts'
-import { defaultPrompts } from '../../../prompts/default'
+import { defaultPrompts } from '../../../config/prompts/default'
 import FieldWrapper from '../Elements/FieldWrapper'
 import QuickMenuCustomize from '../Elements/QuickMenuCustomize'
 import SectionHeading from '../Elements/SectionHeading'

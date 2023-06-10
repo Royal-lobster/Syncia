@@ -1,8 +1,9 @@
 import React from 'react'
 import SectionHeading from '../Elements/SectionHeading'
 import FieldWrapper from '../Elements/FieldWrapper'
-import { AvailableModels, Mode, useSettings } from '../../../hooks/useSettings'
+import { useSettings } from '../../../hooks/useSettings'
 import { validateApiKey } from '../../../utils/validApiKey'
+import { AvailableModels, Mode } from '../../../config/settings'
 
 const ChatSettings = () => {
   const [settings, setSettings] = useSettings()

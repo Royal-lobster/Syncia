@@ -34,7 +34,7 @@ export default defineManifest(async (env) => ({
     '48': 'images/icon-48.png',
     '128': 'images/icon-128.png',
   },
-  permissions: ['storage', 'unlimitedStorage'],
+  permissions: ['storage', 'unlimitedStorage', 'contextMenus'],
   background: {
     service_worker: 'src/pages/background/index.ts',
   },
@@ -45,7 +45,10 @@ export default defineManifest(async (env) => ({
     },
     {
       matches: ['http://*/*', 'https://*/*', '<all_urls>'],
-      js: ['src/pages/content/quickmenu.tsx'],
+      js: [
+        'src/pages/content/quick-menu/initQuickMenu.tsx',
+        'src/pages/content/quick-menu/listenContextMenu.tsx',
+      ],
       all_frames: true,
     },
   ],

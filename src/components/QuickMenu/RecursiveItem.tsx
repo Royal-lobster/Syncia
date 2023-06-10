@@ -33,7 +33,11 @@ export const RecursiveItem = ({ item, handleGenerate }: RecursiveItemProps) => {
         style={{ zIndex: 2147483647 }}
       >
         {item.children.map((item) => (
-          <RecursiveItem item={item} handleGenerate={handleGenerate} />
+          <RecursiveItem
+            key={item.id}
+            item={item}
+            handleGenerate={handleGenerate}
+          />
         ))}
       </DropdownMenu.SubContent>
     </DropdownMenu.Sub>

@@ -15,8 +15,6 @@ export const AddItemButton = ({ isCategory }: { isCategory: boolean }) => {
 
     const formData = new FormData(formRef.current)
 
-    console.log(formData)
-
     const newName = formData.get('promptName') as string
     const newPrompt = formData.get('prompt') as string
 

@@ -1,7 +1,8 @@
 import React from 'react'
 import SectionHeading from '../Elements/SectionHeading'
 import FieldWrapper from '../Elements/FieldWrapper'
-import { ThemeOptions, useSettings } from '../../../hooks/useSettings'
+import { useSettings } from '../../../hooks/useSettings'
+import { ThemeOptions } from '../../../config/settings'
 
 const GeneralSettings = () => {
   const [settings, setSettings] = useSettings()

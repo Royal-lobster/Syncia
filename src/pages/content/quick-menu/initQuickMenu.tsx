@@ -1,10 +1,15 @@
-import { QuickMenu } from '../../components/QuickMenu'
+import { QuickMenu } from '../../../components/QuickMenu'
 import HighlightMenu from 'react-highlight-menu'
 import { createRoot } from 'react-dom/client'
-import { contentScriptLog } from '../../logs'
-import { Settings } from '../../hooks/useSettings'
+import { contentScriptLog } from '../../../logs'
 import Whitelister from 'redirect-whitelister'
+import { Settings } from '../../../config/settings'
 
+/**
+ * Initializes the visual quick menu. (when the user selects text)
+ * It is only initialized if the user has enabled it in the settings.
+ * If the user has excluded the current site, it is not initialized.
+ */
 const initQuickMenu = () => {
   contentScriptLog('QuickMenu')
 

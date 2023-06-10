@@ -15,7 +15,7 @@ const QuickMenuSettings = () => {
       ...settings,
       quickMenu: {
         ...quickMenuSettings,
-        enabled,
+        enabled: enabled,
       },
     })
   }
@@ -41,11 +41,11 @@ const QuickMenuSettings = () => {
       <SectionHeading title='Quick Menu' />
 
       {/* =========================
-              Enable Quick Menu 
+        Enable Visible Quick Menu 
       ===========================*/}
       <FieldWrapper
         title='Enable Quick Menu'
-        description='This will enable the quick menu which appears bellow text selection on any webpage.'
+        description='This will enable the quick menu which appears bellow text selection on any webpage. I recommend disabling it if you feel it intrusive, you can still use your prompts on selected text by right clicking and selecting the prompt from the context menu.'
         row={true}
       >
         <Switch.Root

@@ -8,7 +8,7 @@ Syncia is a Chrome extension that enables users to chat with ChatGPT by opening 
 
 - 🗨️ Chat with ChatGPT through a sidebar.
 - 🔑 User your own Open AI API key.
-- 📜 Quick menu underneath any selected text which allows you to summarize, simplify language, translate, and more.
+- 📜 Quick menu underneath any selected text which allows you to summarize, simplify language, translate, and more (extendable with custom prompts).
 - 💯 Fully customizable settings page.
 - 🎨 Has both light mode and dark mode !
 - 🔐 Secure and fully Free and open source forever. (Please consider giving this project a star 🌟 and contributing 💖 to support the project.)
@@ -56,7 +56,7 @@ When you select a text, a quick menu will appear with the following options:
 - Reply negatively
 - Needs information
 
-Note that these are default options and can be changed in the settings page.
+Note that these are default options and can be changed in the settings page with custom prompts ! Also quick menu is visible on context menu as well when text is selected and right clicked.
 
 ## 💖 Contributing
 

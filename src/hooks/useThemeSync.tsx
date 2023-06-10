@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
-import { ThemeOptions, useSettings } from './useSettings'
+import { useSettings } from './useSettings'
+import { ThemeOptions } from '../config/settings'
 
 const useThemeSync = () => {
   const [settings] = useSettings()

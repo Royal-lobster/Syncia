@@ -1,5 +1,6 @@
 import endent from 'endent'
-import { Prompt } from '../hooks/usePrompts'
+import { Prompt } from '../../hooks/usePrompts'
+import hash from 'object-hash'
 
 type PromptWithoutId = Omit<Prompt, 'id' | 'children'> & {
   children?: PromptWithoutId[]
@@ -133,7 +134,7 @@ const recursiveAddId = (
   _parentId: string = '',
 ): Prompt[] => {
   return prompts.map((prompt) => {
-    const id = crypto.randomUUID()
+    const id = hash(prompt)
     return {
       id,
       ...prompt,

@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react'
 import { useStorage } from './useStorage'
-import { defaultPrompts } from '../prompts/default'
+import { defaultPrompts } from '../config/prompts/default'
 
 export type PromptWithChildren = {
   id: string
