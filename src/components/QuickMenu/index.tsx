@@ -67,17 +67,18 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
             {prompts
               .filter((i) => !i.prompt)
               .map((item) => (
-                <>
+                <div key={item.id}>
                   <DropdownMenu.Label className='cdx-text-[10px] cdx-m-1 cdx-text-neutral-500 cdx-uppercase'>
                     {item.name}
                   </DropdownMenu.Label>
                   {item.children?.map((item) => (
                     <RecursiveItem
+                      key={item.id}
                       item={item}
                       handleGenerate={handleGenerate}
                     />
                   ))}
-                </>
+                </div>
               ))}
 
             {noCategoryPrompts.length > 0 && (
@@ -86,7 +87,11 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
               </DropdownMenu.Label>
             )}
             {noCategoryPrompts.map((item) => (
-              <RecursiveItem item={item} handleGenerate={handleGenerate} />
+              <RecursiveItem
+                key={item.id}
+                item={item}
+                handleGenerate={handleGenerate}
+              />
             ))}
           </DropdownMenu.Group>
         </DropdownMenu.Content>
