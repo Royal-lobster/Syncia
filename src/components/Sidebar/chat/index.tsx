@@ -1,21 +1,23 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import ChatList from './chatList'
 import { SidebarInput } from './chatInput'
-import { useChatCompletion } from '../../../hooks/useOpenAI'
+import { useChatCompletion } from '../../../hooks/useChatCompletion'
 import { SYSTEM_PROMPT } from '../../../config/prompts'
 import { Settings } from '../../../config/settings'
 
 interface ChatProps {
   settings: Settings
+  chatId: string
 }
 
-const Chat = ({ settings }: ChatProps) => {
-  const { messages, submitQuery, clearMessages, loading, cancelRequest } =
+const Chat = ({ settings, chatId }: ChatProps) => {
+  const { messages, submitQuery, clearMessages, generating, cancelRequest } =
     useChatCompletion({
       model: settings.chat.modal,
       apiKey: settings.chat.openAIKey!,
       mode: settings.chat.mode,
       systemPrompt: SYSTEM_PROMPT,
+      chatId
     })
 
   useEffect(() => {
@@ -25,7 +27,7 @@ const Chat = ({ settings }: ChatProps) => {
         prompt: string
       }
       if (action === 'generate') {
-        submitQuery([{ content: prompt, role: 'user' }])
+        submitQuery(prompt)
       }
     }
     window.addEventListener('message', handleWindowMessage)
@@ -39,7 +41,7 @@ const Chat = ({ settings }: ChatProps) => {
     <>
       <ChatList messages={messages} />
       <SidebarInput
-        loading={loading}
+        loading={generating}
         submitMessage={submitQuery}
         chatIsEmpty={messages.length <= 1}
         clearMessages={clearMessages}

@@ -11,12 +11,12 @@ interface ChatHistory {
 export const useHistory = () => {
   const [history, setHistory] = useStorage<ChatHistory[]>("HISTORY", [])
 
-  const createChatHistory = () => {
+  const createChatHistory = (name: string) => {
     const newId = randomUUID()
 
     setHistory(prev => [...prev, {
       id: newId,
-      name: "",
+      name,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     }])

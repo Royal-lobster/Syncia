@@ -3,11 +3,10 @@ import TextareaAutosize from 'react-textarea-autosize'
 import { GiMagicBroom } from 'react-icons/gi'
 import { IoSend } from 'react-icons/io5'
 import { HiHand } from 'react-icons/hi'
-import { ChatMessageParams, ChatRole } from '../../../hooks/useOpenAI'
 
 interface SidebarInputProps {
   loading: boolean
-  submitMessage: (messages: ChatMessageParams[]) => void
+  submitMessage: (prompt: string) => void
   clearMessages: () => void
   chatIsEmpty: boolean
   cancelRequest: () => void
@@ -33,7 +32,7 @@ export function SidebarInput({
   }, [loading])
 
   const handleSubmit = () => {
-    submitMessage([{ content: text, role: ChatRole.USER }])
+    submitMessage(text)
     setText('')
   }
 
