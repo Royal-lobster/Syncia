@@ -26,7 +26,7 @@ Alternatively, you can install Syncia manually by following these steps:
 3. Open Google Chrome and go to the "Extensions" page by typing "chrome://extensions/" in the address bar.
 4. Turn on "Developer mode" by toggling the switch in the top right corner of the page.
 5. Click on the "Load unpacked" button in the top left corner of the page.
-6. Select the `dist` folder. 
+6. Select the `dist` folder.
 
 ## 💫 Usage
 
@@ -75,7 +75,7 @@ You can also contribute to the project by creating a pull request. please follow
 
 Checkout the [CONTRIBUTING.md](
     https://github.com/Royal-lobster/Syncia/blob/main/CONTRIBUTING.md
-) file for more information. 
+) file for more information.
 
 ## 🔎 Issues and Pull Requests
 

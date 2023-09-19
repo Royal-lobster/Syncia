@@ -32,6 +32,7 @@
     "axios": "^1.3.5",
     "dnd-kit-sortable-tree": "^0.1.58",
     "endent": "^2.1.0",
+    "langchain": "^0.0.151",
     "object-hash": "^3.0.0",
     "publish-browser-extension": "^1.2.0",
     "react": "^18.2.0",
