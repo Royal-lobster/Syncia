@@ -1,9 +1,8 @@
 import { AvailableModels, Mode } from "../config/settings"
 import { ChatOpenAI } from "langchain/chat_models/openai"
-import { useStorage } from "./useStorage"
-import { useCurrentChat, Role } from "./useCurrentChat"
+import { useCurrentChat, ChatRole } from "./useCurrentChat"
 import { useMemo } from "react"
-import { AIMessage, HumanMessage, SystemMessage } from "langchain/dist/schema"
+import { AIMessage, HumanMessage, SystemMessage } from "langchain/schema"
 import { useState } from "react"
 
 interface UseChatCompletionProps {
@@ -22,26 +21,26 @@ export const useChatCompletion = ({
   systemPrompt,
   chatId,
 }: UseChatCompletionProps) => {
-  const { messages, updateAssistantMessage, updateStoredMessages, clearMessages } = useCurrentChat(chatId)
+  const { messages, updateAssistantMessage, addNewMessage, updateStoredMessages, clearMessages } = useCurrentChat(chatId)
   const [generating, setGenerating] = useState(false)
 
   const controller = new AbortController();
 
   const chat = useMemo(() => new ChatOpenAI({
     streaming: true,
+    openAIApiKey: apiKey,
   }), [])
 
-
-
   const submitQuery = async (query: string) => {
+    addNewMessage(ChatRole.USER, query)
     const previousMessages = messages.map((msg) => {
       switch (msg.role) {
-        case Role.ASSISTANT:
-          return new AIMessage(msg.message)
-        case Role.SYSTEM:
-          return new SystemMessage(msg.message)
-        case Role.USER:
-          return new HumanMessage(msg.message)
+        case ChatRole.ASSISTANT:
+          return new AIMessage(msg.content)
+        case ChatRole.SYSTEM:
+          return new SystemMessage(msg.content)
+        case ChatRole.USER:
+          return new HumanMessage(msg.content)
       }
     })
     setGenerating(true)
