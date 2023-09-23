@@ -3,9 +3,9 @@ import { useStorage } from "./useStorage"
 
 
 export enum ChatRole {
-  "USER",
-  "ASSISTANT",
-  "SYSTEM"
+  "USER" = "USER",
+  "ASSISTANT" = "ASSISTANT",
+  "SYSTEM" = "SYSTEM",
 }
 
 export type ChatMessage = {

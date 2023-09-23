@@ -29,6 +29,8 @@ export const useChatCompletion = ({
   const chat = useMemo(() => new ChatOpenAI({
     streaming: true,
     openAIApiKey: apiKey,
+    modelName: model,
+    temperature: mode,
   }), [])
 
   const submitQuery = async (query: string) => {
@@ -44,7 +46,7 @@ export const useChatCompletion = ({
       }
     })
     setGenerating(true)
-    const response = await chat.call([...previousMessages, new HumanMessage(query)], {
+    const response = await chat.call([new SystemMessage(systemPrompt), ...previousMessages, new HumanMessage(query)], {
       signal: controller.signal,
       callbacks: [
         {
