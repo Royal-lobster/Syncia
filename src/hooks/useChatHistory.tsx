@@ -1,0 +1,52 @@
+import { getUUID } from "../lib/getUUID";
+import { useStorage } from "./useStorage";
+
+interface ChatHistory {
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export const useChatHistory = () => {
+  const [history, setHistory] = useStorage<ChatHistory[]>("HISTORY", []);
+  const initialChatId = getUUID();
+  const [currentChatId, setCurrentChatId] = useStorage<string>(
+    "CURRENT_CHAT_ID",
+    initialChatId
+  );
+
+  const createChatHistory = (name: string, newId = getUUID()) => {
+    setHistory((prev) => [
+      ...prev,
+      {
+        id: newId,
+        name,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+    ]);
+
+    return newId;
+  };
+
+  if (currentChatId === initialChatId) {
+    createChatHistory("Default Chat");
+  }
+
+  const deleteChatHistory = (id: string) => {
+    setHistory((prev) => prev.filter((h) => h.id !== id));
+  };
+  const getChatHistory = (id: string) => {
+    return history.find((h) => h.id === id);
+  };
+
+  return {
+    currentChatId,
+    setCurrentChatId,
+    createChatHistory,
+    deleteChatHistory,
+    getChatHistory,
+    history,
+  };
+};
