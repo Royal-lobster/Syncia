@@ -31,9 +31,23 @@ export const useChatHistory = () => {
 
     return newId;
   };
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    const tab = tabs[0];
+    if (tab) {
+      console.log(tab);
+    }
+  });
 
   if (currentChatId === initialChatId) {
-    createChatHistory("Default Chat");
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      const tab = tabs[0] as any;
+      if (tab) {
+        const data = JSON.parse(tab.vivExtData);
+        const url = data.urlForThumbnail;
+        const title = new URL(url).hostname;
+        createChatHistory(title);
+      }
+    });
   }
 
   const deleteChatHistory = (id: string) => {
