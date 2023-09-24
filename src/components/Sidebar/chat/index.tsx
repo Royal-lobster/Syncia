@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import ChatList from "./ChatListx";
-import { SidebarInput } from "./ChatInputx";
+import ChatList from "./ChatList";
+import { SidebarInput } from "./ChatInput";
 import { useChatCompletion } from "../../../hooks/useChatCompletion";
 import { SYSTEM_PROMPT } from "../../../config/prompts";
 import { Settings } from "../../../config/settings";
