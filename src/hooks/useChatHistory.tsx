@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { getUUID } from "../lib/getUUID";
 import { useStorage } from "./useStorage";
 
@@ -10,7 +11,7 @@ interface ChatHistory {
 
 export const useChatHistory = () => {
   const [history, setHistory] = useStorage<ChatHistory[]>("HISTORY", []);
-  const initialChatId = getUUID();
+  const initialChatId = useMemo(getUUID, []);
   const [currentChatId, setCurrentChatId] = useStorage<string>(
     "CURRENT_CHAT_ID",
     initialChatId
@@ -26,6 +27,7 @@ export const useChatHistory = () => {
         updatedAt: new Date().toISOString(),
       },
     ]);
+    setCurrentChatId(newId);
 
     return newId;
   };

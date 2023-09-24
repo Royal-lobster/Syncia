@@ -3,6 +3,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { GiMagicBroom } from "react-icons/gi";
 import { IoSend } from "react-icons/io5";
 import { HiHand } from "react-icons/hi";
+import ChatHistory from "./ChatHistory";
 
 interface SidebarInputProps {
   loading: boolean;
@@ -38,15 +39,18 @@ export function SidebarInput({
 
   return (
     <div className="cdx-fixed cdx-bottom-0 cdx-left-0 cdx-right-0 cdx-flex cdx-flex-col ">
-      <div className="cdx-flex cdx-items-center cdx-justify-between">
-        {!chatIsEmpty && (
+      <div className="cdx-flex cdx-mx-3 cdx-items-center cdx-justify-between">
+        {!chatIsEmpty ? (
           <button
             onClick={clearMessages}
-            className="cdx-rounded-full cdx-h-10 cdx-w-10 cdx-grid cdx-place-items-center cdx-text-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white cdx-m-2"
+            className="cdx-rounded-full cdx-h-10 cdx-w-10 cdx-grid cdx-place-items-center cdx-text-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white"
           >
             <GiMagicBroom size={18} className="mx-auto" />
           </button>
+        ) : (
+          <div />
         )}
+        <ChatHistory />
       </div>
 
       <div className="cdx-m-2 cdx-rounded-md cdx-border dark:cdx-border-neutral-800 cdx-border-neutral-300 dark:cdx-bg-neutral-900/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50">
