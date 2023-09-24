@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react'
-import TextareaAutosize from 'react-textarea-autosize'
-import { GiMagicBroom } from 'react-icons/gi'
-import { IoSend } from 'react-icons/io5'
-import { HiHand } from 'react-icons/hi'
+import { useEffect, useState } from "react";
+import TextareaAutosize from "react-textarea-autosize";
+import { GiMagicBroom } from "react-icons/gi";
+import { IoSend } from "react-icons/io5";
+import { HiHand } from "react-icons/hi";
 
 interface SidebarInputProps {
-  loading: boolean
-  submitMessage: (prompt: string) => void
-  clearMessages: () => void
-  chatIsEmpty: boolean
-  cancelRequest: () => void
+  loading: boolean;
+  submitMessage: (prompt: string) => void;
+  clearMessages: () => void;
+  chatIsEmpty: boolean;
+  cancelRequest: () => void;
 }
 
 export function SidebarInput({
@@ -19,22 +19,22 @@ export function SidebarInput({
   chatIsEmpty,
   cancelRequest,
 }: SidebarInputProps) {
-  const [text, setText] = useState('')
-  const [delayedLoading, setDelayedLoading] = useState(false)
+  const [text, setText] = useState("");
+  const [delayedLoading, setDelayedLoading] = useState(false);
 
   useEffect(() => {
     const handleLoadingTimeout = setTimeout(() => {
-      setDelayedLoading(loading)
-    }, 1000)
+      setDelayedLoading(loading);
+    }, 1000);
     return () => {
-      clearTimeout(handleLoadingTimeout)
-    }
-  }, [loading])
+      clearTimeout(handleLoadingTimeout);
+    };
+  }, [loading]);
 
   const handleSubmit = () => {
-    submitMessage(text)
-    setText('')
-  }
+    submitMessage(text);
+    setText("");
+  };
 
   return (
     <div className="cdx-fixed cdx-bottom-0 cdx-left-0 cdx-right-0 cdx-flex cdx-flex-col ">
@@ -58,13 +58,13 @@ export function SidebarInput({
           disabled={loading}
           className="cdx-p-3 cdx-w-full cdx-text-sm cdx-resize-none cdx-max-h-96 cdx-pb-0 cdx-bg-transparent !cdx-border-none focus:!cdx-outline-none"
           onChange={(e) => {
-            e.preventDefault()
-            setText(e.target.value)
+            e.preventDefault();
+            setText(e.target.value);
           }}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault()
-              handleSubmit()
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSubmit();
             }
           }}
         />
@@ -93,5 +93,5 @@ export function SidebarInput({
         </div>
       </div>
     </div>
-  )
+  );
 }
