@@ -1,9 +1,9 @@
-import { useEffect } from "react";
-import ChatList from "./ChatList";
-import { SidebarInput } from "./ChatInput";
-import { useChatCompletion } from "../../../hooks/useChatCompletion";
-import { SYSTEM_PROMPT } from "../../../config/prompts";
-import { Settings } from "../../../config/settings";
+import { useEffect } from 'react';
+import ChatList from './ChatList';
+import { SidebarInput } from './ChatInput';
+import { useChatCompletion } from '../../../hooks/useChatCompletion';
+import { SYSTEM_PROMPT } from '../../../config/prompts';
+import { Settings } from '../../../config/settings';
 
 interface ChatProps {
   settings: Settings;
@@ -17,7 +17,7 @@ const Chat = ({ settings, chatId }: ChatProps) => {
       apiKey: settings.chat.openAIKey!,
       mode: settings.chat.mode,
       systemPrompt: SYSTEM_PROMPT,
-      chatId,
+      chatId
     });
 
   useEffect(() => {
@@ -26,14 +26,14 @@ const Chat = ({ settings, chatId }: ChatProps) => {
         action: string;
         prompt: string;
       };
-      if (action === "generate") {
+      if (action === 'generate') {
         submitQuery(prompt);
       }
     };
-    window.addEventListener("message", handleWindowMessage);
+    window.addEventListener('message', handleWindowMessage);
 
     return () => {
-      window.removeEventListener("message", handleWindowMessage);
+      window.removeEventListener('message', handleWindowMessage);
     };
   }, []);
 
