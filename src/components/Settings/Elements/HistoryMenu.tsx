@@ -1,5 +1,3 @@
-const historyMenu = () => {
+const historyMenu = () => {}
 
-}
-
-export default historyMenu;
+export default historyMenu

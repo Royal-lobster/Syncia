@@ -1,37 +1,37 @@
-import * as Dialog from "@radix-ui/react-dialog";
-import { useRef, useState } from "react";
-import { HiDocumentText, HiFolder } from "react-icons/hi";
-import TextareaAutosize from "react-textarea-autosize";
-import { Prompt, usePrompts } from "../../../hooks/usePrompts";
-import DialogPortal from "../../Layout/DialogPortal";
-import { getUUID } from "../../../lib/getUUID";
+import * as Dialog from '@radix-ui/react-dialog'
+import { useRef, useState } from 'react'
+import { HiDocumentText, HiFolder } from 'react-icons/hi'
+import TextareaAutosize from 'react-textarea-autosize'
+import { Prompt, usePrompts } from '../../../hooks/usePrompts'
+import DialogPortal from '../../Layout/DialogPortal'
+import { getUUID } from '../../../lib/getUUID'
 
 export const AddItemButton = ({ isCategory }: { isCategory: boolean }) => {
-  const [open, setOpen] = useState(false);
-  const [prompts, setPrompts] = usePrompts();
-  const formRef = useRef<HTMLFormElement>(null);
+  const [open, setOpen] = useState(false)
+  const [prompts, setPrompts] = usePrompts()
+  const formRef = useRef<HTMLFormElement>(null)
 
   const handleAdd = () => {
-    if (!formRef.current || !formRef.current.reportValidity()) return;
+    if (!formRef.current || !formRef.current.reportValidity()) return
 
-    const formData = new FormData(formRef.current);
+    const formData = new FormData(formRef.current)
 
-    const newName = formData.get("promptName") as string;
-    const newPrompt = formData.get("prompt") as string;
+    const newName = formData.get('promptName') as string
+    const newPrompt = formData.get('prompt') as string
 
     const item = {
       id: getUUID(),
       name: newName,
       prompt: isCategory ? undefined : newPrompt,
       children: isCategory ? [] : undefined,
-    } as Prompt;
+    } as Prompt
 
-    const newPrompts = [...prompts, item];
-    setPrompts([]);
-    setPrompts(newPrompts);
+    const newPrompts = [...prompts, item]
+    setPrompts([])
+    setPrompts(newPrompts)
 
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -52,7 +52,7 @@ export const AddItemButton = ({ isCategory }: { isCategory: boolean }) => {
         )}
       </Dialog.Trigger>
       <DialogPortal
-        title={isCategory ? "Add New Category" : "Add New Prompt"}
+        title={isCategory ? 'Add New Category' : 'Add New Prompt'}
         primaryAction={handleAdd}
         secondaryAction={() => setOpen(false)}
         primaryText="Save"
@@ -83,5 +83,5 @@ export const AddItemButton = ({ isCategory }: { isCategory: boolean }) => {
         </form>
       </DialogPortal>
     </Dialog.Root>
-  );
-};
+  )
+}

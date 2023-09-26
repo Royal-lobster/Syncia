@@ -1,7 +1,7 @@
-import { useChatHistory } from '../../../hooks/useChatHistory';
-import * as Select from '@radix-ui/react-select';
-import { RiAddLine, RiTimeLine } from 'react-icons/ri';
-import { generateReadableRelativeDate } from '../../../utils/generateReadableDate';
+import { useChatHistory } from '../../../hooks/useChatHistory'
+import * as Select from '@radix-ui/react-select'
+import { RiAddLine, RiTimeLine } from 'react-icons/ri'
+import { generateReadableRelativeDate } from '../../../utils/generateReadableDate'
 
 const ChatHistory = () => {
   const {
@@ -9,10 +9,10 @@ const ChatHistory = () => {
     setCurrentChatId,
     currentChatId,
     getChatHistory,
-    createChatHistory
-  } = useChatHistory();
+    createChatHistory,
+  } = useChatHistory()
 
-  const currentChat = getChatHistory(currentChatId);
+  const currentChat = getChatHistory(currentChatId)
 
   return (
     <div>
@@ -34,7 +34,7 @@ const ChatHistory = () => {
                 type='button'
                 className='cdx-flex cdx-items-center cdx-bg-[#3B82F6] cdx-gap-1.5 cdx-px-2.5 cdx-py-1.5 cdx-rounded-sm cdx-font-medium'
                 onClick={() => {
-                  createChatHistory('New Chat');
+                  createChatHistory('New Chat')
                 }}
               >
                 <RiAddLine />
@@ -70,7 +70,7 @@ const ChatHistory = () => {
         </Select.Content>
       </Select.Root>
     </div>
-  );
-};
+  )
+}
 
-export default ChatHistory;
+export default ChatHistory

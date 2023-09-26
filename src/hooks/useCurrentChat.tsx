@@ -1,27 +1,27 @@
-import { useState } from "react";
-import { useStorage } from "./useStorage";
+import { useState } from 'react'
+import { useStorage } from './useStorage'
 
 export enum ChatRole {
-  "USER" = "USER",
-  "ASSISTANT" = "ASSISTANT",
-  "SYSTEM" = "SYSTEM",
+  USER = 'USER',
+  ASSISTANT = 'ASSISTANT',
+  SYSTEM = 'SYSTEM',
 }
 
 export type ChatMessage = {
-  role: ChatRole;
-  content: string;
-  timestamp: number;
-};
+  role: ChatRole
+  content: string
+  timestamp: number
+}
 
 export const useCurrentChat = (chatId: string) => {
   const [storedMessages, setStoredMessages] = useStorage<ChatMessage[]>(
     `CHAT-${chatId}`,
-    []
-  );
-  const [messages, setMessages] = useState<ChatMessage[]>(storedMessages); // we don't directly update storedMessages for performance reasons
+    [],
+  )
+  const [messages, setMessages] = useState<ChatMessage[]>(storedMessages) // we don't directly update storedMessages for performance reasons
 
   const updateAssistantMessage = (chunk: string) => {
-    console.log("INSIDE UPDATE ASSISTANT MESSAGE");
+    console.log('INSIDE UPDATE ASSISTANT MESSAGE')
     setMessages((messages) => {
       if (messages[messages.length - 1].role === ChatRole.USER) {
         return [
@@ -31,31 +31,31 @@ export const useCurrentChat = (chatId: string) => {
             content: chunk,
             timestamp: Date.now(),
           },
-        ];
+        ]
       }
-      const lastMessage = messages[messages.length - 1];
-      lastMessage.content += chunk;
-      return [...messages];
-    });
-  };
+      const lastMessage = messages[messages.length - 1]
+      lastMessage.content += chunk
+      return [...messages]
+    })
+  }
 
   const addNewMessage = (role: ChatRole, message: string) => {
     const newMessage: ChatMessage = {
       role,
       content: message,
       timestamp: Date.now(),
-    };
-    setMessages([...messages, newMessage]);
-  };
+    }
+    setMessages([...messages, newMessage])
+  }
 
   const updateStoredMessages = () => {
-    setStoredMessages(messages);
-  };
+    setStoredMessages(messages)
+  }
 
   const clearMessages = () => {
-    setMessages([]);
-    updateStoredMessages();
-  };
+    setMessages([])
+    updateStoredMessages()
+  }
 
   return {
     messages,
@@ -63,5 +63,5 @@ export const useCurrentChat = (chatId: string) => {
     addNewMessage,
     updateStoredMessages,
     clearMessages,
-  };
-};
+  }
+}

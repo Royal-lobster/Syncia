@@ -1,16 +1,16 @@
-import { AvailableModels, Mode } from "../config/settings";
-import { ChatOpenAI } from "langchain/chat_models/openai";
-import { useCurrentChat, ChatRole } from "./useCurrentChat";
-import { useMemo } from "react";
-import { AIMessage, HumanMessage, SystemMessage } from "langchain/schema";
-import { useState } from "react";
+import { AvailableModels, Mode } from '../config/settings'
+import { ChatOpenAI } from 'langchain/chat_models/openai'
+import { useCurrentChat, ChatRole } from './useCurrentChat'
+import { useMemo } from 'react'
+import { AIMessage, HumanMessage, SystemMessage } from 'langchain/schema'
+import { useState } from 'react'
 
 interface UseChatCompletionProps {
-  model: AvailableModels;
-  apiKey: string;
-  mode: Mode;
-  systemPrompt: string;
-  chatId: string;
+  model: AvailableModels
+  apiKey: string
+  mode: Mode
+  systemPrompt: string
+  chatId: string
 }
 
 export const useChatCompletion = ({
@@ -26,10 +26,10 @@ export const useChatCompletion = ({
     addNewMessage,
     updateStoredMessages,
     clearMessages,
-  } = useCurrentChat(chatId);
-  const [generating, setGenerating] = useState(false);
+  } = useCurrentChat(chatId)
+  const [generating, setGenerating] = useState(false)
 
-  const controller = new AbortController();
+  const controller = new AbortController()
 
   const chat = useMemo(
     () =>
@@ -39,22 +39,22 @@ export const useChatCompletion = ({
         modelName: model,
         temperature: Number(mode),
       }),
-    []
-  );
+    [],
+  )
 
   const submitQuery = async (query: string) => {
-    addNewMessage(ChatRole.USER, query);
+    addNewMessage(ChatRole.USER, query)
     const previousMessages = messages.map((msg) => {
       switch (msg.role) {
         case ChatRole.ASSISTANT:
-          return new AIMessage(msg.content);
+          return new AIMessage(msg.content)
         case ChatRole.SYSTEM:
-          return new SystemMessage(msg.content);
+          return new SystemMessage(msg.content)
         case ChatRole.USER:
-          return new HumanMessage(msg.content);
+          return new HumanMessage(msg.content)
       }
-    });
-    setGenerating(true);
+    })
+    setGenerating(true)
     const response = await chat.call(
       [
         new SystemMessage(systemPrompt),
@@ -68,18 +68,18 @@ export const useChatCompletion = ({
             handleLLMNewToken: updateAssistantMessage,
           },
         ],
-      }
-    );
-    setGenerating(false);
-    updateStoredMessages();
-    return response.content;
-  };
+      },
+    )
+    setGenerating(false)
+    updateStoredMessages()
+    return response.content
+  }
 
   const cancelRequest = () => {
-    controller.abort();
-    updateStoredMessages();
-    setGenerating(false);
-  };
+    controller.abort()
+    updateStoredMessages()
+    setGenerating(false)
+  }
 
-  return { messages, submitQuery, generating, cancelRequest, clearMessages };
-};
+  return { messages, submitQuery, generating, cancelRequest, clearMessages }
+}

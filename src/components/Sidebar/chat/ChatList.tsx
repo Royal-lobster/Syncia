@@ -1,26 +1,26 @@
-import { ReactMarkdown } from "react-markdown/lib/react-markdown";
-import CodeBlock from "./markdown-components/CodeBlock";
-import remarkGfm from "remark-gfm";
-import { useEffect, useRef } from "react";
-import { Table } from "./markdown-components/Table";
-import remarkBreaks from "remark-breaks";
-import rehypeRaw from "rehype-raw";
-import { ChatMessage, ChatRole } from "../../../hooks/useCurrentChat";
+import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
+import CodeBlock from './markdown-components/CodeBlock'
+import remarkGfm from 'remark-gfm'
+import { useEffect, useRef } from 'react'
+import { Table } from './markdown-components/Table'
+import remarkBreaks from 'remark-breaks'
+import rehypeRaw from 'rehype-raw'
+import { ChatMessage, ChatRole } from '../../../hooks/useCurrentChat'
 
 interface ChatListProps {
-  messages: ChatMessage[];
+  messages: ChatMessage[]
 }
 
 const ChatList = ({ messages }: ChatListProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (containerRef.current) {
-      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+      containerRef.current.scrollTop = containerRef.current.scrollHeight
     }
-  }, [messages]);
+  }, [messages])
 
-  const filteredMsgs = messages.filter((msg) => msg.role !== ChatRole.SYSTEM);
+  const filteredMsgs = messages.filter((msg) => msg.role !== ChatRole.SYSTEM)
 
   return (
     <div
@@ -48,7 +48,7 @@ const ChatList = ({ messages }: ChatListProps) => {
           .filter((msg) => msg.role !== ChatRole.SYSTEM)
           .map((msg, i) => (
             <div
-              data-user={msg.role === ChatRole.USER ? "true" : undefined}
+              data-user={msg.role === ChatRole.USER ? 'true' : undefined}
               className="markdown cdx-px-4 cdx-py-2 data-[user]:cdx-border-l-2 cdx-border-blue-400 data-[user]:cdx-bg-black/5 data-[user]:dark:cdx-bg-neutral-900/50 cdx-max-w-[400px]"
               key={`${msg.timestamp}-${i}`}
             >
@@ -60,13 +60,13 @@ const ChatList = ({ messages }: ChatListProps) => {
                   table: Table,
                 }}
               >
-                {msg.content.replace(/(?<=\n\n)(?![*-])\n/gi, "&nbsp;\n ")}
+                {msg.content.replace(/(?<=\n\n)(?![*-])\n/gi, '&nbsp;\n ')}
               </ReactMarkdown>
             </div>
           ))
       )}
     </div>
-  );
-};
+  )
+}
 
-export default ChatList;
+export default ChatList
