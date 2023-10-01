@@ -38,8 +38,6 @@ export const useCurrentChat = () => {
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
-  console.log({ messages });
-
   // We use refs here to avoid stale closures
   // This will happen since we are calling addNewMessage
   // inside a callback.
@@ -104,10 +102,15 @@ export const useCurrentChat = () => {
     setStorage(getStoredChatKey(currentChatIdRef.current), messagesRef.current);
   };
 
-  const clearMessages = () => {
+  const clearMessages = async () => {
+    // delete the current chat history
     setMessages([]);
     chrome.storage.local.remove(`CHAT-${currentChatIdRef.current}`);
     deleteChatHistory(currentChatId);
+
+    // create a new chat history
+    const newId = createChatHistory(await getCurrentSiteHostName());
+    setCurrentChatId(newId);
   };
 
   return {
