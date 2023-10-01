@@ -59,6 +59,8 @@ export const useCurrentChat = () => {
       );
       if (storedMessages) {
         setMessages(storedMessages);
+      } else {
+        setMessages([]);
       }
     };
     fetchStoredMessages();
