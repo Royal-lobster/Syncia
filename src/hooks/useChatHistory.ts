@@ -41,6 +41,8 @@ export const useChatHistory = () => {
     currentChatIdAtom
   );
 
+  console.log({ history });
+
   const createChatHistory = (name: string, newId = getUUID()) => {
     setHistory((prev) => [
       ...prev,
@@ -57,7 +59,10 @@ export const useChatHistory = () => {
   };
 
   const deleteChatHistory = (id: string | null) => {
+    if (!id) return;
     setHistory((prev) => prev.filter((h) => h.id !== id));
+    const newCurrentChatId = history.find((h) => h.id !== id)?.id ?? null;
+    setCurrentChatId(newCurrentChatId); // FIXME: this is not working
   };
 
   const getChatHistory = (id: string) => {

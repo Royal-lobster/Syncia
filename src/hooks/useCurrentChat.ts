@@ -34,6 +34,9 @@ export const useCurrentChat = () => {
     deleteChatHistory,
     createChatHistory,
     setCurrentChatId,
+    history,
+    getChatHistory,
+    updateChatHistory,
   } = useChatHistory();
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -56,7 +59,7 @@ export const useCurrentChat = () => {
       );
       if (storedMessages) {
         setMessages(storedMessages);
-      } else {
+      } else if (history.length > 1) {
         setMessages([]);
       }
     };
@@ -82,9 +85,25 @@ export const useCurrentChat = () => {
   };
 
   const addNewMessage = async (role: ChatRole, message: string) => {
-    if (!currentChatIdRef.current) {
+    if (!currentChatIdRef.current || !history.length) {
+      console.log("🌟 Welcome New user ! creating your first chat history.");
       const newId = createChatHistory(await getCurrentSiteHostName());
       setCurrentChatId(newId);
+    }
+
+    const chatHistory = getChatHistory(currentChatIdRef.current!);
+    if (chatHistory?.name === "New Chat") {
+      const newChatName = await getCurrentSiteHostName();
+      // we update chat name letter by letter to give a typing effect
+      const updateChatName = (name: string) => {
+        updateChatHistory(currentChatIdRef.current!, name);
+        if (name.length < newChatName.length) {
+          setTimeout(() => {
+            updateChatName(newChatName.slice(0, name.length + 1));
+          }, 100);
+        }
+      };
+      updateChatName("");
     }
     const newMessage: ChatMessage = {
       role,
@@ -103,14 +122,10 @@ export const useCurrentChat = () => {
   };
 
   const clearMessages = async () => {
-    // delete the current chat history
+    if (!currentChatIdRef.current) return;
     setMessages([]);
     chrome.storage.local.remove(`CHAT-${currentChatIdRef.current}`);
-    deleteChatHistory(currentChatId);
-
-    // create a new chat history
-    const newId = createChatHistory(await getCurrentSiteHostName());
-    setCurrentChatId(newId);
+    deleteChatHistory(currentChatIdRef.current);
   };
 
   return {

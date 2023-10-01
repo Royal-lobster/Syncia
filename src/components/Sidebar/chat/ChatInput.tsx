@@ -53,7 +53,7 @@ export function SidebarInput({
         ) : (
           <div />
         )}
-        {(history || !chatIsEmpty) && <ChatHistory />}
+        {(history.length || !chatIsEmpty) && <ChatHistory />}
       </div>
 
       <div className="cdx-m-2 cdx-rounded-md cdx-border dark:cdx-border-neutral-800 cdx-border-neutral-300 dark:cdx-bg-neutral-900/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50">
