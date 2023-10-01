@@ -1,5 +1,5 @@
 import { useChatHistory } from '../../../hooks/useChatHistory'
-import * as Select from '@radix-ui/react-select'
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { RiAddLine, RiTimeLine } from 'react-icons/ri'
 import { generateReadableRelativeDate } from '../../../utils/generateReadableDate'
 import { getCurrentSiteHostName } from '../../../lib/getCurrentSiteHostName'
@@ -18,18 +18,18 @@ const ChatHistory = () => {
   const currentChat =  getChatHistory(currentChatId) 
 
   const handleCreateNewChat = async () => {
-    createChatHistory(await getCurrentSiteHostName())
+    const newId = createChatHistory(await getCurrentSiteHostName())
+    setCurrentChatId(newId)
   }
 
   return (
     <div>
-      <Select.Root>
-        <Select.Trigger className="cdx-border cdx-border-neutral-500/20 cdx-flex cdx-gap-2 cdx-items-center cdx-py-2 cdx-px-3 cdx-text-sm cdx-text-neutral-700 dark:cdx-text-neutral-300 cdx-rounded-md">
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger className="cdx-border cdx-border-neutral-500/20 cdx-flex cdx-gap-2 cdx-items-center cdx-py-2 cdx-px-3 cdx-text-sm cdx-text-neutral-700 dark:cdx-text-neutral-300 cdx-rounded-md">
           <RiTimeLine /> <span>{currentChat?.name}</span>
-        </Select.Trigger>
-        <Select.Content
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content
           side="top"
-          position="popper"
           className="cdx-w-full cdx-max-w-xs cdx-min-w-[230px] cdx-bg-white/90 dark:cdx-bg-[#1f1f1fe5] cdx-rounded-lg cdx-mb-1.5 cdx-pb-3 cdx-overflow-hidden"
         >
           <div className="cdx-backdrop-blur-md">
@@ -48,11 +48,9 @@ const ChatHistory = () => {
             </div>
             <div>
               {history.map((chat, i) => (
-                <Select.Item
-                  value={chat.id}
+                <DropdownMenu.Item
                   key={chat.id}
                   onSelect={() => {
-                    console.log("CLICKED")
                     setCurrentChatId(chat.id)
                   }}
                   className={`cdx-px-3 cdx-py-1.5 cdx-relative cdx-flex cdx-justify-between cdx-items-center cdx-border-b dark:cdx-border-b-[#2F2F2F] ${
@@ -71,12 +69,12 @@ const ChatHistory = () => {
                   <span className="cdx-text-[10px] cdx-text-[#898989] dark:cdx-text-white/50">
                     {generateReadableRelativeDate(chat.createdAt)}
                   </span>
-                </Select.Item>
+                </DropdownMenu.Item>
               ))}
             </div>
           </div>
-        </Select.Content>
-      </Select.Root>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
     </div>
   )
 }

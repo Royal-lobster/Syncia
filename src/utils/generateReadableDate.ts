@@ -1,47 +1,31 @@
+/**
+ * Generate a readable date from a date string
+ * such as Just now, 5 minutes ago, 1 hour ago, etc.
+ */
 export const generateReadableRelativeDate = (
   date: Date | number | string,
-  nowDate: Date | number | string = Date.now(),
-  rft: Intl.RelativeTimeFormat = new Intl.RelativeTimeFormat('en-US', {
-    numeric: 'auto',
-  }),
+  nowDate: Date | number | string = Date.now()
 ) => {
-  const SECOND = 1000
-  const MINUTE = 60 * SECOND
-  const HOUR = 60 * MINUTE
-  const DAY = 24 * HOUR
-  const WEEK = 7 * DAY
-  const MONTH = 30 * DAY
-  const YEAR = 365 * DAY
-  const intervals = [
-    { ge: YEAR, divisor: YEAR, unit: 'yr' },
-    { ge: MONTH, divisor: MONTH, unit: 'mo' },
-    { ge: WEEK, divisor: WEEK, unit: 'wk' },
-    { ge: DAY, divisor: DAY, unit: 'day' },
-    { ge: HOUR, divisor: HOUR, unit: 'hr' },
-    { ge: MINUTE, divisor: MINUTE, unit: 'min' },
-    { ge: 30 * SECOND, divisor: SECOND, unit: 'sec' },
-    { ge: 0, divisor: 1, text: 'just now' },
-  ]
-  const now =
-    typeof nowDate === 'object'
-      ? (nowDate as Date).getTime()
-      : new Date(nowDate).getTime()
-  const diff =
-    now -
-    (typeof date === 'object'
-      ? (date as Date).getTime()
-      : new Date(date).getTime())
-  const diffAbs = Math.abs(diff)
-  for (const interval of intervals) {
-    if (diffAbs >= interval.ge) {
-      const x = Math.round(Math.abs(diff) / interval.divisor)
-      const isFuture = diff < 0
-      return interval.unit
-        ? rft.format(
-            isFuture ? x : -x,
-            interval.unit as Intl.RelativeTimeFormatUnit,
-          )
-        : interval.text
-    }
+  const dateObj = new Date(date);
+  const nowDateObj = new Date(nowDate);
+
+  const diff = nowDateObj.getTime() - dateObj.getTime();
+
+  const seconds = Math.floor(diff / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+
+  if (seconds < 60) {
+    return "Just now";
+  } else if (minutes < 60) {
+    return `${minutes} mins ago`;
+  } else if (hours < 24) {
+    return `${hours} hr ago`;
+  } else {
+    return dateObj.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
   }
-}
+};

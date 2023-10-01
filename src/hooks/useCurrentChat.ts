@@ -38,6 +38,8 @@ export const useCurrentChat = () => {
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
+  console.log({ messages });
+
   // We use refs here to avoid stale closures
   // This will happen since we are calling addNewMessage
   // inside a callback.
@@ -49,6 +51,7 @@ export const useCurrentChat = () => {
   messagesRef.current = messages;
 
   useEffect(() => {
+    console.log("🔥", currentChatId);
     if (!currentChatId) return;
     const fetchStoredMessages = async () => {
       const storedMessages = await readStorage<ChatMessage[]>(
@@ -107,7 +110,7 @@ export const useCurrentChat = () => {
   };
 
   return {
-    messages,
+    messages: messagesRef.current,
     updateAssistantMessage,
     addNewMessage,
     commitToStoredMessages,
