@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { atom } from 'jotai'
 import { getUUID } from '../lib/getUUID'
 import { useStorage } from './useStorage'
 
@@ -9,12 +9,18 @@ interface ChatHistory {
   updatedAt: string
 }
 
+const initialChatId = getUUID()
+const historyAtom = atom<ChatHistory[]>([])
+const currentChatIdAtom = atom<string>(initialChatId)
+
 export const useChatHistory = () => {
-  const [history, setHistory] = useStorage<ChatHistory[]>('HISTORY', [])
-  const initialChatId = useMemo(getUUID, [])
+  const [history, setHistory] = useStorage<ChatHistory[]>(
+    'HISTORY',
+    historyAtom,
+  )
   const [currentChatId, setCurrentChatId] = useStorage<string>(
     'CURRENT_CHAT_ID',
-    initialChatId,
+    currentChatIdAtom,
   )
 
   const createChatHistory = (name: string, newId = getUUID()) => {

@@ -50,10 +50,10 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
           <div className="cdx-py-1 cdx-px-1.5 cdx-bg-neutral-200 dark:cdx-bg-neutral-700">
             <BsRobot
               size={15}
-              className='cdx-mt-0.5 cdx-fill-neutral-800 dark:cdx-fill-white'
+              className="cdx-mt-0.5 cdx-fill-neutral-800 dark:cdx-fill-white"
             />
           </div>
-          <span className='cdx-py-1 cdx-text-sm !cdx-font-sans cdx-px-1.5 cdx-mt-0.5'>
+          <span className="cdx-py-1 cdx-text-sm !cdx-font-sans cdx-px-1.5 cdx-mt-0.5">
             Syncia
           </span>
         </button>
@@ -68,7 +68,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
               .filter((i) => !i.prompt)
               .map((item) => (
                 <>
-                  <DropdownMenu.Label className='cdx-text-[10px] cdx-m-1 cdx-text-neutral-500 cdx-uppercase'>
+                  <DropdownMenu.Label className="cdx-text-[10px] cdx-m-1 cdx-text-neutral-500 cdx-uppercase">
                     {item.name}
                   </DropdownMenu.Label>
                   {item.children?.map((item) => (
@@ -81,7 +81,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
               ))}
 
             {noCategoryPrompts.length > 0 && (
-              <DropdownMenu.Label className='cdx-text-[10px] cdx-m-1 cdx-text-neutral-500 cdx-uppercase'>
+              <DropdownMenu.Label className="cdx-text-[10px] cdx-m-1 cdx-text-neutral-500 cdx-uppercase">
                 Uncategorized
               </DropdownMenu.Label>
             )}

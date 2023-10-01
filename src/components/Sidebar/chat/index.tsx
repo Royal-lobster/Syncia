@@ -7,17 +7,15 @@ import { Settings } from '../../../config/settings'
 
 interface ChatProps {
   settings: Settings
-  chatId: string
 }
 
-const Chat = ({ settings, chatId }: ChatProps) => {
+const Chat = ({ settings }: ChatProps) => {
   const { messages, submitQuery, clearMessages, generating, cancelRequest } =
     useChatCompletion({
       model: settings.chat.modal,
       apiKey: settings.chat.openAIKey!,
       mode: settings.chat.mode,
       systemPrompt: SYSTEM_PROMPT,
-      chatId,
     })
 
   useEffect(() => {

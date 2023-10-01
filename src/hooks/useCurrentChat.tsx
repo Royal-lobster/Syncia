@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useStorage } from './useStorage'
+import { atom } from 'jotai'
 
 export enum ChatRole {
   USER = 'USER',
@@ -13,10 +14,12 @@ export type ChatMessage = {
   timestamp: number
 }
 
+const storedMessagesAtom = atom<ChatMessage[]>([])
+
 export const useCurrentChat = (chatId: string) => {
   const [storedMessages, setStoredMessages] = useStorage<ChatMessage[]>(
     `CHAT-${chatId}`,
-    [],
+    storedMessagesAtom,
   )
   const [messages, setMessages] = useState<ChatMessage[]>(storedMessages) // we don't directly update storedMessages for performance reasons
 

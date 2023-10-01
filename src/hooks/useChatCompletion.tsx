@@ -4,13 +4,13 @@ import { useCurrentChat, ChatRole } from './useCurrentChat'
 import { useMemo } from 'react'
 import { AIMessage, HumanMessage, SystemMessage } from 'langchain/schema'
 import { useState } from 'react'
+import { useChatHistory } from './useChatHistory'
 
 interface UseChatCompletionProps {
   model: AvailableModels
   apiKey: string
   mode: Mode
   systemPrompt: string
-  chatId: string
 }
 
 export const useChatCompletion = ({
@@ -18,15 +18,16 @@ export const useChatCompletion = ({
   apiKey,
   mode,
   systemPrompt,
-  chatId,
 }: UseChatCompletionProps) => {
+  const { currentChatId } = useChatHistory()
+
   const {
     messages,
     updateAssistantMessage,
     addNewMessage,
     updateStoredMessages,
     clearMessages,
-  } = useCurrentChat(chatId)
+  } = useCurrentChat(currentChatId)
   const [generating, setGenerating] = useState(false)
 
   const controller = new AbortController()
