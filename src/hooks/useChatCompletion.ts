@@ -4,7 +4,6 @@ import { useCurrentChat, ChatRole } from "./useCurrentChat";
 import { useMemo } from "react";
 import { AIMessage, HumanMessage, SystemMessage } from "langchain/schema";
 import { useState } from "react";
-import { useChatHistory } from "./useChatHistory";
 
 interface UseChatCompletionProps {
   model: AvailableModels;
@@ -63,26 +62,21 @@ export const useChatCompletion = ({
   const controller = new AbortController();
 
   const submitQuery = async (query: string) => {
-    addNewMessage(ChatRole.USER, query);
+    await addNewMessage(ChatRole.USER, query);
+    const messages = [
+      new SystemMessage(systemPrompt),
+      ...previousMessages,
+      new HumanMessage(query),
+    ];
+    const options = {
+      signal: controller.signal,
+      callbacks: [{ handleLLMNewToken: updateAssistantMessage }],
+    };
     setGenerating(true);
-    const response = await chat.call(
-      [
-        new SystemMessage(systemPrompt),
-        ...previousMessages,
-        new HumanMessage(query),
-      ],
-      {
-        signal: controller.signal,
-        callbacks: [
-          {
-            handleLLMNewToken: updateAssistantMessage,
-          },
-        ],
-      }
-    );
-    setGenerating(false);
-    commitToStoredMessages();
-    return response.content;
+    chat.call(messages, options).then(() => {
+      commitToStoredMessages();
+      setGenerating(false);
+    });
   };
 
   const cancelRequest = () => {

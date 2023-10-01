@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { readStorage, setStorage, useStorage } from "./useStorage";
 import { atom } from "jotai";
 import { useChatHistory } from "./useChatHistory";
@@ -38,6 +38,16 @@ export const useCurrentChat = () => {
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
+  // We use refs here to avoid stale closures
+  // This will happen since we are calling addNewMessage
+  // inside a callback.
+  // For more info check out -
+  // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
+  const currentChatIdRef = useRef<string | null>();
+  currentChatIdRef.current = currentChatId;
+  const messagesRef = useRef<ChatMessage[]>([]);
+  messagesRef.current = messages;
+
   useEffect(() => {
     if (!currentChatId) return;
     const fetchStoredMessages = async () => {
@@ -70,13 +80,9 @@ export const useCurrentChat = () => {
   };
 
   const addNewMessage = async (role: ChatRole, message: string) => {
-    console.log("addNewMessage", role, message);
-    console.log("currentChatId", currentChatId);
-    if (!currentChatId) {
-      console.log("creating new chat history");
+    if (!currentChatIdRef.current) {
       const newId = createChatHistory(await getCurrentSiteHostName());
       setCurrentChatId(newId);
-      console.log("newId", newId);
     }
     const newMessage: ChatMessage = {
       role,
@@ -86,15 +92,17 @@ export const useCurrentChat = () => {
     setMessages([...messages, newMessage]);
   };
 
-  const commitToStoredMessages = () => {
-    console.log("commitToStoredMessages", currentChatId);
-
-    setStorage(getStoredChatKey(currentChatId), messages);
+  const commitToStoredMessages = async () => {
+    if (!currentChatIdRef.current) return;
+    console.log(
+      `📝 Committing ${messagesRef.current} to ${currentChatIdRef.current}`
+    );
+    setStorage(getStoredChatKey(currentChatIdRef.current), messagesRef.current);
   };
 
   const clearMessages = () => {
     setMessages([]);
-    chrome.storage.local.remove(`CHAT-${currentChatId}`);
+    chrome.storage.local.remove(`CHAT-${currentChatIdRef.current}`);
     deleteChatHistory(currentChatId);
   };
 
@@ -104,5 +112,6 @@ export const useCurrentChat = () => {
     addNewMessage,
     commitToStoredMessages,
     clearMessages,
+    currentChatId,
   };
 };

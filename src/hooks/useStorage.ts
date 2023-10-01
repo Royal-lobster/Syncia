@@ -1,12 +1,18 @@
-import { PrimitiveAtom, useAtom } from 'jotai'
-import { Dispatch, SetStateAction, useCallback, useEffect, useRef } from 'react'
+import { PrimitiveAtom, useAtom } from "jotai";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 
-export type StorageArea = 'sync' | 'local'
+export type StorageArea = "sync" | "local";
 
 // custom hook to set chrome local/sync storage
 // should also set a listener on this specific key
 
-type SetValue<T> = Dispatch<SetStateAction<T>>
+type SetValue<T> = Dispatch<SetStateAction<T>>;
 
 /**
  * Returns a stateful value from storage, and a function to update it.
@@ -14,48 +20,41 @@ type SetValue<T> = Dispatch<SetStateAction<T>>
 export function useStorage<T>(
   key: string,
   atom: PrimitiveAtom<T>,
-  area: StorageArea = 'local',
+  area: StorageArea = "local"
 ): [T, SetValue<T>] {
-  const [storedValue, setStoredValue] = useAtom(atom)
+  const [storedValue, setStoredValue] = useAtom(atom);
 
   useEffect(() => {
     readStorage<T>(key, area).then((res) => {
-      if (res) setStoredValue(res)
-    })
+      if (res) setStoredValue(res);
+    });
 
     chrome.storage.onChanged.addListener((changes, namespace) => {
       if (
         namespace === area &&
         Object.prototype.hasOwnProperty.call(changes, key)
       ) {
-        if (changes[key].newValue) setStoredValue(changes[key].newValue)
+        if (changes[key].newValue) setStoredValue(changes[key].newValue);
       }
-    })
-  }, [])
-
-  const setValueRef = useRef<SetValue<T>>()
-
-  setValueRef.current = (value) => {
-    // Allow value to be a function, so we have the same API as useState
-    const newValue = value instanceof Function ? value(storedValue) : value
-    // Save to storage
-    setStoredValue((prevState) => {
-      setStorage<T>(key, newValue, area).then((success) => {
-        if (!success) setStoredValue(prevState)
-      })
-
-      return newValue
-    })
-  }
+    });
+  }, []);
 
   // Return a wrapped version of useState's setter function that ...
   // ... persists the new value to storage.
-  const setValue: SetValue<T> = useCallback(
-    (value) => setValueRef.current?.(value),
-    [],
-  )
+  const setValue: SetValue<T> = useCallback((value) => {
+    // Allow value to be a function, so we have the same API as useState
+    const newValue = value instanceof Function ? value(storedValue) : value;
+    // Save to storage
+    setStoredValue((prevState) => {
+      setStorage<T>(key, newValue, area).then((success) => {
+        if (!success) setStoredValue(prevState);
+      });
 
-  return [storedValue, setValue]
+      return newValue;
+    });
+  }, []);
+
+  return [storedValue, setValue];
 }
 
 /**
@@ -66,14 +65,14 @@ export function useStorage<T>(
  */
 export async function readStorage<T>(
   key: string,
-  area: StorageArea = 'local',
+  area: StorageArea = "local"
 ): Promise<T | undefined> {
   try {
-    const result = await chrome.storage[area].get(key)
-    return result?.[key]
+    const result = await chrome.storage[area].get(key);
+    return result?.[key];
   } catch (error) {
-    console.warn(`Error reading ${area} storage key "${key}":`, error)
-    return undefined
+    console.warn(`Error reading ${area} storage key "${key}":`, error);
+    return undefined;
   }
 }
 
@@ -87,13 +86,13 @@ export async function readStorage<T>(
 export async function setStorage<T>(
   key: string,
   value: T,
-  area: StorageArea = 'local',
+  area: StorageArea = "local"
 ): Promise<boolean> {
   try {
-    await chrome.storage[area].set({ [key]: value })
-    return true
+    await chrome.storage[area].set({ [key]: value });
+    return true;
   } catch (error) {
-    console.warn(`Error setting ${area} storage key "${key}":`, error)
-    return false
+    console.warn(`Error setting ${area} storage key "${key}":`, error);
+    return false;
   }
 }

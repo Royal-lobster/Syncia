@@ -51,7 +51,10 @@ const ChatHistory = () => {
                 <Select.Item
                   value={chat.id}
                   key={chat.id}
-                  onSelect={() => setCurrentChatId(chat.id)}
+                  onSelect={() => {
+                    console.log("CLICKED")
+                    setCurrentChatId(chat.id)
+                  }}
                   className={`cdx-px-3 cdx-py-1.5 cdx-relative cdx-flex cdx-justify-between cdx-items-center cdx-border-b dark:cdx-border-b-[#2F2F2F] ${
                     i === history.length - 1
                       ? 'cdx-border-b-0'
