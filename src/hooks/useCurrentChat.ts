@@ -51,7 +51,6 @@ export const useCurrentChat = () => {
   messagesRef.current = messages;
 
   useEffect(() => {
-    console.log("🔥", currentChatId);
     if (!currentChatId) return;
     const fetchStoredMessages = async () => {
       const storedMessages = await readStorage<ChatMessage[]>(
