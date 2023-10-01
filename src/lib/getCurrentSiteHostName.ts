@@ -6,7 +6,6 @@ export const getCurrentSiteHostName = (): Promise<string> =>
         const data = JSON.parse(tab.vivExtData);
         const url = data.urlForThumbnail;
         const title = new URL(url).hostname;
-        console.log({ title });
         resolve(title);
       }
     });

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useStorage } from "./useStorage";
+import { useEffect, useState } from "react";
+import { readStorage, setStorage, useStorage } from "./useStorage";
 import { atom } from "jotai";
 import { useChatHistory } from "./useChatHistory";
 import { getCurrentSiteHostName } from "../lib/getCurrentSiteHostName";
@@ -16,8 +16,6 @@ export type ChatMessage = {
   timestamp: number;
 };
 
-const storedMessagesAtom = atom<ChatMessage[]>([]);
-
 export const getStoredChatKey = (chatId: string | null) => `CHAT-${chatId}`;
 
 /**
@@ -31,16 +29,29 @@ export const getStoredChatKey = (chatId: string | null) => `CHAT-${chatId}`;
  * the key `CHAT-${chatId}`.
  */
 export const useCurrentChat = () => {
-  const { currentChatId, deleteChatHistory, createChatHistory } =
-    useChatHistory();
-  const [storedMessages, setStoredMessages] = useStorage<ChatMessage[]>(
-    getStoredChatKey(currentChatId),
-    storedMessagesAtom
-  );
-  const [messages, setMessages] = useState<ChatMessage[]>(storedMessages); // we don't directly update storedMessages for performance reasons
+  const {
+    currentChatId,
+    deleteChatHistory,
+    createChatHistory,
+    setCurrentChatId,
+  } = useChatHistory();
+
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+
+  useEffect(() => {
+    if (!currentChatId) return;
+    const fetchStoredMessages = async () => {
+      const storedMessages = await readStorage<ChatMessage[]>(
+        getStoredChatKey(currentChatId)
+      );
+      if (storedMessages) {
+        setMessages(storedMessages);
+      }
+    };
+    fetchStoredMessages();
+  }, [currentChatId]);
 
   const updateAssistantMessage = (chunk: string) => {
-    console.log("INSIDE UPDATE ASSISTANT MESSAGE");
     setMessages((messages) => {
       if (messages[messages.length - 1].role === ChatRole.USER) {
         return [
@@ -59,8 +70,13 @@ export const useCurrentChat = () => {
   };
 
   const addNewMessage = async (role: ChatRole, message: string) => {
+    console.log("addNewMessage", role, message);
+    console.log("currentChatId", currentChatId);
     if (!currentChatId) {
-      createChatHistory(await getCurrentSiteHostName());
+      console.log("creating new chat history");
+      const newId = createChatHistory(await getCurrentSiteHostName());
+      setCurrentChatId(newId);
+      console.log("newId", newId);
     }
     const newMessage: ChatMessage = {
       role,
@@ -71,7 +87,9 @@ export const useCurrentChat = () => {
   };
 
   const commitToStoredMessages = () => {
-    setStoredMessages(messages);
+    console.log("commitToStoredMessages", currentChatId);
+
+    setStorage(getStoredChatKey(currentChatId), messages);
   };
 
   const clearMessages = () => {

@@ -41,7 +41,7 @@ export const useChatHistory = () => {
     currentChatIdAtom
   );
 
-  console.log({ history, currentChatId });
+  console.log({ currentChatId });
 
   const createChatHistory = (name: string, newId = getUUID()) => {
     setHistory((prev) => [
