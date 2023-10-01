@@ -1,12 +1,12 @@
-import { atom } from "jotai";
-import { getUUID } from "../lib/getUUID";
-import { useStorage } from "./useStorage";
+import { atom } from 'jotai'
+import { getUUID } from '../lib/getUUID'
+import { useStorage } from './useStorage'
 
 interface ChatHistory {
-  id: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
+  id: string
+  name: string
+  createdAt: string
+  updatedAt: string
 }
 
 /**
@@ -16,8 +16,8 @@ interface ChatHistory {
  * When user enters a new message for the first time,
  * we create a new chat history and set it as the current chat
  */
-const historyAtom = atom<ChatHistory[]>([]);
-const currentChatIdAtom = atom<string | null>(null);
+const historyAtom = atom<ChatHistory[]>([])
+const currentChatIdAtom = atom<string | null>(null)
 
 /**
  * This hook is responsible for managing the chat history
@@ -33,13 +33,13 @@ const currentChatIdAtom = atom<string | null>(null);
  */
 export const useChatHistory = () => {
   const [history, setHistory] = useStorage<ChatHistory[]>(
-    "HISTORY",
-    historyAtom
-  );
+    'HISTORY',
+    historyAtom,
+  )
   const [currentChatId, setCurrentChatId] = useStorage<string | null>(
-    "CURRENT_CHAT_ID",
-    currentChatIdAtom
-  );
+    'CURRENT_CHAT_ID',
+    currentChatIdAtom,
+  )
 
   const createChatHistory = (name: string, newId = getUUID()) => {
     setHistory((prev) => [
@@ -50,29 +50,29 @@ export const useChatHistory = () => {
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       },
-    ]);
-    setCurrentChatId(newId);
+    ])
+    setCurrentChatId(newId)
 
-    return newId;
-  };
+    return newId
+  }
 
   const deleteChatHistory = async (id: string | null) => {
-    if (!id) return;
-    chrome.storage.local.remove(`CHAT-${id}`);
-    setHistory((prev) => prev.filter((h) => h.id !== id));
-    const newCurrentChatId = history.find((h) => h.id !== id)?.id ?? null;
+    if (!id) return
+    chrome.storage.local.remove(`CHAT-${id}`)
+    setHistory((prev) => prev.filter((h) => h.id !== id))
+    const newCurrentChatId = history.find((h) => h.id !== id)?.id ?? null
 
     //TODO: This is a work around to make sure the current chat id is updated
     // when message is deleted from the chat history dropdown menu cuz onSelect
     // will also trigger when the user clicks on the delete button. we need
     // to rethink UI/UX for this
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    setCurrentChatId(newCurrentChatId);
-  };
+    await new Promise((resolve) => setTimeout(resolve, 100))
+    setCurrentChatId(newCurrentChatId)
+  }
 
   const getChatHistory = (id: string) => {
-    return history.find((h) => h.id === id);
-  };
+    return history.find((h) => h.id === id)
+  }
 
   const updateChatHistory = (id: string, name: string) => {
     setHistory((prev) =>
@@ -82,12 +82,12 @@ export const useChatHistory = () => {
             ...h,
             name,
             updatedAt: new Date().toISOString(),
-          };
+          }
         }
-        return h;
-      })
-    );
-  };
+        return h
+      }),
+    )
+  }
 
   return {
     currentChatId,
@@ -97,5 +97,5 @@ export const useChatHistory = () => {
     getChatHistory,
     updateChatHistory,
     history,
-  };
-};
+  }
+}
