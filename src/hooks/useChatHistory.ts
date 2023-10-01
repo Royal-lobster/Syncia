@@ -58,6 +58,7 @@ export const useChatHistory = () => {
 
   const deleteChatHistory = async (id: string | null) => {
     if (!id) return;
+    chrome.storage.local.remove(`CHAT-${id}`);
     setHistory((prev) => prev.filter((h) => h.id !== id));
     const newCurrentChatId = history.find((h) => h.id !== id)?.id ?? null;
 
@@ -65,7 +66,7 @@ export const useChatHistory = () => {
     // when message is deleted from the chat history dropdown menu cuz onSelect
     // will also trigger when the user clicks on the delete button. we need
     // to rethink UI/UX for this
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 100));
     setCurrentChatId(newCurrentChatId);
   };
 

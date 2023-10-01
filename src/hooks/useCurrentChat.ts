@@ -124,7 +124,6 @@ export const useCurrentChat = () => {
   const clearMessages = async () => {
     if (!currentChatIdRef.current) return;
     setMessages([]);
-    chrome.storage.local.remove(`CHAT-${currentChatIdRef.current}`);
     deleteChatHistory(currentChatIdRef.current);
   };
 
