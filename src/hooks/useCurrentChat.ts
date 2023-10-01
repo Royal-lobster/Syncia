@@ -1,22 +1,21 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { readStorage, setStorage, useStorage } from './useStorage'
-import { atom } from 'jotai'
-import { useChatHistory } from './useChatHistory'
-import { getCurrentSiteHostName } from '../lib/getCurrentSiteHostName'
+import { useEffect, useRef, useState } from "react";
+import { getCurrentSiteHostName } from "../lib/getCurrentSiteHostName";
+import { useChatHistory } from "./useChatHistory";
+import { readStorage, setStorage } from "./useStorage";
 
 export enum ChatRole {
-  USER = 'USER',
-  ASSISTANT = 'ASSISTANT',
-  SYSTEM = 'SYSTEM',
+  USER = "USER",
+  ASSISTANT = "ASSISTANT",
+  SYSTEM = "SYSTEM",
 }
 
 export type ChatMessage = {
-  role: ChatRole
-  content: string
-  timestamp: number
-}
+  role: ChatRole;
+  content: string;
+  timestamp: number;
+};
 
-export const getStoredChatKey = (chatId: string | null) => `CHAT-${chatId}`
+export const getStoredChatKey = (chatId: string | null) => `CHAT-${chatId}`;
 
 /**
  * This hook is responsible for managing the current chat
@@ -37,34 +36,34 @@ export const useCurrentChat = () => {
     history,
     getChatHistory,
     updateChatHistory,
-  } = useChatHistory()
+  } = useChatHistory();
 
-  const [messages, setMessages] = useState<ChatMessage[]>([])
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   // We use refs here to avoid stale closures
   // This will happen since we are calling addNewMessage
   // inside a callback.
   // For more info check out -
   // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
-  const currentChatIdRef = useRef<string | null>()
-  currentChatIdRef.current = currentChatId
-  const messagesRef = useRef<ChatMessage[]>([])
-  messagesRef.current = messages
+  const currentChatIdRef = useRef<string | null>();
+  currentChatIdRef.current = currentChatId;
+  const messagesRef = useRef<ChatMessage[]>([]);
+  messagesRef.current = messages;
 
   useEffect(() => {
-    if (!currentChatId) return
+    if (!currentChatId) return;
     const fetchStoredMessages = async () => {
       const storedMessages = await readStorage<ChatMessage[]>(
-        getStoredChatKey(currentChatId),
-      )
+        getStoredChatKey(currentChatId)
+      );
       if (storedMessages) {
-        setMessages(storedMessages)
+        setMessages(storedMessages);
       } else if (history.length > 1) {
-        setMessages([])
+        setMessages([]);
       }
-    }
-    fetchStoredMessages()
-  }, [currentChatId])
+    };
+    fetchStoredMessages();
+  }, [currentChatId]);
 
   const updateAssistantMessage = (chunk: string) => {
     setMessages((messages) => {
@@ -76,56 +75,56 @@ export const useCurrentChat = () => {
             content: chunk,
             timestamp: Date.now(),
           },
-        ]
+        ];
       }
-      const lastMessage = messages[messages.length - 1]
-      lastMessage.content += chunk
-      return [...messages]
-    })
-  }
+      const lastMessage = messages[messages.length - 1];
+      lastMessage.content += chunk;
+      return [...messages];
+    });
+  };
 
   const addNewMessage = async (role: ChatRole, message: string) => {
     if (!currentChatIdRef.current || !history.length) {
-      console.log('🌟 Welcome New user ! creating your first chat history.')
-      const newId = createChatHistory(await getCurrentSiteHostName())
-      setCurrentChatId(newId)
+      console.log("🌟 Welcome New user ! creating your first chat history.");
+      const newId = createChatHistory(await getCurrentSiteHostName());
+      setCurrentChatId(newId);
     }
 
-    const chatHistory = getChatHistory(currentChatIdRef.current!)
-    if (chatHistory?.name === 'New Chat') {
-      const newChatName = await getCurrentSiteHostName()
+    const chatHistory = getChatHistory(currentChatIdRef.current!);
+    if (chatHistory?.name === "New Chat") {
+      const newChatName = await getCurrentSiteHostName();
       // we update chat name letter by letter to give a typing effect
       const updateChatName = (name: string) => {
-        updateChatHistory(currentChatIdRef.current!, name)
+        updateChatHistory(currentChatIdRef.current!, name);
         if (name.length < newChatName.length) {
           setTimeout(() => {
-            updateChatName(newChatName.slice(0, name.length + 1))
-          }, 100)
+            updateChatName(newChatName.slice(0, name.length + 1));
+          }, 100);
         }
-      }
-      updateChatName('')
+      };
+      updateChatName("");
     }
     const newMessage: ChatMessage = {
       role,
       content: message,
       timestamp: Date.now(),
-    }
-    setMessages([...messages, newMessage])
-  }
+    };
+    setMessages([...messages, newMessage]);
+  };
 
   const commitToStoredMessages = async () => {
-    if (!currentChatIdRef.current) return
+    if (!currentChatIdRef.current) return;
     console.log(
-      `📝 Committing ${messagesRef.current} to ${currentChatIdRef.current}`,
-    )
-    setStorage(getStoredChatKey(currentChatIdRef.current), messagesRef.current)
-  }
+      `📝 Committing ${messagesRef.current} to ${currentChatIdRef.current}`
+    );
+    setStorage(getStoredChatKey(currentChatIdRef.current), messagesRef.current);
+  };
 
   const clearMessages = async () => {
-    if (!currentChatIdRef.current) return
-    setMessages([])
-    deleteChatHistory(currentChatIdRef.current)
-  }
+    if (!currentChatIdRef.current) return;
+    setMessages([]);
+    deleteChatHistory(currentChatIdRef.current);
+  };
 
   return {
     messages: messagesRef.current,
@@ -134,5 +133,5 @@ export const useCurrentChat = () => {
     commitToStoredMessages,
     clearMessages,
     currentChatId,
-  }
-}
+  };
+};
