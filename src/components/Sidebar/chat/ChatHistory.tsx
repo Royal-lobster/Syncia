@@ -24,9 +24,6 @@ const ChatHistory = () => {
 
   const handleChatDelete = (id: string) => {
     deleteChatHistory(id);
-    if (id === currentChatId) {
-      setCurrentChatId(history[0].id);
-    }
   };
 
   return (
@@ -58,6 +55,7 @@ const ChatHistory = () => {
                 <DropdownMenu.Item
                   key={chat.id}
                   onSelect={() => {
+                    alert("CLICKED")
                     setCurrentChatId(chat.id);
                   }}
                   className={`cdx-px-3 cdx-py-1.5 cdx-relative cdx-flex cdx-gap-3 cdx-justify-between cdx-items-center cdx-border-b dark:cdx-border-b-[#2F2F2F] ${

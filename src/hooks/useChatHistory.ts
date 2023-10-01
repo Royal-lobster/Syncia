@@ -58,11 +58,17 @@ export const useChatHistory = () => {
     return newId;
   };
 
-  const deleteChatHistory = (id: string | null) => {
+  const deleteChatHistory = async (id: string | null) => {
     if (!id) return;
     setHistory((prev) => prev.filter((h) => h.id !== id));
     const newCurrentChatId = history.find((h) => h.id !== id)?.id ?? null;
-    setCurrentChatId(newCurrentChatId); // FIXME: this is not working
+
+    //TODO: This is a work around to make sure the current chat id is updated
+    // when message is deleted from the chat history dropdown menu cuz onSelect
+    // will also trigger when the user clicks on the delete button. we need
+    // to rethink UI/UX for this
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setCurrentChatId(newCurrentChatId);
   };
 
   const getChatHistory = (id: string) => {
