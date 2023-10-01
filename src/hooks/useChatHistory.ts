@@ -1,8 +1,6 @@
 import { atom } from "jotai";
 import { getUUID } from "../lib/getUUID";
-import { readStorage, useStorage } from "./useStorage";
-import { getStoredChatKey } from "./useCurrentChat";
-import { getCurrentSiteHostName } from "../lib/getCurrentSiteHostName";
+import { useStorage } from "./useStorage";
 
 interface ChatHistory {
   id: string;
@@ -11,19 +9,39 @@ interface ChatHistory {
   updatedAt: string;
 }
 
-const initialChatId = getUUID();
+/**
+ * Default history state starts with an empty array
+ * Default currentChatId state starts with null
+ *
+ * When user enters a new message for the first time,
+ * we create a new chat history and set it as the current chat
+ */
 const historyAtom = atom<ChatHistory[]>([]);
-const currentChatIdAtom = atom<string>(initialChatId);
+const currentChatIdAtom = atom<string | null>(null);
 
+/**
+ * This hook is responsible for managing the chat history
+ * and the current chat id.
+ *
+ * The chat history is an array of chat objects which
+ * contain the chat id, name, createdAt, and updatedAt.
+ * (Actual chat messages are stored separately for
+ * performance reasons -- see useCurrentChat.ts)
+ *
+ * The current chat id is the id of the chat that the user
+ * is currently viewing.
+ */
 export const useChatHistory = () => {
   const [history, setHistory] = useStorage<ChatHistory[]>(
     "HISTORY",
     historyAtom
   );
-  const [currentChatId, setCurrentChatId] = useStorage<string>(
+  const [currentChatId, setCurrentChatId] = useStorage<string | null>(
     "CURRENT_CHAT_ID",
     currentChatIdAtom
   );
+
+  console.log({ history, currentChatId });
 
   const createChatHistory = (name: string, newId = getUUID()) => {
     setHistory((prev) => [
@@ -40,7 +58,7 @@ export const useChatHistory = () => {
     return newId;
   };
 
-  const deleteChatHistory = (id: string) => {
+  const deleteChatHistory = (id: string | null) => {
     setHistory((prev) => prev.filter((h) => h.id !== id));
   };
 
@@ -63,29 +81,13 @@ export const useChatHistory = () => {
     );
   };
 
-  const initializeChatHistory = async () => {
-    const currentHistory = await readStorage<ChatHistory[]>(
-      getStoredChatKey(currentChatId),
-      "local"
-    );
-
-    if (currentHistory?.length) {
-      updateChatHistory(currentChatId, await getCurrentSiteHostName());
-    } else {
-      createChatHistory(await getCurrentSiteHostName());
-    }
-  };
-
-  if (currentChatId === initialChatId) {
-    initializeChatHistory();
-  }
-
   return {
     currentChatId,
     setCurrentChatId,
     createChatHistory,
     deleteChatHistory,
     getChatHistory,
+    updateChatHistory,
     history,
   };
 };

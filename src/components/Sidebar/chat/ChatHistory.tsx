@@ -13,7 +13,9 @@ const ChatHistory = () => {
     createChatHistory,
   } = useChatHistory()
 
-  const currentChat = getChatHistory(currentChatId)
+  if(!currentChatId) return null
+
+  const currentChat =  getChatHistory(currentChatId) 
 
   const handleCreateNewChat = async () => {
     createChatHistory(await getCurrentSiteHostName())
