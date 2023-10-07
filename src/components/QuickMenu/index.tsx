@@ -1,5 +1,5 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { BsRobot } from 'react-icons/bs'
 import { usePrompts } from '../../hooks/usePrompts'
 import useThemeSync from '../../hooks/useThemeSync'
@@ -67,17 +67,18 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
             {prompts
               .filter((i) => !i.prompt)
               .map((item) => (
-                <>
+                <React.Fragment key={item.id}>
                   <DropdownMenu.Label className="cdx-text-[10px] cdx-m-1 cdx-text-neutral-500 cdx-uppercase">
                     {item.name}
                   </DropdownMenu.Label>
                   {item.children?.map((item) => (
                     <RecursiveItem
+                      key={item.id}
                       item={item}
                       handleGenerate={handleGenerate}
                     />
                   ))}
-                </>
+                </React.Fragment>
               ))}
 
             {noCategoryPrompts.length > 0 && (
