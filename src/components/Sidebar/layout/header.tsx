@@ -32,6 +32,7 @@ const Header = () => {
 
       <div className="cdx-flex cdx-text-neutral-500 cdx-gap-2 cdx-items-center">
         <button
+          type="button"
           onClick={handleModifyShortcut}
           className="cdx-flex cdx-items-center cdx-gap-2"
         >
@@ -47,7 +48,7 @@ const Header = () => {
         >
           <HiOutlineCog />
         </a>
-        <button className="cdx-text-xl" onClick={onToggle}>
+        <button type="button" className="cdx-text-xl" onClick={onToggle}>
           <HiX />
         </button>
       </div>

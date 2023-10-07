@@ -25,10 +25,11 @@ const DialogPortal = ({
       <Dialog.Title className="cdx-text-2xl cdx-m-0 cdx-mb-4 cdx-border-b cdx-border-b-neutral-500/20 cdx-pb-4">
         {title}
       </Dialog.Title>
-      <div className='cdx-text-base'>{children}</div>
+      <div className="cdx-text-base">{children}</div>
       <div className="cdx-flex cdx-gap-3 cdx-justify-end cdx-mt-4">
         {secondaryAction && (
           <button
+            type="button"
             className="cdx-text-neutral-400 hover:cdx-text-neutral-300 cdx-px-4 cdx-py-2 cdx-rounded-sm cdx-bg-neutral-100 dark:cdx-bg-neutral-600 hover:cdx-bg-neutral-200 focus:cdx-bg-neutral-200 focus:cdx-outline-none"
             onClick={secondaryAction}
           >
@@ -37,6 +38,7 @@ const DialogPortal = ({
         )}
         {primaryAction && (
           <button
+            type="button"
             className="cdx-text-white cdx-px-4 cdx-py-2 cdx-rounded-sm cdx-text-sm cdx-bg-blue-500 hover:cdx-bg-blue-600 focus:cdx-bg-blue-600 focus:cdx-outline-none"
             onClick={primaryAction}
           >
@@ -46,6 +48,7 @@ const DialogPortal = ({
       </div>
       <Dialog.Close asChild>
         <button
+          type="button"
           className="cdx-text-neutral-500 hover:cdx-text-neutral-400 cdx-absolute cdx-top-7 cdx-right-7 cdx-inline-flex cdx-h-[25px] cdx-w-[25px] cdx-appearance-none cdx-items-center cdx-justify-center focus:cdx-outline-none"
           aria-label="Close"
         >
