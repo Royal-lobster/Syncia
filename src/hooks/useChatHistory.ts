@@ -62,6 +62,8 @@ export const useChatHistory = () => {
     setHistory((prev) => prev.filter((h) => h.id !== id))
     const newCurrentChatId = history.find((h) => h.id !== id)?.id ?? null
     setCurrentChatId(newCurrentChatId)
+    if (!newCurrentChatId) {
+    }
   }
 
   const getChatHistory = (id: string) => {
