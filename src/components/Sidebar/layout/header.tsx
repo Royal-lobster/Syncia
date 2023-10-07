@@ -43,6 +43,7 @@ const Header = () => {
         <a
           target="_blank"
           rel="noreferrer"
+          tabIndex={0}
           className="cdx-text-xl"
           href={settingsPage}
         >
