@@ -34,7 +34,7 @@ const ChatHistory = () => {
         </DropdownMenu.Trigger>
         <DropdownMenu.Content
           side="top"
-          className="cdx-w-full cdx-max-w-xs cdx-min-w-[230px] cdx-bg-white/90 dark:cdx-bg-[#1f1f1fe5] cdx-rounded-lg cdx-mb-1.5 cdx-pb-3 cdx-overflow-hidden focus:cdx-ring-transparent"
+          className="cdx-max-w-xs cdx-w-[280px] cdx-bg-white/90 dark:cdx-bg-[#1f1f1fe5] cdx-rounded-lg cdx-mb-1.5 cdx-pb-3 cdx-overflow-hidden focus:cdx-ring-transparent"
         >
           <div className="cdx-backdrop-blur-md">
             <div className="cdx-flex cdx-justify-between cdx-items-center cdx-p-3 cdx-border-b-[#E5E7EB] cdx-border-b dark:cdx-border-b-[#2F2F2F]">
@@ -70,14 +70,17 @@ const ChatHistory = () => {
                   <div className="cdx-flex cdx-gap-2 cdx-justify-center cdx-items-center">
                     <button
                       type="button"
-                      onClick={() => handleChatDelete(chat.id)}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleChatDelete(chat.id)
+                      }}
                     >
                       <RiCloseCircleFill
                         size={14}
                         className="cdx-text-gray-500"
                       />
                     </button>
-                    <span className="cdx-text-sm dark:cdx-text-[#E3E3E3] cdx-text-[#5A5A5A]">
+                    <span className="cdx-text-sm cdx-truncate dark:cdx-text-[#E3E3E3] cdx-text-[#5A5A5A]">
                       {chat.name}
                     </span>
                   </div>
