@@ -76,12 +76,10 @@ th {
 }
 .markdown ul {
   list-style-type: disc;
-  list-style-position: inside;
   padding-left: 1rem;
 }
 .markdown ol {
   list-style-type: decimal;
-  list-style-position: inside;
   padding-left: 1rem;
 }
 .markdown li {
