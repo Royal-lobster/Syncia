@@ -1,11 +1,5 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-} from 'react'
+import { PrimitiveAtom, useAtom } from 'jotai'
+import { Dispatch, SetStateAction, useCallback, useEffect, useRef } from 'react'
 
 export type StorageArea = 'sync' | 'local'
 
@@ -19,10 +13,10 @@ type SetValue<T> = Dispatch<SetStateAction<T>>
  */
 export function useStorage<T>(
   key: string,
-  initialValue: T,
+  atom: PrimitiveAtom<T>,
   area: StorageArea = 'local',
 ): [T, SetValue<T>] {
-  const [storedValue, setStoredValue] = useState<T>(initialValue)
+  const [storedValue, setStoredValue] = useAtom(atom)
 
   useEffect(() => {
     readStorage<T>(key, area).then((res) => {

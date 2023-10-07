@@ -26,20 +26,20 @@ export const DeletePromptButton = ({ id }: { id: string }) => {
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
         <button
-          className='cdx-rounded-sm cdx-p-1 dark:cdx-bg-red-500/50 cdx-bg-red-300/50'
+          className="cdx-rounded-sm cdx-p-1 dark:cdx-bg-red-500/50 cdx-bg-red-300/50"
           type="button"
         >
           <HiTrash />
         </button>
       </Dialog.Trigger>
       <DialogPortal
-        title='Delete Prompt ?'
+        title="Delete Prompt ?"
         primaryAction={() => {
           handleDelete()
           setOpen(false)
         }}
         secondaryAction={() => setOpen(false)}
-        primaryText='Delete'
+        primaryText="Delete"
       >
         You are about to delete this prompt. This action cannot be undone.
       </DialogPortal>

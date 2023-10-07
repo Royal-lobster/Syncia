@@ -24,14 +24,15 @@ const Header = () => {
   }, [])
 
   return (
-    <div className="cdx-flex cdx-justify-between cdx-p-3.5 cdx-border-b dark:cdx-border-neutral-700/50 cdx-border-neutral-200">
+    <div className="cdx-flex cdx-justify-between cdx-p-3.5 cdx-border-b dark:cdx-border-neutral-700/50 cdx-border-neutral-300">
       <h1 className="cdx-text-2xl cdx-flex cdx-items-center cdx-gap-2 cdx-m-0 cdx-p-0">
-        <BsRobot className='cdx-text-blue-400' />
+        <BsRobot className="cdx-text-blue-400" />
         Syncia
       </h1>
 
-      <div className='cdx-flex cdx-text-neutral-500 cdx-gap-2 cdx-items-center'>
+      <div className="cdx-flex cdx-text-neutral-500 cdx-gap-2 cdx-items-center">
         <button
+          type="button"
           onClick={handleModifyShortcut}
           className="cdx-flex cdx-items-center cdx-gap-2"
         >
@@ -40,14 +41,15 @@ const Header = () => {
           </span>
         </button>
         <a
-          target='_blank'
+          target="_blank"
           rel="noreferrer"
+          tabIndex={0}
           className="cdx-text-xl"
           href={settingsPage}
         >
           <HiOutlineCog />
         </a>
-        <button className="cdx-text-xl" onClick={onToggle}>
+        <button type="button" className="cdx-text-xl" onClick={onToggle}>
           <HiX />
         </button>
       </div>

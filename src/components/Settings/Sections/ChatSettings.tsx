@@ -68,28 +68,28 @@ const ChatSettings = () => {
   }
 
   return (
-    <div className='cdx-w-full cdx-flex-shrink-0 cdx-rounded-md'>
-      <SectionHeading title='Chat' />
+    <div className="cdx-w-full cdx-flex-shrink-0 cdx-rounded-md">
+      <SectionHeading title="Chat" />
 
       {/* =========================
               OPEN AI KEY 
       ===========================*/}
 
       <FieldWrapper
-        title='Open AI Key'
-        description='You can get your Open AI key from https://beta.openai.com/account/api-keys'
+        title="Open AI Key"
+        description="You can get your Open AI key from https://beta.openai.com/account/api-keys"
         onSubmit={handleOpenAiKeySubmit}
       >
-        <div className='cdx-flex cdx-gap-2 cdx-items-center'>
+        <div className="cdx-flex cdx-gap-2 cdx-items-center">
           <input
             required
             pattern="sk-[a-zA-Z0-9]{48}"
-            className='input'
+            className="input"
             ref={apiKeyInputRef}
-            placeholder='sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+            placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
             defaultValue={chatSettings.openAIKey || ''}
           />
-          <button type="submit" className='btn'>
+          <button type="submit" className="btn">
             Update
           </button>
         </div>
@@ -100,13 +100,13 @@ const ChatSettings = () => {
       ===========================*/}
 
       <FieldWrapper
-        title='Modal'
-        description='Choose between OpenAI Chat Modals. For more information, visit https://platform.openai.com/docs/models/overview'
+        title="Modal"
+        description="Choose between OpenAI Chat Modals. For more information, visit https://platform.openai.com/docs/models/overview"
         row={true}
       >
         <select
           value={chatSettings.modal}
-          className='input cdx-w-44'
+          className="input cdx-w-44"
           onChange={handleModalChange}
         >
           {Object.values(AvailableModels).map((modal) => (
@@ -122,14 +122,14 @@ const ChatSettings = () => {
       ===========================*/}
 
       <FieldWrapper
-        title='Mode'
-        description='Tweak temperature of response. Creative will generate more non deterministic responses, Precise will generate more deterministic responses.'
+        title="Mode"
+        description="Tweak temperature of response. Creative will generate more non deterministic responses, Precise will generate more deterministic responses."
         row={true}
       >
         <select
           value={chatSettings.mode}
           onChange={handleModeChange}
-          className='input cdx-w-36'
+          className="input cdx-w-36"
         >
           {Object.entries(Mode).map(([mode, value]) => (
             <option key={value} value={value}>

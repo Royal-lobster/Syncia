@@ -2,10 +2,10 @@ import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
 import CodeBlock from './markdown-components/CodeBlock'
 import remarkGfm from 'remark-gfm'
 import { useEffect, useRef } from 'react'
-import { ChatMessage, ChatRole } from '../../../hooks/useOpenAI'
 import { Table } from './markdown-components/Table'
 import remarkBreaks from 'remark-breaks'
 import rehypeRaw from 'rehype-raw'
+import { ChatMessage, ChatRole } from '../../../hooks/useCurrentChat'
 
 interface ChatListProps {
   messages: ChatMessage[]
