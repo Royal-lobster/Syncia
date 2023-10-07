@@ -29,12 +29,13 @@ const ChatHistory = () => {
   return (
     <div>
       <DropdownMenu.Root>
-        <DropdownMenu.Trigger className="cdx-border cdx-border-neutral-500/20 cdx-flex cdx-gap-2 cdx-items-center cdx-py-2 cdx-px-3 cdx-text-sm cdx-text-neutral-700 dark:cdx-text-neutral-300 cdx-rounded-md">
-          <RiTimeLine /> <span>{currentChat?.name}</span>
+        <DropdownMenu.Trigger className="cdx-border cdx-max-w-[280px] dark:cdx-bg-neutral-800/80 cdx-backdrop-blur cdx-border-neutral-500/20 cdx-flex cdx-gap-2 cdx-items-center cdx-py-2 cdx-px-3 cdx-text-sm cdx-text-neutral-700 dark:cdx-text-neutral-300 cdx-rounded-md">
+          <RiTimeLine size={18} className="cdx-flex-shrink-0" />{' '}
+          <span className="cdx-truncate">{currentChat?.name}</span>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content
           side="top"
-          className="cdx-max-w-xs cdx-w-[280px] cdx-bg-white/90 dark:cdx-bg-[#1f1f1fe5] cdx-rounded-lg cdx-mb-1.5 cdx-pb-3 cdx-overflow-hidden focus:cdx-ring-transparent"
+          className="cdx-max-w-xs cdx-w-[280px] cdx-bg-white/90 dark:cdx-bg-neutral-800/80 cdx-rounded-lg cdx-mb-1.5 cdx-pb-3 cdx-overflow-hidden focus:cdx-ring-transparent"
         >
           <div className="cdx-backdrop-blur-md">
             <div className="cdx-flex cdx-justify-between cdx-items-center cdx-p-3 cdx-border-b-[#E5E7EB] cdx-border-b dark:cdx-border-b-[#2F2F2F]">
@@ -63,11 +64,13 @@ const ChatHistory = () => {
                       : 'cdx-border-b-[#E5E7EB]'
                   } cdx-cursor-pointer`}
                 >
-                  <div
-                    className="cdx-absolute cdx-left-0 cdx-h-full cdx-w-[3px] data-[currentChat]:cdx-bg-[#70A3F3]"
-                    data-currentChat={currentChat?.id === chat.id || undefined}
-                  />
                   <div className="cdx-flex cdx-gap-2 cdx-justify-center cdx-items-center">
+                    <div
+                      className="cdx-absolute cdx-left-0 cdx-h-full cdx-w-[3px] data-[currentChat]:cdx-bg-[#70A3F3]"
+                      data-currentChat={
+                        currentChat?.id === chat.id || undefined
+                      }
+                    />
                     <button
                       type="button"
                       onClick={(e) => {
@@ -80,13 +83,16 @@ const ChatHistory = () => {
                         className="cdx-text-gray-500"
                       />
                     </button>
-                    <span className="cdx-text-sm cdx-truncate dark:cdx-text-[#E3E3E3] cdx-text-[#5A5A5A]">
+                    <span
+                      title={chat.name}
+                      className="cdx-text-sm cdx-truncate cdx-max-w-[160px] dark:cdx-text-neutral-300 cdx-text-neutral-600"
+                    >
                       {chat.name}
                     </span>
+                    <span className="cdx-text-[10px] cdx-text-neutral-500 dark:cdx-text-neutral-400">
+                      {generateReadableRelativeDate(chat.createdAt)}
+                    </span>
                   </div>
-                  <span className="cdx-text-[10px] cdx-text-[#898989] dark:cdx-text-white/50">
-                    {generateReadableRelativeDate(chat.createdAt)}
-                  </span>
                 </DropdownMenu.Item>
               ))}
             </div>
