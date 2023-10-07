@@ -66,8 +66,8 @@ const ChatHistory = () => {
                 >
                   <div className="cdx-flex cdx-gap-2 cdx-justify-center cdx-items-center">
                     <div
-                      className="cdx-absolute cdx-left-0 cdx-h-full cdx-w-[3px] data-[currentChat]:cdx-bg-[#70A3F3]"
-                      data-currentChat={
+                      className="cdx-absolute cdx-left-0 cdx-h-full cdx-w-[3px] data-[current-chat]:cdx-bg-[#70A3F3]"
+                      data-current-chat={
                         currentChat?.id === chat.id || undefined
                       }
                     />
