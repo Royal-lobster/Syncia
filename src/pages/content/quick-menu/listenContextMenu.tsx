@@ -9,8 +9,9 @@ import { generatePromptInSidebar } from '../../../lib/generatePromptInSidebar'
  */
 
 chrome.runtime.onMessage.addListener(async (request) => {
-  const { payload } = request
-  const { selectedText, id } = payload || { selectedText: '', id: '' }
+  const {
+    payload: { selectedText, id },
+  } = request
 
   if (selectedText && id) {
     const prompt = (await findPrompt(id)).prompt
