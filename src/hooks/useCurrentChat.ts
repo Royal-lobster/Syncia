@@ -118,7 +118,7 @@ export const useCurrentChat = () => {
       content: message,
       timestamp: Date.now(),
     }
-    setMessages([...messages, newMessage])
+    setMessages([...messagesRef.current, newMessage])
   }
 
   const commitToStoredMessages = async () => {
