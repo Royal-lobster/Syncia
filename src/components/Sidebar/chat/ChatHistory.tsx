@@ -35,7 +35,7 @@ const ChatHistory = () => {
         </DropdownMenu.Trigger>
         <DropdownMenu.Content
           side="top"
-          className="cdx-max-w-xs cdx-w-[280px] cdx-bg-white/90 dark:cdx-bg-neutral-800/80 cdx-rounded-lg cdx-mb-1.5 cdx-pb-3 cdx-overflow-hidden focus:outline-none"
+          className="cdx-max-w-xs cdx-mr-3 cdx-w-[280px] cdx-bg-white/90 dark:cdx-bg-neutral-800/80 cdx-rounded-lg cdx-mb-1.5 cdx-pb-3 cdx-overflow-hidden focus:outline-none"
         >
           <div className="cdx-backdrop-blur-md">
             <div className="cdx-flex cdx-justify-between cdx-items-center cdx-p-3 cdx-border-b-[#E5E7EB] cdx-border-b dark:cdx-border-b-[#2F2F2F]">
