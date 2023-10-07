@@ -83,15 +83,17 @@ const ChatHistory = () => {
                         className="cdx-text-gray-500"
                       />
                     </button>
-                    <span
-                      title={chat.name}
-                      className="cdx-text-sm cdx-truncate cdx-max-w-[160px] dark:cdx-text-neutral-300 cdx-text-neutral-600"
-                    >
-                      {chat.name}
-                    </span>
-                    <span className="cdx-text-[10px] cdx-text-neutral-500 dark:cdx-text-neutral-400">
-                      {generateReadableRelativeDate(chat.createdAt)}
-                    </span>
+                    <div className="cdx-flex cdx-justify-between cdx-items-center cdx-gap-2">
+                      <span
+                        title={chat.name}
+                        className="cdx-text-sm cdx-truncate cdx-max-w-[160px] dark:cdx-text-neutral-300 cdx-text-neutral-600"
+                      >
+                        {chat.name}
+                      </span>
+                      <span className="cdx-text-[10px] cdx-text-neutral-500 dark:cdx-text-neutral-400">
+                        {generateReadableRelativeDate(chat.createdAt)}
+                      </span>
+                    </div>
                   </div>
                 </DropdownMenu.Item>
               ))}
