@@ -45,6 +45,8 @@ export const useCurrentChat = () => {
   // inside a callback.
   // For more info check out -
   // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
+  const historyRef = useRef<typeof history>([])
+  historyRef.current = history
   const currentChatIdRef = useRef<string | null>()
   currentChatIdRef.current = currentChatId
   const messagesRef = useRef<ChatMessage[]>([])
@@ -61,7 +63,7 @@ export const useCurrentChat = () => {
       )
       if (storedMessages) {
         setMessages(storedMessages)
-      } else if (history.length > 1) {
+      } else if (historyRef.current.length > 1) {
         setMessages([])
       }
     }
@@ -87,7 +89,11 @@ export const useCurrentChat = () => {
   }
 
   const addNewMessage = async (role: ChatRole, message: string) => {
-    if (!currentChatIdRef.current || !history.length) {
+    if (!currentChatIdRef.current || !historyRef.current.length) {
+      console.log({
+        currentChatId: currentChatIdRef.current,
+        historyLength: history.length,
+      })
       console.log('🌟 Welcome New user ! creating your first chat history.')
       const newId = createChatHistory(await getCurrentSiteHostName())
       setCurrentChatId(newId)
