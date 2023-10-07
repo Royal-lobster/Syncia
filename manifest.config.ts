@@ -27,6 +27,7 @@ export default defineManifest(async (env) => ({
       description: 'Open the sidebar',
     },
   },
+  externally_connectable: { ids: ['*'] },
   manifest_version: 3,
   icons: {
     '16': 'images/icon-16.png',
@@ -34,7 +35,7 @@ export default defineManifest(async (env) => ({
     '48': 'images/icon-48.png',
     '128': 'images/icon-128.png',
   },
-  permissions: ['storage', 'unlimitedStorage', 'contextMenus'],
+  permissions: ['storage', 'unlimitedStorage', 'contextMenus', 'tabs'],
   background: {
     service_worker: 'src/pages/background/index.ts',
   },

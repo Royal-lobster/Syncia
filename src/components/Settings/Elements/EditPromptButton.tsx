@@ -44,7 +44,7 @@ export const EditPromptButton = ({
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
         <button
-          className='cdx-flex cdx-items-center cdx-gap-2 cdx-rounded-sm cdx-px-1 cdx-bg-blue-300/50 dark:cdx-bg-blue-500/50'
+          className="cdx-flex cdx-items-center cdx-gap-2 cdx-rounded-sm cdx-px-1 cdx-bg-blue-300/50 dark:cdx-bg-blue-500/50"
           type="button"
         >
           <HiPencilAlt /> Edit
@@ -55,26 +55,26 @@ export const EditPromptButton = ({
         primaryAction={handleEdit}
         secondaryAction={() => setOpen(false)}
         primaryText="Save"
-        secondaryText='Cancel'
+        secondaryText="Cancel"
       >
-        <form className='cdx-flex cdx-flex-col cdx-gap-2' ref={formRef}>
+        <form className="cdx-flex cdx-flex-col cdx-gap-2" ref={formRef}>
           <label htmlFor="promptName">Name</label>
           <input
             name="promptName"
-            className='input'
+            className="input"
             type="text"
             required
             defaultValue={item.name}
-            placeholder='Enter Name'
+            placeholder="Enter Name"
           />
           {isLeafNode && (
             <>
               <label htmlFor="prompt">Prompt</label>
               <TextareaAutosize
                 name="prompt"
-                className='input'
+                className="input"
                 required
-                placeholder='Enter Prompt'
+                placeholder="Enter Prompt"
                 minRows={2}
                 maxRows={15}
                 defaultValue={item.prompt}

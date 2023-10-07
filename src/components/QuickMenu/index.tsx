@@ -1,5 +1,5 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { BsRobot } from 'react-icons/bs'
 import { usePrompts } from '../../hooks/usePrompts'
 import useThemeSync from '../../hooks/useThemeSync'
@@ -50,10 +50,10 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
           <div className="cdx-py-1 cdx-px-1.5 cdx-bg-neutral-200 dark:cdx-bg-neutral-700">
             <BsRobot
               size={15}
-              className='cdx-mt-0.5 cdx-fill-neutral-800 dark:cdx-fill-white'
+              className="cdx-mt-0.5 cdx-fill-neutral-800 dark:cdx-fill-white"
             />
           </div>
-          <span className='cdx-py-1 cdx-text-sm !cdx-font-sans cdx-px-1.5 cdx-mt-0.5'>
+          <span className="cdx-py-1 cdx-text-sm !cdx-font-sans cdx-px-1.5 cdx-mt-0.5">
             Syncia
           </span>
         </button>
@@ -67,21 +67,22 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
             {prompts
               .filter((i) => !i.prompt)
               .map((item) => (
-                <>
-                  <DropdownMenu.Label className='cdx-text-[10px] cdx-m-1 cdx-text-neutral-500 cdx-uppercase'>
+                <React.Fragment key={item.id}>
+                  <DropdownMenu.Label className="cdx-text-[10px] cdx-m-1 cdx-text-neutral-500 cdx-uppercase">
                     {item.name}
                   </DropdownMenu.Label>
                   {item.children?.map((item) => (
                     <RecursiveItem
+                      key={item.id}
                       item={item}
                       handleGenerate={handleGenerate}
                     />
                   ))}
-                </>
+                </React.Fragment>
               ))}
 
             {noCategoryPrompts.length > 0 && (
-              <DropdownMenu.Label className='cdx-text-[10px] cdx-m-1 cdx-text-neutral-500 cdx-uppercase'>
+              <DropdownMenu.Label className="cdx-text-[10px] cdx-m-1 cdx-text-neutral-500 cdx-uppercase">
                 Uncategorized
               </DropdownMenu.Label>
             )}

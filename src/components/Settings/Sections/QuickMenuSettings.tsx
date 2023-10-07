@@ -37,15 +37,15 @@ const QuickMenuSettings = () => {
   }
 
   return (
-    <div className='cdx-w-full cdx-flex-shrink-0 cdx-rounded-md'>
-      <SectionHeading title='Quick Menu' />
+    <div className="cdx-w-full cdx-flex-shrink-0 cdx-rounded-md">
+      <SectionHeading title="Quick Menu" />
 
       {/* =========================
         Enable Visible Quick Menu 
       ===========================*/}
       <FieldWrapper
-        title='Enable Quick Menu'
-        description='This will enable the quick menu which appears bellow text selection on any webpage. I recommend disabling it if you feel it intrusive, you can still use your prompts on selected text by right clicking and selecting the prompt from the context menu.'
+        title="Enable Quick Menu"
+        description="This will enable the quick menu which appears bellow text selection on any webpage. I recommend disabling it if you feel it intrusive, you can still use your prompts on selected text by right clicking and selecting the prompt from the context menu."
         row={true}
       >
         <Switch.Root
@@ -65,8 +65,8 @@ const QuickMenuSettings = () => {
         description="You can exclude sites from the quick menu by adding them here. (separated by comma) supports wildcards."
       >
         <TextareaAutosize
-          className='input'
-          placeholder='Eg: google.com, youtube.com, twitter.com'
+          className="input"
+          placeholder="Eg: google.com, youtube.com, twitter.com"
           minRows={2}
           value={quickMenuSettings.excludedSites.join(', ')}
           onChange={handleExcludeSitesChange}

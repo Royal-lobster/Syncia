@@ -21,16 +21,16 @@ const GeneralSettings = () => {
 
   return (
     <div>
-      <SectionHeading title='General Settings' />
+      <SectionHeading title="General Settings" />
 
       <FieldWrapper
-        title='Theme'
-        description='Change theme of the sidebar and quick menu'
+        title="Theme"
+        description="Change theme of the sidebar and quick menu"
         row
       >
         <select
           value={generalSettings?.theme || ThemeOptions.SYSTEM}
-          className='input cdx-w-44'
+          className="input cdx-w-44"
           onChange={handleThemeChange}
         >
           {Object.values(ThemeOptions).map((theme) => (

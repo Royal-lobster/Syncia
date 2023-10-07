@@ -4,6 +4,7 @@ import { HiDocumentText, HiFolder } from 'react-icons/hi'
 import TextareaAutosize from 'react-textarea-autosize'
 import { Prompt, usePrompts } from '../../../hooks/usePrompts'
 import DialogPortal from '../../Layout/DialogPortal'
+import { getUUID } from '../../../lib/getUUID'
 
 export const AddItemButton = ({ isCategory }: { isCategory: boolean }) => {
   const [open, setOpen] = useState(false)
@@ -19,7 +20,7 @@ export const AddItemButton = ({ isCategory }: { isCategory: boolean }) => {
     const newPrompt = formData.get('prompt') as string
 
     const item = {
-      id: crypto.randomUUID(),
+      id: getUUID(),
       name: newName,
       prompt: isCategory ? undefined : newPrompt,
       children: isCategory ? [] : undefined,
@@ -37,14 +38,14 @@ export const AddItemButton = ({ isCategory }: { isCategory: boolean }) => {
       <Dialog.Trigger asChild>
         {isCategory ? (
           <button
-            className='btn !cdx-py-1 cdx-text-sm dark:cdx-bg-neutral-600 cdx-bg-neutral-400 hover:cdx-bg-neutral-500 hover:dark:cdx-bg-neutral-700'
-            type='button'
+            className="btn !cdx-py-1 cdx-text-sm dark:cdx-bg-neutral-600 cdx-bg-neutral-400 hover:cdx-bg-neutral-500 hover:dark:cdx-bg-neutral-700"
+            type="button"
           >
             <HiFolder />
             <span>Add Category</span>
           </button>
         ) : (
-          <button className='btn !cdx-py-1 cdx-text-sm' type='button'>
+          <button className="btn !cdx-py-1 cdx-text-sm" type="button">
             <HiDocumentText />
             <span>Add Prompt</span>
           </button>
@@ -55,25 +56,25 @@ export const AddItemButton = ({ isCategory }: { isCategory: boolean }) => {
         primaryAction={handleAdd}
         secondaryAction={() => setOpen(false)}
         primaryText="Save"
-        secondaryText='Cancel'
+        secondaryText="Cancel"
       >
-        <form className='cdx-flex cdx-flex-col cdx-gap-2' ref={formRef}>
+        <form className="cdx-flex cdx-flex-col cdx-gap-2" ref={formRef}>
           <label htmlFor="promptName">Name</label>
           <input
             name="promptName"
-            className='input'
+            className="input"
             type="text"
             required
-            placeholder='Enter Name'
+            placeholder="Enter Name"
           />
           {!isCategory && (
             <>
               <label htmlFor="prompt">Prompt</label>
               <TextareaAutosize
                 name="prompt"
-                className='input'
+                className="input"
                 required
-                placeholder='Enter Prompt'
+                placeholder="Enter Prompt"
                 minRows={2}
                 maxRows={15}
               />
