@@ -30,7 +30,6 @@ const CodeBlock = (props: CodeProps) => {
   ) : (
     <code
       className={`${modClass} cdx-bg-gray-200 dark:cdx-bg-gray-700 cdx-outline-gray-200 dark:cdx-outline-gray-700 cdx-rounded cdx-outline cdx-break-words`}
-      {...props}
     >
       {children}
     </code>

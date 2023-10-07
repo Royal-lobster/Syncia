@@ -27,6 +27,7 @@ export default defineManifest(async (env) => ({
       description: 'Open the sidebar',
     },
   },
+  externally_connectable: { ids: ['*'] },
   manifest_version: 3,
   icons: {
     '16': 'images/icon-16.png',
