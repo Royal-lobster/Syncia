@@ -51,7 +51,7 @@ const ChatHistory = () => {
                 New Chat
               </button>
             </div>
-            <div>
+            <div className="cdx-max-h-96 cdx-overflow-y-auto">
               {history.map((chat, i) => (
                 <DropdownMenu.Item
                   key={chat.id}
