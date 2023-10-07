@@ -52,21 +52,35 @@ export const useCurrentChat = () => {
   const messagesRef = useRef<ChatMessage[]>([])
   messagesRef.current = messages
 
-  useEffect(() => {
-    if (!currentChatId) {
+  const fetchStoredMessages = async () => {
+    // Between tabs, the currentChatId or currentChatIdRef.current not getting updated
+    // so we need to fetch it from the storage.
+    const storedChatId = await readStorage<string | null>('CURRENT_CHAT_ID')
+    if (!storedChatId) {
+      console.log('🌟 No current chat id found.')
       setMessages([])
       return
     }
-    const fetchStoredMessages = async () => {
-      const storedMessages = await readStorage<ChatMessage[]>(
-        getStoredChatKey(currentChatId),
-      )
-      if (storedMessages) {
-        setMessages(storedMessages)
-      } else if (historyRef.current.length > 1) {
-        setMessages([])
-      }
+    const storedMessages = await readStorage<ChatMessage[]>(
+      getStoredChatKey(storedChatId),
+    )
+    if (storedMessages) {
+      setMessages(storedMessages)
+    } else if (history.length > 1) {
+      setMessages([])
     }
+  }
+
+  // We need to fetch stored messages when the tab is changed
+  // so if changes were made in another tab, we can reflect them
+  useEffect(() => {
+    chrome.tabs.onActivated.addListener(fetchStoredMessages)
+    return () => chrome.tabs.onActivated.removeListener(fetchStoredMessages)
+  }, [])
+
+  // We need to fetch stored messages when the current chat id changes
+  // we get new history from the storage stored with the new id
+  useEffect(() => {
     fetchStoredMessages()
   }, [currentChatId])
 
@@ -96,6 +110,7 @@ export const useCurrentChat = () => {
       })
       console.log('🌟 Welcome New user ! creating your first chat history.')
       const newId = createChatHistory(await getCurrentSiteHostName())
+      console.log({ newId })
       setCurrentChatId(newId)
     }
 
@@ -118,14 +133,11 @@ export const useCurrentChat = () => {
       content: message,
       timestamp: Date.now(),
     }
-    setMessages([...messagesRef.current, newMessage])
+    setMessages((m) => [...m, newMessage])
   }
 
   const commitToStoredMessages = async () => {
     if (!currentChatIdRef.current) return
-    console.log(
-      `📝 Committing ${messagesRef.current} to ${currentChatIdRef.current}`,
-    )
     setStorage(getStoredChatKey(currentChatIdRef.current), messagesRef.current)
   }
 
