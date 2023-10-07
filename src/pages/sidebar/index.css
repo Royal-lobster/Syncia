@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
-  @apply focus:cdx-outline-none focus-visible:cdx-ring
-}
 
 .syncia_table-container {
   width: 100%;

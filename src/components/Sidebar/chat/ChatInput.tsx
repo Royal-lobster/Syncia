@@ -63,7 +63,7 @@ export function SidebarInput({
           placeholder="Type your message here..."
           value={text}
           disabled={loading}
-          className="cdx-p-3 cdx-w-full focus:cdx-ring-transparent cdx-text-sm cdx-resize-none cdx-max-h-96 cdx-pb-0 cdx-bg-transparent !cdx-border-none focus:!cdx-outline-none"
+          className="cdx-p-3 cdx-w-full focus:!cdx-outline-none cdx-text-sm cdx-resize-none cdx-max-h-96 cdx-pb-0 cdx-bg-transparent !cdx-border-none"
           onChange={(e) => {
             e.preventDefault()
             setText(e.target.value)
