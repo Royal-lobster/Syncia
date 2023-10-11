@@ -25,6 +25,7 @@ export default defineConfig({
       input: {
         sidebar: 'src/pages/sidebar/index.html',
         settings: 'src/pages/settings/index.html',
+        welcome: 'src/pages/welcome/index.html',
       },
     },
   },

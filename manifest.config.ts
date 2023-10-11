@@ -59,6 +59,7 @@ export default defineManifest(async (env) => ({
         'src/pages/sidebar/index.html',
         'images/robot.png',
         'src/pages/settings/index.html',
+        'src/pages/welcome/index.html',
       ],
       matches: ['http://*/*', 'https://*/*'],
     },
