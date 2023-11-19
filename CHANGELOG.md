@@ -1,5 +1,11 @@
 # syncia
 
+## 1.0.1
+
+### Patch Changes
+
+- 260a23d3: fix new chat button on light mode
+
 ## 1.0.0
 
 ### Major Changes
