@@ -15,7 +15,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "release": "publish-extension --chrome-zip \"artifacts/chrome.zip\" --chrome-extension-id \"$CHROME_EXTENSION_ID\" --chrome-client-id \"$CHROME_CLIENT_ID\" --chrome-client-secret \"$CHROME_CLIENT_SECRET\" --chrome-refresh-token \"$CHROME_REFRESH_TOKEN\"",
+    "release": "yarn build && publish-extension --chrome-zip \"artifacts/chrome.zip\" --chrome-extension-id \"$CHROME_EXTENSION_ID\" --chrome-client-id \"$CHROME_CLIENT_ID\" --chrome-client-secret \"$CHROME_CLIENT_SECRET\" --chrome-refresh-token \"$CHROME_REFRESH_TOKEN\"",
     "release:cli": "dotenv -e .env -- publish-extension --chrome-zip \"artifacts/chrome.zip\" --chrome-extension-id \"$CHROME_EXTENSION_ID\" --chrome-client-id \"$CHROME_CLIENT_ID\" --chrome-client-secret \"$CHROME_CLIENT_SECRET\" --chrome-refresh-token \"$CHROME_REFRESH_TOKEN\"",
     "format": "rome format . --write",
     "lint": "rome check .",
