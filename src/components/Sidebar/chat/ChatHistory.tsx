@@ -44,7 +44,7 @@ const ChatHistory = () => {
               </h1>
               <button
                 type="button"
-                className="cdx-flex cdx-items-center cdx-bg-[#3B82F6] cdx-gap-1.5 cdx-px-2.5 cdx-py-1.5 cdx-rounded-sm cdx-font-medium"
+                className="cdx-flex cdx-items-center cdx-text-white cdx-bg-[#3B82F6] cdx-gap-1.5 cdx-px-2.5 cdx-py-1.5 cdx-rounded-sm cdx-font-medium"
                 onClick={handleCreateNewChat}
               >
                 <RiAddLine />
