@@ -1,8 +1,0 @@
-
-require-macros:
-   earl-mocha ->
-      describe, it
-      before, after, before-each, after-each
-      assert, asserts
-      expect-error
-      xdescribe, xit

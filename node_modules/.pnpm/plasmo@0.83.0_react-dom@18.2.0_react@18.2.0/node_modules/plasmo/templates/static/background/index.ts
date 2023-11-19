@@ -1,2 +1,0 @@
-import "./messaging"
-import "~background"
