@@ -1,0 +1,290 @@
+
+require-macros:
+   earl-mocha ->
+      describe, it, before, after
+      xdescribe, xit
+      assert, asserts
+      expect-error
+
+require:
+   ../src ->
+      TYPEID
+      register, register-all
+      register-singleton, register-singletons
+      Serializer, default-serializer, serialize, deserialize
+      shallow-copy, deep-copy
+
+round{x} =
+   deserialize{serialize{x}}
+
+test-round{ser = default-serializer, x} =
+   assert ser.round{x} == x
+
+method Serializer.prototype.round{x} =
+   @deserialize{@serialize{x}}
+
+method Serializer.prototype.test-round{x} =
+   test-round{@, x}
+
+ok{obj} =
+   ser = serialize{obj}
+   obj2 = deserialize{ser}
+   obj == obj2
+
+ok-date{obj} =
+   ser = serialize{obj}
+   obj2 = deserialize{ser}
+   Date? obj and Date? obj2 and String{obj} == String{obj2}
+
+describe "serialize and deserialize":
+
+   describe "primitives":
+      asserts:
+         ok: true
+         ok: false
+         ok: null
+         ok: undefined
+
+   describe "numbers":
+      asserts:
+         ok: 0
+         ok: -13
+         ok: 123
+         ok: 10e24
+
+   describe "strings":
+      asserts:
+         ok: "hello world"
+         ok: "a\nbb\n  cc     dd"
+         ok: "\u25c0 \u25b6"
+         ok: "\"hi\" 'there'"
+
+   describe "objects":
+      asserts:
+         ok: {a = 1, b = 2}
+         ok: {a = {w = 1, x = 2}, b = {y = 3, z = 4}}
+         ok: {hello = "world"}
+
+   describe "arrays":
+      asserts:
+         ok: {1, 2, 3}
+         ok: {"a", "b", {a = 3, b = {c = 5}}}
+
+   describe "dates":
+      asserts:
+         ok-date: new Date{}
+         ok-date: new Date{"2000/05/24"}
+
+
+s{} =
+   class Summer:
+      constructor{@a, @b} =
+         pass
+      sum{} =
+         @a + @b
+
+describe "register":
+
+   it "classes":
+      Summer = s{}
+      register{Summer.prototype, {type-id = "c:0"}}
+      obj = Summer{10, 11}
+      obj2 = deserialize{serialize{obj}}
+      assert Summer? obj2
+      assert obj2.sum{} === 21
+
+   it "classes (when constructor given)":
+      Summer = s{}
+      register{Summer, {type-id = "c:02"}}
+      obj = Summer{10, 11}
+      obj2 = deserialize{serialize{obj}}
+      assert Summer? obj2
+      assert obj2.sum{} === 21
+
+   it "custom serialization":
+      Summer = s{}
+      register{Summer.prototype} with {
+         type-id = "c:1"
+         serialize{x} =
+            '{x.a * 2}/{x.b * 2}'
+         deserialize{x} =
+            Summer{*x.split{"/"}}
+      }
+      obj = Summer{10, 11}
+      obj2 = deserialize{serialize{obj}}
+      assert Summer? obj2
+      assert obj2.sum{} === "2022"
+
+   it "functions":
+      register-singleton{"f:0"}! f{x} =
+         x * x
+      assert ok{f}
+      assert deserialize{serialize{f}}{4} === 16
+
+   it "register-singletons":
+      f{x} = x * x
+      g{x} = x * 2
+      register-singletons{{f, g}, "f:1"}
+      assert ok{f}
+      assert ok{g}
+      assert f[TYPEID] === 'f:1/f'
+      assert g[TYPEID] === 'f:1/g'
+
+   it "register-singletons (2)":
+      f{x} = x * x
+      g{x} = x * 2
+      register-singletons{{f, g}, {package = {name = "quack", version = "3.2.1"}}}
+      assert ok{f}
+      assert ok{g}
+      assert f[TYPEID] === "npm:quack/f"
+      assert g[TYPEID] === "npm:quack/g"
+
+
+class charlie:
+   f{} = 1234
+
+describe "id generation":
+
+   it "variants":
+      g{name} =
+         b = {=}
+         b[name]{} = "name!!"
+         register{b, {type-id = "C:2", variant = name}}
+         b
+
+      {.alice, .bob, .charlie} each name ->
+         proto = g{name}
+         obj = Object.create{proto} &: {'${name}' => '{name}?'}
+         obj2 = round{obj}
+         assert obj[name]{} === obj2[name]{}
+         assert obj['${name}'] === '{name}?'
+         assert proto[TYPEID] === 'C:2/"{name}"'
+
+   it "from package information":
+      mkpkg{use-version} =
+         {ignore-prototype = true
+          package = {name = "olive", version = "3.2.1"}
+          = use-version}
+
+      test{obj, opts, expected} =
+         register{obj, opts}
+         assert obj[TYPEID] === expected
+
+      alice{} = 123
+
+      test{alice, mkpkg{null}, "npm:olive/alice"}
+      test{{name = "bob"}, mkpkg{.major}, "npm:olive@3/bob"}
+      test{charlie.prototype, mkpkg{.minor}, "npm:olive@3.2/charlie"}
+      test{{name = "diana"}, mkpkg{.patch}, "npm:olive@3.2.1/diana"}
+
+   it "from package information (data version)":
+      mkpkg{use-version} =
+         {ignore-prototype = true
+          package = {name = "oliver", version = "0.0.0", data-version = "3.2.1"}
+          = use-version}
+
+      test{obj, opts, expected} =
+         register{obj, opts}
+         assert obj[TYPEID] === expected
+
+      alice{} = 123
+
+      test{alice, mkpkg{null}, "npm:oliver/alice"}
+      test{{name = "bob"}, mkpkg{.major}, "npm:oliver@d3/bob"}
+      test{charlie.prototype, mkpkg{.minor}, "npm:oliver@d3.2/charlie"}
+      test{{name = "diana"}, mkpkg{.patch}, "npm:oliver@d3.2.1/diana"}
+
+
+class A:
+   hello{} = "hello"
+   [^Symbol.equals]{x} = A? x
+class B:
+   bonjour{} = "bonjour"
+   [^Symbol.equals]{x} = B? x
+
+describe "whitelisting":
+
+   before:
+      register{A.prototype} with {type-id = "c:A"}
+      register{B.prototype} with {type-id = "c:B"}
+      @s = Serializer{"c:A"}
+
+   it "allows builtins":
+      using @s:
+         @test-round{3}
+         @test-round{"hello"}
+         @test-round{{1, 2, 3, 4}}
+         @test-round{a = 1, b = 2, c = {d = 3, e = 4}}
+
+   it "allows classes in whitelist":
+      using @s:
+         @test-round with A{}
+         @test-round with {A{}, A{}, 3, 4}
+
+   it "does not allow classes not in whitelist":
+      using @s:
+         expect-error E.kaiser.serialize:
+            @test-round with new Date{}
+         expect-error E.kaiser.serialize:
+            @test-round with {d = new Date{}}
+         expect-error E.kaiser.serialize:
+            @test-round with {1, 2, B{}}
+
+   it "has multiple interfaces":
+      {
+         "c:A"
+         A
+         A.prototype
+         {A}
+         {B.prototype, {A.prototype}}
+      }
+      \ each Serializer! [@] ->
+         @test-round with A{}
+         expect-error E.kaiser.serialize:
+            @test-round with new Date{}
+
+
+
+describe "copy":
+
+   it "shallow":
+      a = {a = 1, b = 2, c = {d = 3, e = 4}}
+      b = shallow-copy{a}
+      assert a !== b
+      assert a == b
+      assert a.c === b.c
+
+   it "deep":
+      a = {a = 1, b = 2, c = {d = 3, e = 4}}
+      b = deep-copy{a}
+      assert a !== b
+      assert a == b
+      assert a.c !== b.c
+
+
+describe "preserve identity":
+
+   it "several instances of an object":
+      a = {1, 2, 3}
+      b = {x = a, y = a, z = {1, 2, 3}}
+      r = round{b}
+      {.x, .y, .z} each field ->
+         assert r[field] == {1, 2, 3}
+      assert r.x === r.y and r.x !== r.z
+
+   it "recursive data structure":
+      a = {a = null}
+      a.a = a
+      r = round{a}
+      assert r === r.a
+      assert r !== a
+
+   it "recursive nested":
+      a = {b = {c = {d = null}}}
+      a.b.c.d = a
+      r = round{a}
+      assert r === r.b.c.d
+
+   ;; TODO: test with custom classes
+   ;; TODO: test errors
+

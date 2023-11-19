@@ -1,14 +1,14 @@
-import * as Switch from '@radix-ui/react-switch'
-import React from 'react'
-import TextareaAutosize from 'react-textarea-autosize'
-import { useSettings } from '../../../hooks/useSettings'
-import FieldWrapper from '../Elements/FieldWrapper'
-import SectionHeading from '../Elements/SectionHeading'
+import * as Switch from "@radix-ui/react-switch";
+import React from "react";
+import TextareaAutosize from "react-textarea-autosize";
+import FieldWrapper from "../Elements/FieldWrapper";
+import SectionHeading from "../Elements/SectionHeading";
+import { useSettings } from "~hooks/useSettings";
 
 const QuickMenuSettings = () => {
-  const [settings, setSettings] = useSettings()
+  const [settings, setSettings] = useSettings();
 
-  const quickMenuSettings = settings.quickMenu
+  const quickMenuSettings = settings.quickMenu;
 
   const handleEnableQuickMenuChange = (enabled: boolean) => {
     setSettings({
@@ -17,24 +17,24 @@ const QuickMenuSettings = () => {
         ...quickMenuSettings,
         enabled: enabled,
       },
-    })
-  }
+    });
+  };
 
   const handleExcludeSitesChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
+    event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const sites = event.target.value
-      .split(',')
+      .split(",")
       .map((site) => site.trim())
-      .filter(Boolean)
+      .filter(Boolean);
     setSettings({
       ...settings,
       quickMenu: {
         ...quickMenuSettings,
         excludedSites: sites,
       },
-    })
-  }
+    });
+  };
 
   return (
     <div className="cdx-w-full cdx-flex-shrink-0 cdx-rounded-md">
@@ -68,12 +68,12 @@ const QuickMenuSettings = () => {
           className="input"
           placeholder="Eg: google.com, youtube.com, twitter.com"
           minRows={2}
-          value={quickMenuSettings.excludedSites.join(', ')}
+          value={quickMenuSettings.excludedSites.join(", ")}
           onChange={handleExcludeSitesChange}
         />
       </FieldWrapper>
     </div>
-  )
-}
+  );
+};
 
-export default QuickMenuSettings
+export default QuickMenuSettings;

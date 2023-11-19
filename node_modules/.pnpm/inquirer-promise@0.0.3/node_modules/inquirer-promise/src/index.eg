@@ -1,0 +1,51 @@
+
+provide:
+   prompt
+   question
+   input
+   confirm
+   list
+   rawlist
+   checkbox
+   expand
+   password
+   inquirer.Separator as Separator
+
+require:
+   inquirer
+
+prompt{match} =
+   Array? questions ->
+      new Promise with
+         {resolve, reject} ->
+            try:
+               inquirer.prompt{questions, resolve}
+            catch e:
+               reject{e}
+   question ->
+      prompt{{question}}
+
+async question{q} =
+   res = await prompt{q & {name = .result}}
+   res.result
+
+input{message, options = {=}} =
+   question{options & {type = .input, = message}}
+
+confirm{message, options = {=}} =
+   question{options & {type = .confirm, = message}}
+
+list{message, choices, options = {=}} =
+   question{options & {type = .list, = message, = choices}}
+
+rawlist{message, choices, options = {=}} =
+   question{options & {type = .rawlist, = message, = choices}}
+
+expand{message, choices, options = {=}} =
+   question{options & {type = .expand, = message, = choices}}
+
+checkbox{message, choices, options = {=}} =
+   question{options & {type = .checkbox, = message, = choices}}
+
+password{message, options = {=}} =
+   question{options & {type = .password, = message}}

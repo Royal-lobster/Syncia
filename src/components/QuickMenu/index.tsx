@@ -1,44 +1,46 @@
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import React, { useEffect } from 'react'
-import { BsRobot } from 'react-icons/bs'
-import { usePrompts } from '../../hooks/usePrompts'
-import useThemeSync from '../../hooks/useThemeSync'
-import { generatePromptInSidebar } from '../../lib/generatePromptInSidebar'
-import { RecursiveItem } from './RecursiveItem'
-import './index.css'
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import React, { useEffect } from "react";
+import { BsRobot } from "react-icons/bs";
+
+import { RecursiveItem } from "./RecursiveItem";
+
+import "./index.css";
+import useThemeSync from "~hooks/useThemeSync";
+import { usePrompts } from "~hooks/usePrompts";
+import { generatePromptInSidebar } from "~lib/generatePromptInSidebar";
 
 export const ContentClassNames =
-  'cdx-flex cdx-flex-col cdx-min-w-[150px] cdx-gap-2 cdx-backdrop-blur-sm !cdx-font-sans cdx-m-2 cdx-bg-neutral-50 cdx-shadow-md cdx-p-2 cdx-rounded dark:cdx-bg-neutral-800 cdx-text-neutral-800 dark:cdx-text-neutral-100'
+  "cdx-flex cdx-flex-col cdx-min-w-[150px] cdx-gap-2 cdx-backdrop-blur-sm !cdx-font-sans cdx-m-2 cdx-bg-neutral-50 cdx-shadow-md cdx-p-2 cdx-rounded dark:cdx-bg-neutral-800 cdx-text-neutral-800 dark:cdx-text-neutral-100";
 
 export const ItemClassNames =
-  'cdx-p-1 cdx-rounded cdx-border-0 cdx-select-none cdx-outline-0 cdx-text-sm cdx-flex cdx-items-center cdx-justify-between data-[highlighted]:cdx-bg-neutral-200 data-[highlighted]:dark:cdx-bg-neutral-600'
+  "cdx-p-1 cdx-rounded cdx-border-0 cdx-select-none cdx-outline-0 cdx-text-sm cdx-flex cdx-items-center cdx-justify-between data-[highlighted]:cdx-bg-neutral-200 data-[highlighted]:dark:cdx-bg-neutral-600";
 
 interface QuickMenuProps {
-  selectedText: string
-  setMenuOpen: (open: boolean) => void
+  selectedText: string;
+  setMenuOpen: (open: boolean) => void;
 }
 
 export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
-  useThemeSync()
-  const [prompts] = usePrompts()
+  useThemeSync();
+  const [prompts] = usePrompts();
 
   useEffect(() => {
     const highlightMenu = document.getElementById(
-      'react-highlight-menu-container',
-    ) as HTMLDivElement | null
-    if (highlightMenu) highlightMenu.style.zIndex = '2147483647'
-  }, [])
+      "react-highlight-menu-container"
+    ) as HTMLDivElement | null;
+    if (highlightMenu) highlightMenu.style.zIndex = "2147483647";
+  }, []);
 
-  const noCategoryPrompts = prompts.filter((i) => !!i.prompt)
+  const noCategoryPrompts = prompts.filter((i) => !!i.prompt);
 
   const handleGenerate = (prompt: string) => {
-    generatePromptInSidebar(prompt, selectedText)
-  }
+    generatePromptInSidebar(prompt, selectedText);
+  };
 
   return (
     <DropdownMenu.Root
       onOpenChange={(e) => {
-        setMenuOpen(e.valueOf())
+        setMenuOpen(e.valueOf());
       }}
     >
       <DropdownMenu.Trigger asChild>
@@ -93,5 +95,5 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
-  )
-}
+  );
+};

@@ -1,23 +1,23 @@
-import { CodeProps } from 'react-markdown/lib/ast-to-react'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { type CodeProps } from "react-markdown/lib/ast-to-react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import {
   atomDark,
   tomorrow,
-} from 'react-syntax-highlighter/dist/esm/styles/prism'
+} from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const isDarkMode = () => {
-  if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) {
-    return true
+  if (window.matchMedia?.("(prefers-color-scheme: dark)").matches) {
+    return true;
   } else {
-    return false
+    return false;
   }
-}
+};
 
 const CodeBlock = (props: CodeProps) => {
-  const { children, className, inline } = props
-  const match = /language-(\w+)/.exec(className || '')
-  const language = match ? match[1] : 'javascript'
-  const modClass = `${className} cdx-text-sm`
+  const { children, className, inline } = props;
+  const match = /language-(\w+)/.exec(className || "");
+  const language = match ? match[1] : "javascript";
+  const modClass = `${className} cdx-text-sm`;
   return !inline ? (
     <SyntaxHighlighter
       className={modClass}
@@ -33,7 +33,7 @@ const CodeBlock = (props: CodeProps) => {
     >
       {children}
     </code>
-  )
-}
+  );
+};
 
-export default CodeBlock
+export default CodeBlock;

@@ -1,4 +1,4 @@
-import { ReactMarkdownProps } from 'react-markdown/lib/ast-to-react'
+import { type ReactMarkdownProps } from "react-markdown/lib/ast-to-react";
 
 type TableType =
   | keyof JSX.IntrinsicElements
@@ -8,15 +8,15 @@ type TableType =
           React.TableHTMLAttributes<HTMLTableElement>,
           HTMLTableElement
         >,
-        'ref'
+        "ref"
       > &
         ReactMarkdownProps
-    >
+    >;
 
 export const Table: TableType = (props) => {
   return (
     <div className="syncia_table-container">
       <table {...props} />
     </div>
-  )
-}
+  );
+};

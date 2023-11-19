@@ -1,12 +1,12 @@
-import { useEffect } from 'react'
-import ChatList from './ChatList'
-import { SidebarInput } from './ChatInput'
-import { useChatCompletion } from '../../../hooks/useChatCompletion'
-import { SYSTEM_PROMPT } from '../../../config/prompts'
-import { Settings } from '../../../config/settings'
+import { useEffect } from "react";
+import { SidebarInput } from "./ChatInput";
+import ChatList from "./ChatList";
+import type { Settings } from "~config/settings";
+import { useChatCompletion } from "~hooks/useChatCompletion";
+import { SYSTEM_PROMPT } from "~config/prompts";
 
 interface ChatProps {
-  settings: Settings
+  settings: Settings;
 }
 
 const Chat = ({ settings }: ChatProps) => {
@@ -16,24 +16,24 @@ const Chat = ({ settings }: ChatProps) => {
       apiKey: settings.chat.openAIKey!,
       mode: settings.chat.mode,
       systemPrompt: SYSTEM_PROMPT,
-    })
+    });
 
   useEffect(() => {
     const handleWindowMessage = (event: MessageEvent) => {
       const { action, prompt } = event.data as {
-        action: string
-        prompt: string
+        action: string;
+        prompt: string;
+      };
+      if (action === "generate") {
+        submitQuery(prompt);
       }
-      if (action === 'generate') {
-        submitQuery(prompt)
-      }
-    }
-    window.addEventListener('message', handleWindowMessage)
+    };
+    window.addEventListener("message", handleWindowMessage);
 
     return () => {
-      window.removeEventListener('message', handleWindowMessage)
-    }
-  }, [])
+      window.removeEventListener("message", handleWindowMessage);
+    };
+  }, []);
 
   return (
     <>
@@ -46,7 +46,7 @@ const Chat = ({ settings }: ChatProps) => {
         cancelRequest={cancelRequest}
       />
     </>
-  )
-}
+  );
+};
 
-export default Chat
+export default Chat;

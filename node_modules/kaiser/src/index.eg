@@ -1,0 +1,422 @@
+
+provide:
+
+   TYPEID
+
+   get-handler
+   maybe-handler
+   extend-handler
+
+   Serializer
+   default-serializer
+   serialize, deserialize
+   shallow-copy, deep-copy
+
+   register, register-all
+   register-singleton, register-singletons
+   register-function, register-functions
+
+   registry
+
+   true as loaded
+
+
+if global["@@KAISER"]??.loaded:
+   return global["@@KAISER"]
+
+
+;;;;;;;;;;;;;
+;; Symbols ;;
+;;;;;;;;;;;;;
+
+TYPEID = Symbol{.TYPEID}
+
+;;;;;;;;;;;;;;
+;; Registry ;;
+;;;;;;;;;;;;;;
+
+
+registry = {
+   "native:null" = {
+      type-id = "native:null"
+   }
+   "native:undefined" = {
+      type-id = "native:undefined"
+   }
+   "native:boolean" = {
+      type-id = "native:boolean"
+   }
+   "native:number" = {
+      type-id = "native:number"
+   }
+   "native:string" = {
+      type-id = "native:string"
+   }
+}
+
+
+object-name{object, req = true} =
+   match object??.name or object??.constructor??.name:
+      false? when req ->
+         throw E.kaiser.name-required with
+            "The object or function to register must have a name field or its constructor must have a name."
+      false? ->
+         ""
+      name -> name
+
+make-type-id{object, match policy} =
+   {=> type-id, => variant} -> type-id + "/" + JSON.stringify{variant}
+   {=> type-id, name-variant => match} ->
+      === true -> type-id + "/" + object-name{object}
+      name-variant -> type-id + "/" + name-variant
+   {=> type-id} -> type-id
+   {=> package, => use-version = null} ->
+      version = match use-version:
+         false? -> ""
+         do: data-version = if{package.dataVersion as dv, 'd{dv}', package.version}
+         .major -> '@{data-version.split{"."}[0]}'
+         .minor -> '@{data-version.split{"."}[0...2].join{"."}}'
+         .patch -> '@{data-version}'
+      'npm:{package.name}{version}/{policy.name or policy.name-variant or object-name{object}}'
+   else ->
+      throw E.kaiser.register.id{"No typeId provided."}
+
+
+register{object, _policy} =
+
+   if not _policy.deserialize and _policy.create:
+      _policy.deserialize{x} =
+         r = _policy.create{}
+         _policy.fill{r, x}
+         r
+   if _policy.deserialize and not _policy.create:
+      _policy.create = null
+   if _policy.deserialize and not _policy.fill:
+      _policy.fill = null
+
+   policy = object-serializer{object} & _policy
+
+   if policy.target !== .self and object.prototype and not policy.ignore-prototype:
+      return register{object.prototype, _policy}
+
+   policy.type-id and type-id = make-type-id{object, policy}
+
+   if Object.is-frozen{object}:
+      throw E.kaiser.frozen with
+         "kaiser cannot register frozen objects as serializable types; "
+         \ + "either register them before freezing them, or register their prototypes."
+
+   prev = registry[type-id]
+   if prev and prev !== policy:
+      match prev.on-duplicate:
+         .error or when policy.on-duplicate === .error ->
+            throw E.kaiser.duplicate-id with 
+               'Duplicate typeId: "{type-id}". You can control this error'
+               \ + ' with the onDuplicate option to kaiser.register'
+               \ + ' (onDuplicate: "error" (default), "(warn-)keep" or "(warn-)replace").'
+         .warn-keep ->
+            console.warn{'WARNING: Duplicate typeId: "{type-id}". Keeping previous.'}
+            return false
+         .warn or .warn-replace ->
+            console.warn{'WARNING: Duplicate typeId: "{type-id}". Replacing.'}
+         .keep ->
+            return false
+         .replace ->
+            pass
+
+   registry[type-id] = policy
+   object[TYPEID] = type-id
+   true
+
+register-all{objects, policy} =
+   objects each object ->
+      register{object, policy & {name-variant = object-name{object}}}
+
+_type-id{match object} =
+   null? or undefined? ->
+      'native:{object}'
+   Boolean? ->
+      'native:boolean'
+   Number? ->
+      'native:number'
+   String? ->
+      'native:string'
+   else ->
+      object[TYPEID]
+
+get-handler{obj} =
+   tid = _type-id{obj}
+   match registry[tid]:
+      undefined? ->
+         throw E.kaiser{'No handler for typeId "{tid}" for object {obj}'}
+      policy and {target => match = .other} ->
+         .self when not Object.has-own-property.call{obj, TYPEID} ->
+            throw E.kaiser with
+               'Object has no typeId: {obj}'
+         .direct and p is Object.get-prototype-of{obj}
+         \ when not Object.has-own-property.call{p, TYPEID} ->
+            throw E.kaiser with
+               'Object has no typeId: {obj}'
+         else ->
+            policy
+
+maybe-handler{obj} =
+   try:
+      get-handler{obj}
+   catch E.kaiser? e:
+      null
+
+extend-handler{obj, properties} =
+   h = get-handler{obj}
+   h &: properties
+
+
+object-serializer{proto} = {
+   on-duplicate = .replace
+   target = .direct
+   ignore-prototype = false
+   serialize{x} = object with items{x}
+   deserialize{x} =
+      rval = Object.create{proto}
+      items{x} each {k, v} -> rval[k] = v
+      rval
+   create{} =
+      Object.create{proto}
+   fill{rval, x} =
+      items{x} each {k, v} -> rval[k] = v
+      rval
+}
+
+singleton-serializer{object} = {
+   target = "self"
+   serialize{_} = null
+   deserialize{_} = object
+}
+
+register-singleton{object, match = null} =
+   null? ->
+      {o} -> register-singleton{o, object}
+   String? type-id ->
+      register{object, singleton-serializer{object} & {= type-id}}
+      object
+   policy ->
+      register{object, singleton-serializer{object} & policy}
+      object
+
+register-singletons{objects, _policy} =
+   policy = match _policy:
+      String? type-id -> {= type-id}
+      else -> _policy
+   objects each object ->
+      register{object, singleton-serializer{object} & [policy & {name-variant = object-name{object}}]}
+
+register-function = register-singleton
+register-functions = register-singletons
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Serialize/deserialize ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+class Serializer:
+
+   constructor{match white-list = null} =
+      null? ->
+         @white-list = null
+      else ->
+         @white-list and wl = {
+            native = true
+            "builtin:Object" = true
+            "builtin:Array" = true
+         }
+         acquire{white-list or {}} where acquire{match w} =
+            Array? ->
+               w each entry -> acquire{entry}
+            String? ->
+               wl[w] = true
+            {prototype => {^TYPEID => tid}} ->
+               wl[tid] = true
+            {^TYPEID => tid} ->
+               wl[tid] = true
+
+   to-object{obj, recursive = true, seen = new Map{}} =
+
+      match obj:
+         null? or undefined? or Boolean? or Number? or String? ->
+            return {type-id = 'native', data = obj}
+         else ->
+            pass
+
+      if seen.has{obj}:
+         {d, i} = seen.get{obj}
+         d.ref = i
+         return {ref = i}
+
+      rval = {=}
+      seen.set{obj, {rval, seen.size}}
+
+      rval &:
+         policy = get-handler{obj}
+         tid = policy.type-id
+
+         if @white-list and not @white-list[tid]:
+            throw E.kaiser.serialize{'Object with type id "{tid}" is not white-listed for serialization: {obj}'}
+         ser0 = policy.serialize{obj}
+         ser1 =
+            match ser0:
+               when not recursive ->
+                  ser0
+               null? or undefined? or String? or Number? or Boolean? ->
+                  ser0
+               Array? ->
+                  ser0 each x -> @to-object{x, recursive, seen}
+               Object? ->
+                  object with items{ser0} each {k, v} ->
+                     {k, @to-object{v, recursive, seen}}
+         {type-id = tid, data = ser1}
+
+      rval
+
+   from-object{obj, recursive = true, made = {=}} =
+
+      assim{match data} =
+         null? or undefined? or String? or Number? or Boolean? ->
+            data
+         Array? match ->
+            when recursive ->
+               data each x -> @from-object{x, recursive, made}
+            else ->
+               data.slice{0}
+         Object? match ->
+            when recursive ->
+               object with items{data} each {k, v} ->
+                  {k, @from-object{v, recursive, made}}
+            else ->
+               object with items{data}
+
+      tid = obj.type-id
+      if tid === undefined:
+         if Object.has-property.call{made, obj.ref}:
+            made[obj.ref]
+         else:
+            throw E.kaiser.no-ref with
+               'Could not deserialize object reference {obj.ref} because it is nested recursively and kaiser does not know how to build it.'
+      else:
+         if @white-list and not @white-list[tid]:
+            throw E.kaiser.deserialize with
+               'Cannot deserialize {obj.data}: typeId "{tid}" is not in the whitelist'
+         if tid === "native":
+            obj.data
+         else:
+            deser = match registry[tid]:
+               undefined? ->
+                  throw E.kaiser.deserialize{'No deserializer for typeId "{tid}"'}
+               policy when obj.ref !== undefined and policy.create ->
+                  rval = policy.create{}
+                  made[obj.ref] = rval
+                  policy.fill{rval, assim{obj.data}}
+                  rval
+               policy ->
+                  x = policy.deserialize{assim{obj.data}}
+                  if obj.ref:
+                     made[obj.ref] = x
+                  x
+            deser
+      
+
+   serialize{obj} =
+      JSON.stringify{@to-object{obj}}
+
+   deserialize{repr} =
+      @from-object{JSON.parse{repr}}
+
+   shallow-copy{obj} =
+      @from-object{@to-object{obj, false}, false}
+
+   deep-copy{obj} =
+      @from-object{@to-object{obj}}
+
+
+default-serializer = Serializer{}
+
+serialize = default-serializer.serialize.bind{default-serializer}
+deserialize = default-serializer.deserialize.bind{default-serializer}
+shallow-copy = default-serializer.shallow-copy.bind{default-serializer}
+deep-copy = default-serializer.deep-copy.bind{default-serializer}
+
+
+
+;;;;;;;;;;;;;;
+;; BUILTINS ;;
+;;;;;;;;;;;;;;
+
+register{Array.prototype} with {
+   type-id = "builtin:Array"
+   on-duplicate = .replace
+   target = .direct
+   serialize{obj} =
+      obj
+   deserialize{obj} =
+      obj
+   create{} =
+      {}
+   fill{a, obj} =
+      a.splice{0, a.length, *obj}
+      a
+}
+
+register{Object.prototype} with {
+   type-id = "builtin:Object"
+   on-duplicate = .replace
+   target = .direct
+   serialize{obj} =
+      obj
+   deserialize{obj} =
+      obj
+   create{} =
+      {=}
+   fill{o, obj} =
+      o &: obj
+      o
+}
+
+register{Date.prototype} with {
+   type-id = "builtin:Date"
+   on-duplicate = .replace
+   target = .direct
+   serialize{obj} =
+      String{obj}
+   deserialize{s} =
+      new Date{s}
+}
+
+register{Error.prototype} with {
+   type-id = "builtin:Error"
+   on-duplicate = .replace
+   target = .direct
+   serialize{obj} =
+      rval = object with items{obj}
+      rval.message = obj.message
+      rval.stack = obj.stack
+      if obj[Symbol.error-tags]:
+         rval["::tags"] = obj[Symbol.error-tags]
+      rval
+   deserialize{s} =
+      e = Error{s.message}
+      items{s} each {k, v} when not k in {.message, "::tags"} ->
+         e[k] = v
+      e.stack = s.stack
+      if s["::tags"]:
+         e[Symbol.error-tags] = s["::tags"]
+      e
+}
+
+cmds = {= register, = register-all
+        = register-singleton, = register-singletons
+        = register-function, = register-functions}
+
+[global["@@KAISER"]??.waiting-list or {}] each {cmd, args} ->
+   cmds[cmd][args]
+global["@@KAISER"] = module.exports
+

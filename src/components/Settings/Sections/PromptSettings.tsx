@@ -1,12 +1,12 @@
-import { HiRefresh } from 'react-icons/hi'
-import { usePrompts } from '../../../hooks/usePrompts'
-import { defaultPrompts } from '../../../config/prompts/default'
-import FieldWrapper from '../Elements/FieldWrapper'
-import QuickMenuCustomize from '../Elements/QuickMenuCustomize'
-import SectionHeading from '../Elements/SectionHeading'
+import { HiRefresh } from "react-icons/hi";
+import FieldWrapper from "../Elements/FieldWrapper";
+import QuickMenuCustomize from "../Elements/QuickMenuCustomize";
+import SectionHeading from "../Elements/SectionHeading";
+import { usePrompts } from "~hooks/usePrompts";
+import { defaultPrompts } from "~config/prompts/default";
 
 const PromptSettings = () => {
-  const [, setPrompts] = usePrompts()
+  const [, setPrompts] = usePrompts();
 
   return (
     <div className="cdx-w-full cdx-flex-shrink-0 cdx-flex-1 cdx-rounded-md">
@@ -34,14 +34,14 @@ const PromptSettings = () => {
           type="button"
           className="btn cdx-bg-red-500 hover:cdx-bg-red-600"
           onClick={() => {
-            setPrompts(defaultPrompts)
+            setPrompts(defaultPrompts);
           }}
         >
           <HiRefresh /> Restore
         </button>
       </FieldWrapper>
     </div>
-  )
-}
+  );
+};
 
-export default PromptSettings
+export default PromptSettings;

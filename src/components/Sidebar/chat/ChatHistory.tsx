@@ -1,7 +1,7 @@
-import { useChatHistory } from '../../../hooks/useChatHistory'
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import { RiAddLine, RiCloseCircleFill, RiTimeLine } from 'react-icons/ri'
-import { generateReadableRelativeDate } from '../../../utils/generateReadableDate'
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { RiAddLine, RiCloseCircleFill, RiTimeLine } from "react-icons/ri";
+import { generateReadableRelativeDate } from "../../../lib/generateReadableDate";
+import { useChatHistory } from "~hooks/useChatHistory";
 
 const ChatHistory = () => {
   const {
@@ -11,26 +11,26 @@ const ChatHistory = () => {
     getChatHistory,
     createChatHistory,
     deleteChatHistory,
-  } = useChatHistory()
+  } = useChatHistory();
 
-  if (!currentChatId) return null
+  if (!currentChatId) return null;
 
-  const currentChat = getChatHistory(currentChatId)
+  const currentChat = getChatHistory(currentChatId);
 
   const handleCreateNewChat = async () => {
-    const newId = createChatHistory('New Chat')
-    setCurrentChatId(newId)
-  }
+    const newId = createChatHistory("New Chat");
+    setCurrentChatId(newId);
+  };
 
   const handleChatDelete = (id: string) => {
-    deleteChatHistory(id)
-  }
+    deleteChatHistory(id);
+  };
 
   return (
     <div>
       <DropdownMenu.Root>
         <DropdownMenu.Trigger className="cdx-border cdx-max-w-[280px] dark:cdx-bg-neutral-800/80 cdx-backdrop-blur cdx-border-neutral-500/20 cdx-flex cdx-gap-2 cdx-items-center cdx-py-2 cdx-px-3 cdx-text-sm cdx-text-neutral-700 dark:cdx-text-neutral-300 cdx-rounded-md">
-          <RiTimeLine size={18} className="cdx-flex-shrink-0" />{' '}
+          <RiTimeLine size={18} className="cdx-flex-shrink-0" />{" "}
           <span className="cdx-truncate">{currentChat?.name}</span>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content
@@ -56,12 +56,12 @@ const ChatHistory = () => {
                 <DropdownMenu.Item
                   key={chat.id}
                   onSelect={() => {
-                    setCurrentChatId(chat.id)
+                    setCurrentChatId(chat.id);
                   }}
                   className={`cdx-px-3 cdx-py-1.5 focus:cdx-outline-none focus-visible:cdx-bg-black/20 cdx-relative cdx-flex cdx-gap-3 cdx-justify-between cdx-items-center cdx-border-b dark:cdx-border-b-[#2F2F2F] ${
                     i === history.length - 1
-                      ? 'cdx-border-b-0'
-                      : 'cdx-border-b-[#E5E7EB]'
+                      ? "cdx-border-b-0"
+                      : "cdx-border-b-[#E5E7EB]"
                   } cdx-cursor-pointer`}
                 >
                   <div className="cdx-flex cdx-gap-2 cdx-justify-center cdx-items-center">
@@ -74,8 +74,8 @@ const ChatHistory = () => {
                     <button
                       type="button"
                       onClick={(e) => {
-                        e.stopPropagation()
-                        handleChatDelete(chat.id)
+                        e.stopPropagation();
+                        handleChatDelete(chat.id);
                       }}
                     >
                       <RiCloseCircleFill
@@ -102,7 +102,7 @@ const ChatHistory = () => {
         </DropdownMenu.Content>
       </DropdownMenu.Root>
     </div>
-  )
-}
+  );
+};
 
-export default ChatHistory
+export default ChatHistory;

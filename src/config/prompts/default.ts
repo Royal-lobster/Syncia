@@ -1,6 +1,6 @@
 import endent from 'endent'
-import { Prompt } from '../../hooks/usePrompts'
 import hash from 'object-hash'
+import type { Prompt } from '~hooks/usePrompts'
 
 type PromptWithoutId = Omit<Prompt, 'id' | 'children'> & {
   children?: PromptWithoutId[]

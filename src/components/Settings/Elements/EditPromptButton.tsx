@@ -1,44 +1,48 @@
-import * as Dialog from '@radix-ui/react-dialog'
-import { useRef, useState } from 'react'
-import { HiPencilAlt } from 'react-icons/hi'
-import TextareaAutosize from 'react-textarea-autosize'
-import { Prompt, usePrompts } from '../../../hooks/usePrompts'
-import DialogPortal from '../../Layout/DialogPortal'
+import * as Dialog from "@radix-ui/react-dialog";
+import { useRef, useState } from "react";
+import { HiPencilAlt } from "react-icons/hi";
+import TextareaAutosize from "react-textarea-autosize";
+
+import DialogPortal from "../../Layout/DialogPortal";
+import { usePrompts, type Prompt } from "~hooks/usePrompts";
 
 export const EditPromptButton = ({
   item,
   isLeafNode,
-}: { item: Prompt; isLeafNode: boolean }) => {
-  const [open, setOpen] = useState(false)
-  const [, setPrompts] = usePrompts()
-  const formRef = useRef<HTMLFormElement>(null)
+}: {
+  item: Prompt;
+  isLeafNode: boolean;
+}) => {
+  const [open, setOpen] = useState(false);
+  const [, setPrompts] = usePrompts();
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleEdit = () => {
-    if (!formRef.current || !formRef.current.reportValidity()) return
+    if (!formRef.current || !formRef.current.reportValidity()) return;
 
-    const formData = new FormData(formRef.current)
+    const formData = new FormData(formRef.current);
 
-    const newName = formData.get('promptName') as string
-    const newPrompt = formData.get('prompt') as string
+    const newName = formData.get("promptName") as string;
+    const newPrompt = formData.get("prompt") as string;
 
     const editItem = (items: Prompt[], id: string): Prompt[] => {
       const newItems = items.map((item) => {
         if (item.id === id) {
-          item.name = newName
-          if (isLeafNode) item.prompt = newPrompt
+          item.name = newName;
+          if (isLeafNode) item.prompt = newPrompt;
         }
         if (item.children) {
-          item.children = editItem(item.children, id)
+          item.children = editItem(item.children, id);
         }
-        return item
-      })
-      return newItems
-    }
+        return item;
+      });
+      return newItems;
+    };
 
-    setPrompts([])
-    setPrompts((p) => editItem(p, item.id))
-    setOpen(false)
-  }
+    setPrompts([]);
+    setPrompts((p) => editItem(p, item.id));
+    setOpen(false);
+  };
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -51,7 +55,7 @@ export const EditPromptButton = ({
         </button>
       </Dialog.Trigger>
       <DialogPortal
-        title={isLeafNode ? 'Edit Prompt' : 'Edit Category'}
+        title={isLeafNode ? "Edit Prompt" : "Edit Category"}
         primaryAction={handleEdit}
         secondaryAction={() => setOpen(false)}
         primaryText="Save"
@@ -84,5 +88,5 @@ export const EditPromptButton = ({
         </form>
       </DialogPortal>
     </Dialog.Root>
-  )
-}
+  );
+};

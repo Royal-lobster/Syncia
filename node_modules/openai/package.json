@@ -1,0 +1,88 @@
+{
+  "name": "openai",
+  "version": "4.4.0",
+  "description": "Client library for the OpenAI API",
+  "author": "OpenAI <support@openai.com>",
+  "types": "./index.d.ts",
+  "main": "./index.js",
+  "type": "commonjs",
+  "repository": "github:openai/openai-node",
+  "license": "Apache-2.0",
+  "private": false,
+  "exports": {
+    "./_shims/*": {
+      "deno": {
+        "types": "./_shims/*.d.ts",
+        "require": "./_shims/*.js",
+        "default": "./_shims/*.mjs"
+      },
+      "bun": {
+        "types": "./_shims/*.d.ts",
+        "require": "./_shims/*.js",
+        "default": "./_shims/*.mjs"
+      },
+      "browser": {
+        "types": "./_shims/*.d.ts",
+        "require": "./_shims/*.js",
+        "default": "./_shims/*.mjs"
+      },
+      "worker": {
+        "types": "./_shims/*.d.ts",
+        "require": "./_shims/*.js",
+        "default": "./_shims/*.mjs"
+      },
+      "workerd": {
+        "types": "./_shims/*.d.ts",
+        "require": "./_shims/*.js",
+        "default": "./_shims/*.mjs"
+      },
+      "node": {
+        "types": "./_shims/*.node.d.ts",
+        "require": "./_shims/*.node.js",
+        "default": "./_shims/*.node.mjs"
+      },
+      "types": "./_shims/*.d.ts",
+      "require": "./_shims/*.js",
+      "default": "./_shims/*.mjs"
+    },
+    ".": {
+      "require": {
+        "types": "./index.d.ts",
+        "default": "./index.js"
+      },
+      "types": "./index.d.mts",
+      "default": "./index.mjs"
+    },
+    "./*.mjs": {
+      "types": "./*.d.ts",
+      "default": "./*.mjs"
+    },
+    "./*.js": {
+      "types": "./*.d.ts",
+      "default": "./*.js"
+    },
+    "./*": {
+      "types": "./*.d.ts",
+      "require": "./*.js",
+      "default": "./*.mjs"
+    }
+  },
+  "scripts": {
+    "test": "bin/check-test-server && yarn jest",
+    "build": "bash ./build",
+    "format": "prettier --write --cache  --cache-strategy metadata . !dist",
+    "tsn": "ts-node -r tsconfig-paths/register",
+    "fix": "eslint --fix --ext ts,js ."
+  },
+  "dependencies": {
+    "@types/node": "^18.11.18",
+    "@types/node-fetch": "^2.6.4",
+    "abort-controller": "^3.0.0",
+    "agentkeepalive": "^4.2.1",
+    "digest-fetch": "^1.3.0",
+    "form-data-encoder": "1.7.2",
+    "formdata-node": "^4.3.2",
+    "node-fetch": "^2.6.7"
+  },
+  "bin": "./bin/cli"
+}

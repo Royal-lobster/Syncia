@@ -1,12 +1,13 @@
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import { ContentClassNames, ItemClassNames } from '.'
-import { Prompt } from '../../hooks/usePrompts'
-import { HiOutlineChevronRight } from 'react-icons/hi'
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { HiOutlineChevronRight } from "react-icons/hi";
+
+import { ContentClassNames, ItemClassNames } from ".";
+import type { Prompt } from "~hooks/usePrompts";
 
 type RecursiveItemProps = {
-  item: Prompt
-  handleGenerate: (prompt: string) => void
-}
+  item: Prompt;
+  handleGenerate: (prompt: string) => void;
+};
 
 export const RecursiveItem = ({ item, handleGenerate }: RecursiveItemProps) => {
   if (item.prompt && !(item.children as [Prompt] | undefined)?.length) {
@@ -17,10 +18,10 @@ export const RecursiveItem = ({ item, handleGenerate }: RecursiveItemProps) => {
       >
         <span>{item.name}</span>
       </DropdownMenu.Item>
-    )
+    );
   }
 
-  if (!item.children || item.children?.length === 0) return null
+  if (!item.children || item.children?.length === 0) return null;
 
   return (
     <DropdownMenu.Sub>
@@ -41,5 +42,5 @@ export const RecursiveItem = ({ item, handleGenerate }: RecursiveItemProps) => {
         ))}
       </DropdownMenu.SubContent>
     </DropdownMenu.Sub>
-  )
-}
+  );
+};

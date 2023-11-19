@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 import { useStorage } from './useStorage'
 import { defaultPrompts } from '../config/prompts/default'
 import { atom } from 'jotai'

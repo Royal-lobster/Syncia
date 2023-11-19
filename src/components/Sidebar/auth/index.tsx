@@ -1,24 +1,24 @@
-import React, { useEffect } from 'react'
-import { useSettings } from '../../../hooks/useSettings'
-import { validateApiKey } from '../../../utils/validApiKey'
+import React, { useEffect } from "react";
+import { validateApiKey } from "../../../lib/validApiKey";
+import { useSettings } from "~hooks/useSettings";
 
 const Auth = () => {
-  const [, setSettings] = useSettings()
-  const [error, setError] = React.useState<string | null>(null)
+  const [, setSettings] = useSettings();
+  const [error, setError] = React.useState<string | null>(null);
 
   useEffect(() => {
     if (error) {
       setTimeout(() => {
-        setError(null)
-      }, 3000)
+        setError(null);
+      }, 3000);
     }
-  }, [error])
+  }, [error]);
 
   const handleOpenAiKeySubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const data = new FormData(e.currentTarget)
-    const key = data.get('openAiKey')
-    const isVaildApiKey: boolean = await validateApiKey(key as string)
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const key = data.get("openAiKey");
+    const isVaildApiKey: boolean = await validateApiKey(key as string);
 
     if (key && isVaildApiKey) {
       setSettings((prev) => ({
@@ -27,11 +27,11 @@ const Auth = () => {
           ...prev.chat,
           openAIKey: key as string,
         },
-      }))
+      }));
     } else {
-      setError('Invalid API key. Please try with a valid one.')
+      setError("Invalid API key. Please try with a valid one.");
     }
-  }
+  };
   return (
     <form
       onSubmit={handleOpenAiKeySubmit}
@@ -39,7 +39,7 @@ const Auth = () => {
     >
       <div className="cdx-text-2xl cdx-mt-48">Enter your OpenAI API key</div>
       <div className="cdx-text-sm cdx-text-gray-400 cdx-mt-2">
-        You can get one{' '}
+        You can get one{" "}
         <a
           href="https://beta.openai.com/account/api-keys"
           target="_blank"
@@ -58,7 +58,7 @@ const Auth = () => {
       <input
         name="openAiKey"
         placeholder="Enter your OpenAI API key"
-        data-error={error ? 'true' : undefined}
+        data-error={error ? "true" : undefined}
         className="cdx-mt-4 cdx-text-center cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50 data-[error]:cdx-text-red-500"
         pattern="sk-[a-zA-Z0-9]{48}"
       />
@@ -75,17 +75,17 @@ const Auth = () => {
       </button>
       <div className="cdx-text-sm cdx-text-gray-400 cdx-mt-2">
         (Note: we only store your key locally. We do not send it anywhere. You
-        can check the{' '}
+        can check the{" "}
         <a
           href="https://github.com/Royal-lobster/Syncia"
           className="cdx-text-blue-400"
         >
           source code
-        </a>{' '}
+        </a>{" "}
         and inspect network tab to verify this.)
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default Auth
+export default Auth;

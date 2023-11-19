@@ -1,0 +1,1 @@
+{"version":3,"file":"node-readable.node.d.ts","sourceRoot":"","sources":["../src/_shims/node-readable.node.ts"],"names":[],"mappings":";AAAA;;GAEG;AACH,YAAY,EAAE,QAAQ,EAAE,MAAM,aAAa,CAAC;AAC5C,OAAO,EAAE,UAAU,IAAI,YAAY,EAAE,MAAM,SAAS,CAAC;AACrD,YAAY,EAAE,YAAY,EAAE,CAAC;AAE7B,wBAAgB,cAAc,CAAC,KAAK,EAAE,GAAG,GAAG,KAAK,IAAI,YAAY,CAEhE"}

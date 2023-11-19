@@ -1,4 +1,4 @@
-import { Prompt } from '../hooks/usePrompts'
+import { type Prompt } from '../hooks/usePrompts'
 import { defaultPrompts } from '../config/prompts/default'
 
 export const getStoredPrompts = async () => {

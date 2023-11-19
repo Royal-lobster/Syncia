@@ -38,7 +38,7 @@ export const useChatHistory = () => {
   )
   const [currentChatId, setCurrentChatId] = useStorage<string | null>(
     'CURRENT_CHAT_ID',
-    currentChatIdAtom,
+    currentChatIdAtom as any,
   )
 
   const createChatHistory = (name: string, newId = getUUID()) => {

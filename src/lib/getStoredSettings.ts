@@ -1,4 +1,4 @@
-import { Settings, defaultSettings } from '../config/settings'
+import { type Settings, defaultSettings } from '../config/settings'
 
 export const getStoredSettings = async () => {
   const storedSettings = await getStoredLocalSettings()

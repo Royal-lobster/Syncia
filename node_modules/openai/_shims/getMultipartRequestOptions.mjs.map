@@ -1,0 +1,1 @@
+{"version":3,"file":"getMultipartRequestOptions.mjs","sourceRoot":"","sources":["../src/_shims/getMultipartRequestOptions.ts"],"names":[],"mappings":"AAAA;;GAEG;OAII,EAAE,aAAa,EAAE;AAExB,MAAM,CAAC,KAAK,UAAU,0BAA0B,CAC9C,IAAc,EACd,IAAuB;IAEvB,OAAO,EAAE,GAAG,IAAI,EAAE,IAAI,EAAE,IAAI,aAAa,CAAC,IAAI,CAAQ,EAAE,CAAC;AAC3D,CAAC"}

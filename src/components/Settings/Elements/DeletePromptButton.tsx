@@ -1,26 +1,26 @@
-import { useState } from 'react'
-import { Prompt, usePrompts } from '../../../hooks/usePrompts'
-import * as Dialog from '@radix-ui/react-dialog'
-import { HiTrash } from 'react-icons/hi'
-import DialogPortal from '../../Layout/DialogPortal'
+import * as Dialog from "@radix-ui/react-dialog";
+import { useState } from "react";
+import { HiTrash } from "react-icons/hi";
+import DialogPortal from "../../Layout/DialogPortal";
+import { usePrompts, type Prompt } from "~hooks/usePrompts";
 
 export const DeletePromptButton = ({ id }: { id: string }) => {
-  const [open, setOpen] = useState(false)
-  const [prompts, setPrompts] = usePrompts()
+  const [open, setOpen] = useState(false);
+  const [prompts, setPrompts] = usePrompts();
 
   const handleDelete = () => {
     const removeItem = (items: Prompt[], id: string): Prompt[] => {
-      const newItems = items.filter((item) => item.id !== id)
+      const newItems = items.filter((item) => item.id !== id);
       newItems.forEach((item) => {
         if (item.children) {
-          item.children = removeItem(item.children, id)
+          item.children = removeItem(item.children, id);
         }
-      })
-      return newItems
-    }
-    setPrompts([])
-    setPrompts(removeItem(prompts, id))
-  }
+      });
+      return newItems;
+    };
+    setPrompts([]);
+    setPrompts(removeItem(prompts, id));
+  };
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -35,8 +35,8 @@ export const DeletePromptButton = ({ id }: { id: string }) => {
       <DialogPortal
         title="Delete Prompt ?"
         primaryAction={() => {
-          handleDelete()
-          setOpen(false)
+          handleDelete();
+          setOpen(false);
         }}
         secondaryAction={() => setOpen(false)}
         primaryText="Delete"
@@ -44,5 +44,5 @@ export const DeletePromptButton = ({ id }: { id: string }) => {
         You are about to delete this prompt. This action cannot be undone.
       </DialogPortal>
     </Dialog.Root>
-  )
-}
+  );
+};

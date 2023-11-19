@@ -1,71 +1,72 @@
-import React from 'react'
-import SectionHeading from '../Elements/SectionHeading'
-import FieldWrapper from '../Elements/FieldWrapper'
-import { useSettings } from '../../../hooks/useSettings'
-import { validateApiKey } from '../../../utils/validApiKey'
-import { AvailableModels, Mode } from '../../../config/settings'
+import React from "react";
+
+import { validateApiKey } from "../../../lib/validApiKey";
+import FieldWrapper from "../Elements/FieldWrapper";
+import SectionHeading from "../Elements/SectionHeading";
+import { useSettings } from "~hooks/useSettings";
+import { AvailableModels, Mode } from "~config/settings";
 
 const ChatSettings = () => {
-  const [settings, setSettings] = useSettings()
-  const chatSettings = settings.chat
+  const [settings, setSettings] = useSettings();
+  const chatSettings = settings.chat;
 
-  const apiKeyInputRef = React.useRef<HTMLInputElement>(null)
+  const apiKeyInputRef = React.useRef<HTMLInputElement>(null);
 
   const handleOpenAiKeySubmit = async (
-    event: React.FormEvent<HTMLFormElement>,
+    event: React.FormEvent<HTMLFormElement>
   ) => {
-    event.preventDefault()
-    const target = event.target as HTMLFormElement
-    const input = target.querySelector('input') as HTMLInputElement
-    const value = input.value
+    event.preventDefault();
+    const target = event.target as HTMLFormElement;
+    const input = target.querySelector("input") as HTMLInputElement;
+    const value = input.value;
     setSettings({
       ...settings,
       chat: {
         ...chatSettings,
         openAIKey: value,
       },
-    })
+    });
 
     // checking the user open api key
-    const isValid: boolean = await validateApiKey(value)
+    const isValid: boolean = await validateApiKey(value);
 
     // assign  the input styles
     const inputStyles = isValid
-      ? { classname: 'input-success', value: `✅  ${value}` }
-      : { classname: 'input-failed', value: `❌  ${value}` }
+      ? { classname: "input-success", value: `✅  ${value}` }
+      : { classname: "input-failed", value: `❌  ${value}` };
 
     if (apiKeyInputRef.current) {
-      apiKeyInputRef.current.classList.add(inputStyles.classname)
-      apiKeyInputRef.current.value = inputStyles.value
+      apiKeyInputRef.current.classList.add(inputStyles.classname);
+      apiKeyInputRef.current.value = inputStyles.value;
       setTimeout(() => {
-        if (!apiKeyInputRef.current) return
-        apiKeyInputRef.current?.classList.remove(inputStyles.classname)
-        apiKeyInputRef.current.value = value
-      }, 2000)
+        if (!apiKeyInputRef.current) return;
+        apiKeyInputRef.current?.classList.remove(inputStyles.classname);
+        apiKeyInputRef.current.value = value;
+      }, 2000);
     }
-  }
+  };
 
   const handleModalChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = event.target.value
+    const value = event.target.value;
     setSettings({
       ...settings,
       chat: {
         ...chatSettings,
         modal: value as AvailableModels,
       },
-    })
-  }
+    });
+  };
 
   const handleModeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = event.target.value
+    const value = event.target.value;
     setSettings({
       ...settings,
       chat: {
         ...chatSettings,
         mode: value as unknown as Mode,
       },
-    })
-  }
+    });
+  };
 
   return (
     <div className="cdx-w-full cdx-flex-shrink-0 cdx-rounded-md">
@@ -87,7 +88,7 @@ const ChatSettings = () => {
             className="input"
             ref={apiKeyInputRef}
             placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            defaultValue={chatSettings.openAIKey || ''}
+            defaultValue={chatSettings.openAIKey || ""}
           />
           <button type="submit" className="btn">
             Update
@@ -133,13 +134,13 @@ const ChatSettings = () => {
         >
           {Object.entries(Mode).map(([mode, value]) => (
             <option key={value} value={value}>
-              {mode.replace('_', ' ').toLowerCase()}
+              {mode.replace("_", " ").toLowerCase()}
             </option>
           ))}
         </select>
       </FieldWrapper>
     </div>
-  )
-}
+  );
+};
 
-export default ChatSettings
+export default ChatSettings;

@@ -1,0 +1,10 @@
+import type { Atom } from 'jotai/vanilla';
+type ShouldRemove<Param> = (createdAt: number, param: Param) => boolean;
+export interface AtomFamily<Param, AtomType> {
+    (param: Param): AtomType;
+    remove(param: Param): void;
+    setShouldRemove(shouldRemove: ShouldRemove<Param> | null): void;
+}
+export declare function atomFamily<Param, AtomType extends Atom<unknown>>(initializeAtom: (param: Param) => AtomType, areEqual?: (a: Param, b: Param) => boolean): AtomFamily<Param, AtomType>;
+export {};
+declare type Awaited<T> = T extends Promise<infer V> ? V : T;

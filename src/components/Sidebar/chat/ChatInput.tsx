@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react'
-import TextareaAutosize from 'react-textarea-autosize'
-import { GiMagicBroom } from 'react-icons/gi'
-import { IoSend } from 'react-icons/io5'
-import { HiHand } from 'react-icons/hi'
-import ChatHistory from './ChatHistory'
-import { useChatHistory } from '../../../hooks/useChatHistory'
+import { useEffect, useState } from "react";
+import { GiMagicBroom } from "react-icons/gi";
+import { HiHand } from "react-icons/hi";
+import { IoSend } from "react-icons/io5";
+import TextareaAutosize from "react-textarea-autosize";
+import ChatHistory from "./ChatHistory";
+import { useChatHistory } from "~hooks/useChatHistory";
 
 interface SidebarInputProps {
-  loading: boolean
-  submitMessage: (prompt: string) => void
-  clearMessages: () => void
-  chatIsEmpty: boolean
-  cancelRequest: () => void
+  loading: boolean;
+  submitMessage: (prompt: string) => void;
+  clearMessages: () => void;
+  chatIsEmpty: boolean;
+  cancelRequest: () => void;
 }
 
 export function SidebarInput({
@@ -21,23 +21,23 @@ export function SidebarInput({
   chatIsEmpty,
   cancelRequest,
 }: SidebarInputProps) {
-  const [text, setText] = useState('')
-  const [delayedLoading, setDelayedLoading] = useState(false)
-  const { history } = useChatHistory()
+  const [text, setText] = useState("");
+  const [delayedLoading, setDelayedLoading] = useState(false);
+  const { history } = useChatHistory();
 
   useEffect(() => {
     const handleLoadingTimeout = setTimeout(() => {
-      setDelayedLoading(loading)
-    }, 1000)
+      setDelayedLoading(loading);
+    }, 1000);
     return () => {
-      clearTimeout(handleLoadingTimeout)
-    }
-  }, [loading])
+      clearTimeout(handleLoadingTimeout);
+    };
+  }, [loading]);
 
   const handleSubmit = () => {
-    submitMessage(text)
-    setText('')
-  }
+    submitMessage(text);
+    setText("");
+  };
 
   return (
     <div className="cdx-fixed cdx-bottom-0 cdx-left-0 cdx-right-0 cdx-flex cdx-flex-col ">
@@ -65,13 +65,13 @@ export function SidebarInput({
           disabled={loading}
           className="cdx-p-3 cdx-w-full focus:!cdx-outline-none cdx-text-sm cdx-resize-none cdx-max-h-96 cdx-pb-0 cdx-bg-transparent !cdx-border-none"
           onChange={(e) => {
-            e.preventDefault()
-            setText(e.target.value)
+            e.preventDefault();
+            setText(e.target.value);
           }}
           onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault()
-              handleSubmit()
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSubmit();
             }
           }}
         />
@@ -102,5 +102,5 @@ export function SidebarInput({
         </div>
       </div>
     </div>
-  )
+  );
 }

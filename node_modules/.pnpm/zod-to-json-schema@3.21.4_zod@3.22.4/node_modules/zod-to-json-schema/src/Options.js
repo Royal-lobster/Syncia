@@ -1,0 +1,21 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getDefaultOptions = exports.defaultOptions = void 0;
+exports.defaultOptions = {
+    name: undefined,
+    $refStrategy: "root",
+    basePath: ["#"],
+    effectStrategy: "input",
+    pipeStrategy: "all",
+    dateStrategy: "string",
+    definitionPath: "definitions",
+    target: "jsonSchema7",
+    strictUnions: false,
+    definitions: {},
+    errorMessages: false,
+    markdownDescription: false,
+    emailStrategy: "format:email",
+};
+const getDefaultOptions = (options) => (typeof options === "string"
+    ? Object.assign(Object.assign({}, exports.defaultOptions), { name: options }) : Object.assign(Object.assign({}, exports.defaultOptions), options));
+exports.getDefaultOptions = getDefaultOptions;
