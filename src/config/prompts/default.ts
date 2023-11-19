@@ -131,7 +131,7 @@ const prompts: PromptWithoutId[] = [
 
 const recursiveAddId = (
   prompts: PromptWithoutId[],
-  _parentId: string = '',
+  _parentId = '',
 ): Prompt[] => {
   return prompts.map((prompt) => {
     const id = hash(prompt)
