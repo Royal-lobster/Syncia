@@ -1,12 +1,10 @@
 import endent from 'endent'
 import { ChatOpenAI } from 'langchain/chat_models/openai'
-import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
 import { AIMessage, HumanMessage, SystemMessage } from 'langchain/schema'
-import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
-import { MemoryVectorStore } from 'langchain/vectorstores/memory'
 import { useMemo, useState } from 'react'
 import { AvailableModels, Mode } from '../config/settings'
 import { ChatRole, useCurrentChat } from './useCurrentChat'
+import { getMatchedContent } from '../lib/getMatchedContent'
 
 interface UseChatCompletionProps {
   model: AvailableModels
@@ -80,20 +78,7 @@ export const useChatCompletion = ({
      */
     let matchedContext
     if (context) {
-      const textSplitter = new RecursiveCharacterTextSplitter({
-        chunkSize: 1000,
-      })
-      const docs = await textSplitter.createDocuments([context])
-      const vectorStore = await MemoryVectorStore.fromDocuments(
-        docs,
-        new OpenAIEmbeddings({
-          openAIApiKey: apiKey,
-        }),
-      )
-      const retriever = vectorStore.asRetriever()
-      const relevantDocs = await retriever.getRelevantDocuments(query)
-      console.log(relevantDocs)
-      matchedContext = relevantDocs.map((doc) => doc.pageContent).join('\n')
+      matchedContext = await getMatchedContent(query, context, apiKey)
     }
 
     const expandedQuery = matchedContext

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSettings } from '../../../hooks/useSettings'
-import { validateApiKey } from '../../../utils/validApiKey'
+import { validateApiKey } from '../../../lib/validApiKey'
 
 const Auth = () => {
   const [, setSettings] = useSettings()

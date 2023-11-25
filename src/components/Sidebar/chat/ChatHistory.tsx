@@ -1,7 +1,7 @@
 import { useChatHistory } from '../../../hooks/useChatHistory'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { RiAddLine, RiCloseCircleFill, RiTimeLine } from 'react-icons/ri'
-import { generateReadableRelativeDate } from '../../../utils/generateReadableDate'
+import { generateReadableRelativeDate } from '../../../lib/generateReadableDate'
 
 const ChatHistory = () => {
   const {

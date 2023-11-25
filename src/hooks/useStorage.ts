@@ -18,6 +18,7 @@ export function useStorage<T>(
 ): [T, SetValue<T>] {
   const [storedValue, setStoredValue] = useAtom(atom)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: This works fine. i don't want to change it.
   useEffect(() => {
     readStorage<T>(key, area).then((res) => {
       if (res) setStoredValue(res)

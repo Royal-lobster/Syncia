@@ -2,7 +2,7 @@ import React from 'react'
 import SectionHeading from '../Elements/SectionHeading'
 import FieldWrapper from '../Elements/FieldWrapper'
 import { useSettings } from '../../../hooks/useSettings'
-import { validateApiKey } from '../../../utils/validApiKey'
+import { validateApiKey } from '../../../lib/validApiKey'
 import { AvailableModels, Mode } from '../../../config/settings'
 
 const ChatSettings = () => {
