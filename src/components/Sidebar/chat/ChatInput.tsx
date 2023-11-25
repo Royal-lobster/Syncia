@@ -50,7 +50,6 @@ export function SidebarInput({
       })
       context = (await pageContent) as string
     }
-    console.log('context', context)
     submitMessage(text, isWebpageContextOn ? context : undefined)
     setText('')
   }

@@ -1,13 +1,12 @@
-import { AvailableModels, Mode } from '../config/settings'
+import endent from 'endent'
 import { ChatOpenAI } from 'langchain/chat_models/openai'
-import { useCurrentChat, ChatRole } from './useCurrentChat'
-import { useMemo } from 'react'
-import { AIMessage, HumanMessage, SystemMessage } from 'langchain/schema'
-import { useState } from 'react'
-import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
-import { HNSWLib } from 'langchain/vectorstores/hnswlib'
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
-import { loadQAMapReduceChain } from 'langchain/chains'
+import { AIMessage, HumanMessage, SystemMessage } from 'langchain/schema'
+import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
+import { MemoryVectorStore } from 'langchain/vectorstores/memory'
+import { useMemo, useState } from 'react'
+import { AvailableModels, Mode } from '../config/settings'
+import { ChatRole, useCurrentChat } from './useCurrentChat'
 
 interface UseChatCompletionProps {
   model: AvailableModels
@@ -67,11 +66,6 @@ export const useChatCompletion = ({
 
   const submitQuery = async (query: string, context?: string) => {
     await addNewMessage(ChatRole.USER, query)
-    const messages = [
-      new SystemMessage(systemPrompt),
-      ...previousMessages,
-      new HumanMessage(query),
-    ]
     const options = {
       signal: controller.signal,
       callbacks: [{ handleLLMNewToken: updateAssistantMessage }],
@@ -79,34 +73,47 @@ export const useChatCompletion = ({
 
     setGenerating(true)
 
-    // if there is no web page context, run with a simple llm call
-    if (!context) {
-      llm.call(messages, options).then(() => {
-        commitToStoredMessages()
-        setGenerating(false)
+    /**
+     * If context is provided, we need to use the LLM to get the relevant documents
+     * and then run the LLM on those documents. We use in memory vector store to
+     * get the relevant documents
+     */
+    let matchedContext
+    if (context) {
+      const textSplitter = new RecursiveCharacterTextSplitter({
+        chunkSize: 1000,
       })
-      return
+      const docs = await textSplitter.createDocuments([context])
+      const vectorStore = await MemoryVectorStore.fromDocuments(
+        docs,
+        new OpenAIEmbeddings({
+          openAIApiKey: apiKey,
+        }),
+      )
+      const retriever = vectorStore.asRetriever()
+      const relevantDocs = await retriever.getRelevantDocuments(query)
+      console.log(relevantDocs)
+      matchedContext = relevantDocs.map((doc) => doc.pageContent).join('\n')
     }
 
-    // if there is a web page context, run with a map reduce chain
-    const textSplitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 1000,
-    })
-    const docs = await textSplitter.createDocuments([context])
-    const vectorStore = await HNSWLib.fromDocuments(
-      docs,
-      new OpenAIEmbeddings(),
-    )
-    const retriever = vectorStore.asRetriever()
-    const relevantDocs = await retriever.getRelevantDocuments(query)
-    const mapReduceChain = loadQAMapReduceChain(llm)
-    await mapReduceChain.invoke(
-      {
-        messages: messages,
-        input_documents: relevantDocs,
-      },
-      options,
-    )
+    const expandedQuery = matchedContext
+      ? endent`
+      ### Context
+      ${matchedContext}
+      ### Question:
+      ${query}
+    `
+      : query
+
+    const messages = [
+      new SystemMessage(systemPrompt),
+      ...previousMessages,
+      new HumanMessage(expandedQuery),
+    ]
+
+    await llm.call(messages, options)
+    commitToStoredMessages()
+    setGenerating(false)
   }
 
   const cancelRequest = () => {
