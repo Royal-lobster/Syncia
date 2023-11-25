@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 import { GiMagicBroom } from 'react-icons/gi'
 import { IoSend } from 'react-icons/io5'
@@ -26,21 +26,6 @@ export function SidebarInput({
   const [text, setText] = useState('')
   const [delayedLoading, setDelayedLoading] = useState(false)
   const { history } = useChatHistory()
-  const pageContentRef = useRef<string>()
-
-  useEffect(() => {
-    const handleWindowMessage = (event: MessageEvent) => {
-      const { action, pageContent } = event.data as {
-        action: string
-        pageContent: string
-      }
-      if (action === 'get-page-content') {
-        pageContentRef.current = pageContent
-      }
-    }
-
-    window.addEventListener('message', handleWindowMessage)
-  }, [])
 
   useEffect(() => {
     const handleLoadingTimeout = setTimeout(() => {
@@ -51,8 +36,22 @@ export function SidebarInput({
     }
   }, [loading])
 
-  const handleSubmit = () => {
-    submitMessage(text, isWebpageContextOn ? pageContentRef.current : undefined)
+  const handleSubmit = async () => {
+    let context
+    if (isWebpageContextOn) {
+      const pageContent = new Promise((resolve) => {
+        window.addEventListener('message', function (event) {
+          if (event.data.action === 'get-page-content') {
+            resolve(event.data.pageContent)
+          }
+        })
+
+        window.parent.postMessage({ action: 'get-page-content' }, '*')
+      })
+      context = (await pageContent) as string
+    }
+    console.log('context', context)
+    submitMessage(text, isWebpageContextOn ? context : undefined)
     setText('')
   }
 
