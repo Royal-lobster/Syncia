@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import ChatList from './ChatList'
 import { SidebarInput } from './ChatInput'
 import { useChatCompletion } from '../../../hooks/useChatCompletion'
@@ -33,7 +33,7 @@ const Chat = ({ settings }: ChatProps) => {
     return () => {
       window.removeEventListener('message', handleWindowMessage)
     }
-  }, [])
+  }, [submitQuery])
 
   return (
     <>
@@ -44,6 +44,7 @@ const Chat = ({ settings }: ChatProps) => {
         chatIsEmpty={messages.length <= 1}
         clearMessages={clearMessages}
         cancelRequest={cancelRequest}
+        isWebpageContextOn={settings.general.webpageContext}
       />
     </>
   )

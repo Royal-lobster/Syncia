@@ -1,9 +1,10 @@
-import { AvailableModels, Mode } from '../config/settings'
+import endent from 'endent'
 import { ChatOpenAI } from 'langchain/chat_models/openai'
-import { useCurrentChat, ChatRole } from './useCurrentChat'
-import { useMemo } from 'react'
 import { AIMessage, HumanMessage, SystemMessage } from 'langchain/schema'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import { AvailableModels, Mode } from '../config/settings'
+import { ChatRole, useCurrentChat } from './useCurrentChat'
+import { getMatchedContent } from '../lib/getMatchedContent'
 
 interface UseChatCompletionProps {
   model: AvailableModels
@@ -37,7 +38,7 @@ export const useChatCompletion = ({
   } = useCurrentChat()
   const [generating, setGenerating] = useState(false)
 
-  const chat = useMemo(
+  const llm = useMemo(
     () =>
       new ChatOpenAI({
         streaming: true,
@@ -45,7 +46,7 @@ export const useChatCompletion = ({
         modelName: model,
         temperature: Number(mode),
       }),
-    [],
+    [apiKey, model, mode],
   )
 
   const previousMessages = messages.map((msg) => {
@@ -61,22 +62,43 @@ export const useChatCompletion = ({
 
   const controller = new AbortController()
 
-  const submitQuery = async (query: string) => {
+  const submitQuery = async (query: string, context?: string) => {
     await addNewMessage(ChatRole.USER, query)
-    const messages = [
-      new SystemMessage(systemPrompt),
-      ...previousMessages,
-      new HumanMessage(query),
-    ]
     const options = {
       signal: controller.signal,
       callbacks: [{ handleLLMNewToken: updateAssistantMessage }],
     }
+
     setGenerating(true)
-    chat.call(messages, options).then(() => {
-      commitToStoredMessages()
-      setGenerating(false)
-    })
+
+    /**
+     * If context is provided, we need to use the LLM to get the relevant documents
+     * and then run the LLM on those documents. We use in memory vector store to
+     * get the relevant documents
+     */
+    let matchedContext
+    if (context) {
+      matchedContext = await getMatchedContent(query, context, apiKey)
+    }
+
+    const expandedQuery = matchedContext
+      ? endent`
+      ### Context
+      ${matchedContext}
+      ### Question:
+      ${query}
+    `
+      : query
+
+    const messages = [
+      new SystemMessage(systemPrompt),
+      ...previousMessages,
+      new HumanMessage(expandedQuery),
+    ]
+
+    await llm.call(messages, options)
+    commitToStoredMessages()
+    setGenerating(false)
   }
 
   const cancelRequest = () => {

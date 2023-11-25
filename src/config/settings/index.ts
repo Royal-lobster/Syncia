@@ -35,6 +35,7 @@ export type Settings = {
   }
   general: {
     theme: ThemeOptions
+    webpageContext: boolean
   }
 }
 
@@ -51,5 +52,6 @@ export const defaultSettings: Settings = {
   },
   general: {
     theme: ThemeOptions.SYSTEM,
+    webpageContext: true,
   },
 }

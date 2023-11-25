@@ -12,11 +12,17 @@ export const sendSidebarShortcut = () => {
 
     // Send shortcut to client
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      if (tabs[0].id)
-        chrome.tabs.sendMessage(tabs[0].id, {
-          action: 'sidebar-shortcut',
-          shortcut,
+      if (tabs[0].id) {
+        chrome.tabs.onUpdated.addListener(function listener(tabId, info) {
+          if (info.status === 'complete' && tabId === tabs[0].id) {
+            chrome.tabs.sendMessage(tabs[0].id, {
+              action: 'sidebar-shortcut',
+              shortcut,
+            })
+            chrome.tabs.onUpdated.removeListener(listener)
+          }
         })
+      }
     })
   })
 }

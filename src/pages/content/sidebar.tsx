@@ -17,6 +17,12 @@ iframe.id = 'syncia_sidebar'
 
 document.body.appendChild(iframe)
 
+/**
+ * BG SCRIPT <-> CONTENT SCRIPT
+ * Event listener for messages from the background script.
+ * To open the sidebar, the background script sends a message with the action 'open-sidebar'.
+ * The sidebar is opened by setting the width of the iframe to 400px.
+ */
 chrome.runtime.onMessage.addListener(function (msg) {
   if (msg.action === 'open-sidebar') {
     if (iframe.style.width === '0px') {
@@ -24,5 +30,27 @@ chrome.runtime.onMessage.addListener(function (msg) {
     } else {
       iframe.style.width = '0px'
     }
+  }
+})
+
+/**
+ * SIDEBAR <-> CONTENT SCRIPT
+ * Event listener for messages from the sidebar.
+ * To get the page content, the sidebar sends a message with the action 'get-page-content'.
+ * The page content is sent back to the sidebar by posting a message with the action 'get-page-content'.
+ */
+window.addEventListener('message', (event) => {
+  const { action, _payload } = event.data as { action: string; _payload: any }
+
+  if (action === 'get-page-content') {
+    console.log('get-page-content Triggered')
+    const pageContent = document.body.innerText
+    iframe.contentWindow?.postMessage(
+      {
+        action: 'get-page-content',
+        pageContent,
+      },
+      '*',
+    )
   }
 })
