@@ -45,7 +45,7 @@ export const useChatCompletion = ({
         modelName: model,
         temperature: Number(mode),
       }),
-    [],
+    [apiKey, model, mode],
   )
 
   const previousMessages = messages.map((msg) => {
