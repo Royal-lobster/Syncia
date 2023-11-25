@@ -4,6 +4,10 @@ import { useCurrentChat, ChatRole } from './useCurrentChat'
 import { useMemo } from 'react'
 import { AIMessage, HumanMessage, SystemMessage } from 'langchain/schema'
 import { useState } from 'react'
+import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
+import { HNSWLib } from 'langchain/vectorstores/hnswlib'
+import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
+import { loadQAMapReduceChain } from 'langchain/chains'
 
 interface UseChatCompletionProps {
   model: AvailableModels
@@ -37,7 +41,7 @@ export const useChatCompletion = ({
   } = useCurrentChat()
   const [generating, setGenerating] = useState(false)
 
-  const chat = useMemo(
+  const llm = useMemo(
     () =>
       new ChatOpenAI({
         streaming: true,
@@ -61,7 +65,7 @@ export const useChatCompletion = ({
 
   const controller = new AbortController()
 
-  const submitQuery = async (query: string) => {
+  const submitQuery = async (query: string, context?: string) => {
     await addNewMessage(ChatRole.USER, query)
     const messages = [
       new SystemMessage(systemPrompt),
@@ -72,11 +76,37 @@ export const useChatCompletion = ({
       signal: controller.signal,
       callbacks: [{ handleLLMNewToken: updateAssistantMessage }],
     }
+
     setGenerating(true)
-    chat.call(messages, options).then(() => {
-      commitToStoredMessages()
-      setGenerating(false)
+
+    // if there is no web page context, run with a simple llm call
+    if (!context) {
+      llm.call(messages, options).then(() => {
+        commitToStoredMessages()
+        setGenerating(false)
+      })
+      return
+    }
+
+    // if there is a web page context, run with a map reduce chain
+    const textSplitter = new RecursiveCharacterTextSplitter({
+      chunkSize: 1000,
     })
+    const docs = await textSplitter.createDocuments([context])
+    const vectorStore = await HNSWLib.fromDocuments(
+      docs,
+      new OpenAIEmbeddings(),
+    )
+    const retriever = vectorStore.asRetriever()
+    const relevantDocs = await retriever.getRelevantDocuments(query)
+    const mapReduceChain = loadQAMapReduceChain(llm)
+    await mapReduceChain.invoke(
+      {
+        messages: messages,
+        input_documents: relevantDocs,
+      },
+      options,
+    )
   }
 
   const cancelRequest = () => {

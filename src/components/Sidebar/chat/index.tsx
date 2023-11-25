@@ -4,6 +4,7 @@ import { SidebarInput } from './ChatInput'
 import { useChatCompletion } from '../../../hooks/useChatCompletion'
 import { SYSTEM_PROMPT } from '../../../config/prompts'
 import { Settings } from '../../../config/settings'
+import { getWebPageContent } from '../../../lib/getWebPageContent'
 
 interface ChatProps {
   settings: Settings
@@ -25,7 +26,10 @@ const Chat = ({ settings }: ChatProps) => {
         prompt: string
       }
       if (action === 'generate') {
-        submitQuery(prompt)
+        submitQuery(
+          prompt,
+          settings.general.webpageContext ? getWebPageContent() : undefined,
+        )
       }
     }
     window.addEventListener('message', handleWindowMessage)
@@ -33,7 +37,7 @@ const Chat = ({ settings }: ChatProps) => {
     return () => {
       window.removeEventListener('message', handleWindowMessage)
     }
-  }, [])
+  }, [submitQuery, settings.general.webpageContext])
 
   return (
     <>
