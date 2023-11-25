@@ -5,6 +5,7 @@ import { IoSend } from 'react-icons/io5'
 import { HiHand } from 'react-icons/hi'
 import ChatHistory from './ChatHistory'
 import { useChatHistory } from '../../../hooks/useChatHistory'
+import WebPageContentToggle from './WebPageContentToggle'
 
 interface SidebarInputProps {
   loading: boolean
@@ -14,6 +15,8 @@ interface SidebarInputProps {
   cancelRequest: () => void
   isWebpageContextOn: boolean
 }
+
+const MAX_MESSAGE_LENGTH = 10000
 
 export function SidebarInput({
   loading,
@@ -54,6 +57,27 @@ export function SidebarInput({
     setText('')
   }
 
+  const sendButton = (
+    <button
+      type="button"
+      disabled={loading}
+      onClick={handleSubmit}
+      className="cdx-flex cdx-gap-2 disabled:cdx-bg-slate-500 disabled:cdx-text-slate-400 cdx-items-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white cdx-py-2 cdx-px-4 cdx-rounded"
+    >
+      <span>Send</span> <IoSend size={10} />
+    </button>
+  )
+
+  const stopButton = (
+    <button
+      type="button"
+      onClick={cancelRequest}
+      className="cdx-flex cdx-gap-2 disabled:cdx-bg-slate-500 disabled:cdx-text-slate-400 cdx-items-center cdx-bg-red-500 hover:cdx-bg-red-700 cdx-text-white cdx-py-2 cdx-px-4 cdx-rounded"
+    >
+      <HiHand size={18} /> <span>Stop</span>
+    </button>
+  )
+
   return (
     <div className="cdx-fixed cdx-bottom-0 cdx-left-0 cdx-right-0 cdx-flex cdx-flex-col ">
       <div className="cdx-flex cdx-mx-3 cdx-items-center cdx-justify-between">
@@ -74,7 +98,7 @@ export function SidebarInput({
       <div className="cdx-m-2 cdx-rounded-md cdx-border dark:cdx-border-neutral-800 cdx-border-neutral-300 dark:cdx-bg-neutral-900/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50">
         <TextareaAutosize
           minRows={2}
-          maxLength={10000}
+          maxLength={MAX_MESSAGE_LENGTH}
           placeholder="Type your message here..."
           value={text}
           disabled={loading}
@@ -91,29 +115,14 @@ export function SidebarInput({
           }}
         />
         <div className="cdx-flex cdx-justify-between cdx-items-center cdx-p-3">
-          <div>
-            <span className="cdx-text-xs cdx-text-neutral-500 dark:cdx-text-neutral-200">
-              {text.length} / 10,000
-            </span>
+          <span className="cdx-text-xs cdx-text-neutral-500 dark:cdx-text-neutral-200">
+            {text.length.toLocaleString()} /{' '}
+            {MAX_MESSAGE_LENGTH.toLocaleString()}
+          </span>
+          <div className="cdx-flex cdx-items-center cdx-justify-center cdx-gap-4">
+            <WebPageContentToggle />
+            {!delayedLoading ? sendButton : stopButton}
           </div>
-          {!delayedLoading ? (
-            <button
-              type="button"
-              disabled={loading}
-              onClick={handleSubmit}
-              className="cdx-flex cdx-gap-2 disabled:cdx-bg-slate-500 disabled:cdx-text-slate-400 cdx-items-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white cdx-py-2 cdx-px-4 cdx-rounded"
-            >
-              <span>Send</span> <IoSend size={10} />
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={cancelRequest}
-              className="cdx-flex cdx-gap-2 disabled:cdx-bg-slate-500 disabled:cdx-text-slate-400 cdx-items-center cdx-bg-red-500 hover:cdx-bg-red-700 cdx-text-white cdx-py-2 cdx-px-4 cdx-rounded"
-            >
-              <HiHand size={18} /> <span>Stop</span>
-            </button>
-          )}
         </div>
       </div>
     </div>
