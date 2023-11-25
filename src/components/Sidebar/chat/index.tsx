@@ -1,10 +1,9 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import ChatList from './ChatList'
 import { SidebarInput } from './ChatInput'
 import { useChatCompletion } from '../../../hooks/useChatCompletion'
 import { SYSTEM_PROMPT } from '../../../config/prompts'
 import { Settings } from '../../../config/settings'
-import { getWebPageContent } from '../../../lib/getWebPageContent'
 
 interface ChatProps {
   settings: Settings
@@ -26,10 +25,7 @@ const Chat = ({ settings }: ChatProps) => {
         prompt: string
       }
       if (action === 'generate') {
-        submitQuery(
-          prompt,
-          settings.general.webpageContext ? getWebPageContent() : undefined,
-        )
+        submitQuery(prompt)
       }
     }
     window.addEventListener('message', handleWindowMessage)
@@ -37,7 +33,7 @@ const Chat = ({ settings }: ChatProps) => {
     return () => {
       window.removeEventListener('message', handleWindowMessage)
     }
-  }, [submitQuery, settings.general.webpageContext])
+  }, [submitQuery])
 
   return (
     <>
@@ -48,6 +44,7 @@ const Chat = ({ settings }: ChatProps) => {
         chatIsEmpty={messages.length <= 1}
         clearMessages={clearMessages}
         cancelRequest={cancelRequest}
+        isWebpageContextOn={settings.general.webpageContext}
       />
     </>
   )

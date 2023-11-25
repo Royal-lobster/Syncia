@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 import { GiMagicBroom } from 'react-icons/gi'
 import { IoSend } from 'react-icons/io5'
@@ -8,10 +8,11 @@ import { useChatHistory } from '../../../hooks/useChatHistory'
 
 interface SidebarInputProps {
   loading: boolean
-  submitMessage: (prompt: string) => void
+  submitMessage: (message: string, context?: string) => void
   clearMessages: () => void
   chatIsEmpty: boolean
   cancelRequest: () => void
+  isWebpageContextOn: boolean
 }
 
 export function SidebarInput({
@@ -20,10 +21,26 @@ export function SidebarInput({
   clearMessages,
   chatIsEmpty,
   cancelRequest,
+  isWebpageContextOn,
 }: SidebarInputProps) {
   const [text, setText] = useState('')
   const [delayedLoading, setDelayedLoading] = useState(false)
   const { history } = useChatHistory()
+  const pageContentRef = useRef<string>()
+
+  useEffect(() => {
+    const handleWindowMessage = (event: MessageEvent) => {
+      const { action, pageContent } = event.data as {
+        action: string
+        pageContent: string
+      }
+      if (action === 'get-page-content') {
+        pageContentRef.current = pageContent
+      }
+    }
+
+    window.addEventListener('message', handleWindowMessage)
+  }, [])
 
   useEffect(() => {
     const handleLoadingTimeout = setTimeout(() => {
@@ -35,7 +52,7 @@ export function SidebarInput({
   }, [loading])
 
   const handleSubmit = () => {
-    submitMessage(text)
+    submitMessage(text, isWebpageContextOn ? pageContentRef.current : undefined)
     setText('')
   }
 

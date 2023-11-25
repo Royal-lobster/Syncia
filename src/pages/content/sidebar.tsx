@@ -18,11 +18,24 @@ iframe.id = 'syncia_sidebar'
 document.body.appendChild(iframe)
 
 chrome.runtime.onMessage.addListener(function (msg) {
+  // ACTION: Open sidebar
   if (msg.action === 'open-sidebar') {
     if (iframe.style.width === '0px') {
       iframe.style.width = '400px'
     } else {
       iframe.style.width = '0px'
     }
+  }
+
+  // ACTION: Get Page Content
+  if (msg.action === 'get-page-content') {
+    const pageContent = document.body.innerText
+    iframe.contentWindow?.postMessage(
+      {
+        action: 'get-page-content',
+        pageContent,
+      },
+      '*',
+    )
   }
 })
