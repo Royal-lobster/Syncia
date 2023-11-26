@@ -50,7 +50,7 @@ window.addEventListener('message', async (event) => {
     iframe.contentWindow?.postMessage(
       {
         action: 'get-page-content',
-        pageContent,
+        payload: pageContent,
       },
       '*',
     )
@@ -64,7 +64,7 @@ window.addEventListener('message', async (event) => {
     iframe.contentWindow?.postMessage(
       {
         action: 'get-screenshot-image',
-        image,
+        payload: image,
       },
       '*',
     )

@@ -53,8 +53,9 @@ export function SidebarInput({
     if (isWebpageContextOn) {
       const pageContent = new Promise((resolve) => {
         window.addEventListener('message', function (event) {
-          if (event.data.action === 'get-page-content') {
-            resolve(event.data.pageContent)
+          const { action, payload } = event.data
+          if (action === 'get-page-content') {
+            resolve(payload)
           }
         })
 

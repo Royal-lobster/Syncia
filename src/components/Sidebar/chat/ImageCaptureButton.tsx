@@ -11,8 +11,9 @@ const ImageCaptureButton = ({
     const image = await new Promise((resolve) => {
       window.parent.postMessage({ action: 'get-screenshot-image' }, '*')
       window.addEventListener('message', function (event) {
-        if (event.data.action === 'get-screenshot-image') {
-          resolve(event.data.image)
+        const { action, payload } = event.data
+        if (action === 'get-screenshot-image') {
+          resolve(payload)
         }
       })
     })
