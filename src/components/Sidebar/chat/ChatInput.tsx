@@ -9,6 +9,7 @@ import WebPageContentToggle from './WebPageContentToggle'
 import ImageCaptureButton from './ImageCaptureButton'
 import { useMessageDraft } from '../../../hooks/useMessageDraft'
 import FilePreviewBar from './FilePreviewBar'
+import MessageDraftLengthCounter from './MessageDraftLengthCounter'
 
 interface SidebarInputProps {
   loading: boolean
@@ -17,6 +18,7 @@ interface SidebarInputProps {
   chatIsEmpty: boolean
   cancelRequest: () => void
   isWebpageContextOn: boolean
+  isVisionModel: boolean
 }
 
 const MAX_MESSAGE_LENGTH = 10000
@@ -28,6 +30,7 @@ export function SidebarInput({
   chatIsEmpty,
   cancelRequest,
   isWebpageContextOn,
+  isVisionModel,
 }: SidebarInputProps) {
   const {
     messageDraft,
@@ -131,7 +134,16 @@ export function SidebarInput({
           }}
         />
         <div className="cdx-flex cdx-justify-between cdx-items-center cdx-p-3">
-          <ImageCaptureButton addMessageDraftFile={addMessageDraftFile} />
+          {isVisionModel ? (
+            <ImageCaptureButton addMessageDraftFile={addMessageDraftFile} />
+          ) : (
+            <div>
+              <MessageDraftLengthCounter
+                length={messageDraft.text.length}
+                MAX_LENGTH={MAX_MESSAGE_LENGTH}
+              />
+            </div>
+          )}
           <div className="cdx-flex cdx-items-center cdx-justify-center cdx-gap-4">
             <WebPageContentToggle />
             {!delayedLoading ? sendButton : stopButton}

@@ -3,7 +3,7 @@ import ChatList from './ChatList'
 import { SidebarInput } from './ChatInput'
 import { useChatCompletion } from '../../../hooks/useChatCompletion'
 import { SYSTEM_PROMPT } from '../../../config/prompts'
-import { Settings } from '../../../config/settings'
+import { AvailableModels, Settings } from '../../../config/settings'
 
 interface ChatProps {
   settings: Settings
@@ -45,6 +45,7 @@ const Chat = ({ settings }: ChatProps) => {
         clearMessages={clearMessages}
         cancelRequest={cancelRequest}
         isWebpageContextOn={settings.general.webpageContext}
+        isVisionModel={settings.chat.modal === AvailableModels.GPT_4_VISION}
       />
     </>
   )
