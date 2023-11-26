@@ -106,6 +106,7 @@ export const getScreenshotImage = async (): Promise<Blob> => {
     x: window.scrollX,
     y: window.scrollY,
     scale: 1,
+    useCORS: true,
   })
 
   // Create a cropped canvas as before
