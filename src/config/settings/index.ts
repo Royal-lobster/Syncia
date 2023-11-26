@@ -45,7 +45,7 @@ export const defaultSettings: Settings = {
   },
   chat: {
     openAIKey: null,
-    modal: AvailableModels.GPT_3_5_TURBO,
+    modal: AvailableModels.GPT_4_VISION,
     mode: Mode.BALANCED,
   },
   general: {

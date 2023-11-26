@@ -25,7 +25,7 @@ export const getScreenshotImage = async (): Promise<Blob> => {
 
   const snipeSelection: HTMLDivElement = document.createElement('div')
   snipeSelection.style.position = 'fixed'
-  snipeSelection.style.border = '1px solid #fff'
+  snipeSelection.style.border = '1px solid #ffffff2a'
   snipeSelection.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'
   snipeSelection.style.zIndex = '2147483647' // Maximum z-index
 
