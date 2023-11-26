@@ -7,6 +7,7 @@ import ChatHistory from './ChatHistory'
 import { useChatHistory } from '../../../hooks/useChatHistory'
 import WebPageContentToggle from './WebPageContentToggle'
 import ImageCaptureButton from './ImageCaptureButton'
+import { useMessageDraft } from '../../../hooks/useMessageDraft'
 
 interface SidebarInputProps {
   loading: boolean
@@ -27,7 +28,8 @@ export function SidebarInput({
   cancelRequest,
   isWebpageContextOn,
 }: SidebarInputProps) {
-  const [text, setText] = useState('')
+  const { messageDraft, setMessageDraftText, resetMessageDraft } =
+    useMessageDraft()
   const [delayedLoading, setDelayedLoading] = useState(false)
   const { history } = useChatHistory()
 
@@ -54,8 +56,8 @@ export function SidebarInput({
       })
       context = (await pageContent) as string
     }
-    submitMessage(text, isWebpageContextOn ? context : undefined)
-    setText('')
+    submitMessage(messageDraft.text, isWebpageContextOn ? context : undefined)
+    resetMessageDraft()
   }
 
   const sendButton = (
@@ -101,12 +103,12 @@ export function SidebarInput({
           minRows={2}
           maxLength={MAX_MESSAGE_LENGTH}
           placeholder="Type your message here..."
-          value={text}
+          value={messageDraft.text}
           disabled={loading}
           className="cdx-p-3 cdx-w-full focus:!cdx-outline-none placeholder:cdx-text-neutral-500 cdx-text-sm cdx-resize-none cdx-max-h-96 cdx-pb-0 cdx-bg-transparent !cdx-border-none"
           onChange={(e) => {
             e.preventDefault()
-            setText(e.target.value)
+            setMessageDraftText(e.target.value)
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey) {

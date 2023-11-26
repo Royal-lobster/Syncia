@@ -73,6 +73,7 @@ export const useCurrentChat = () => {
 
   // We need to fetch stored messages when the tab is changed
   // so if changes were made in another tab, we can reflect them
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     chrome.tabs.onActivated.addListener(fetchStoredMessages)
     return () => chrome.tabs.onActivated.removeListener(fetchStoredMessages)
@@ -80,6 +81,7 @@ export const useCurrentChat = () => {
 
   // We need to fetch stored messages when the current chat id changes
   // we get new history from the storage stored with the new id
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     fetchStoredMessages()
   }, [currentChatId])
