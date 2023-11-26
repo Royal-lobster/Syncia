@@ -45,7 +45,6 @@ window.addEventListener('message', async (event) => {
 
   // ACTION: get-page-content ==============================
   if (action === 'get-page-content') {
-    console.log('get-page-content Triggered')
     const pageContent = document.body.innerText
     iframe.contentWindow?.postMessage(
       {

@@ -59,7 +59,6 @@ export const useCurrentChat = () => {
     // so we need to fetch it from the storage.
     const storedChatId = await readStorage<string | null>('CURRENT_CHAT_ID')
     if (!storedChatId) {
-      console.log('🌟 No current chat id found.')
       setMessages([])
       return
     }
@@ -108,13 +107,7 @@ export const useCurrentChat = () => {
 
   const addNewMessage = async (role: ChatRole, message: MessageDraft) => {
     if (!currentChatIdRef.current || !historyRef.current.length) {
-      console.log({
-        currentChatId: currentChatIdRef.current,
-        historyLength: history.length,
-      })
-      console.log('🌟 Welcome New user ! creating your first chat history.')
       const newId = createChatHistory(await getCurrentSiteHostName())
-      console.log({ newId })
       setCurrentChatId(newId)
     }
 
