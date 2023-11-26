@@ -8,17 +8,23 @@ interface FilePreviewBarProps {
 
 const FilePreviewBar = ({ files, removeFile }: FilePreviewBarProps) => {
   if (files.length === 0) return null
+
   return (
     <div className="cdx-flex cdx-gap-2 cdx-m-2">
       {files.map((file) => (
         <div key={file.id} className="cdx-flex cdx-relative">
-          <div className="cdx-flex-grow">
+          <a
+            href={URL.createObjectURL(file.blob)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cdx-block cdx-flex-grow"
+          >
             <img
               src={URL.createObjectURL(file.blob)}
               alt="preview"
               className="cdx-w-14 cdx-h-14 cdx-object-contain cdx-rounded dark:cdx-bg-neutral-800 cdx-bg-neutral-400"
             />
-          </div>
+          </a>
           {removeFile && (
             <button
               onClick={() => removeFile(file.id)}
