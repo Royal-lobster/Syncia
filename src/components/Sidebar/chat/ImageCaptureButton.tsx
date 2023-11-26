@@ -8,7 +8,7 @@ const ImageCaptureButton = ({
   addMessageDraftFile,
 }: ImageCaptureButtonProps) => {
   const handleScreenshotClick = async () => {
-    const image = await new Promise((resolve) => {
+    const imageBlob: Blob = await new Promise((resolve) => {
       window.parent.postMessage({ action: 'get-screenshot-image' }, '*')
       window.addEventListener('message', function (event) {
         const { action, payload } = event.data
@@ -17,8 +17,8 @@ const ImageCaptureButton = ({
         }
       })
     })
-    console.log('image', image)
-    addMessageDraftFile(image as Blob)
+
+    addMessageDraftFile(imageBlob as Blob)
   }
   return (
     <button

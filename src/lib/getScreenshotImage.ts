@@ -1,3 +1,5 @@
+import html2canvas from 'html2canvas'
+
 /**
  * We use this function to
  * 1. Create a snipping tool view for the user to select the area of the screen
@@ -5,9 +7,9 @@
  * 3. Crop the image with the user's selection
  * 4. Return the cropped image as a blob
  */
-export const getScreenshotImage = async () => {
+export const getScreenshotImage = async (): Promise<Blob> => {
   // Create a snipping tool view for the user to select the area of the screen
-  const snipeRegion = document.createElement('div')
+  const snipeRegion: HTMLDivElement = document.createElement('div')
   snipeRegion.style.position = 'fixed'
   snipeRegion.style.top = '0'
   snipeRegion.style.left = '0'
@@ -16,68 +18,133 @@ export const getScreenshotImage = async () => {
   snipeRegion.style.zIndex = '2147483646' // Maximum z-index
   snipeRegion.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
   snipeRegion.style.cursor = 'crosshair'
-  document.body.appendChild(snipeRegion)
 
-  const snipeSelection = document.createElement('div')
+  const snipeSelection: HTMLDivElement = document.createElement('div')
   snipeSelection.style.position = 'fixed'
-  snipeSelection.style.top = '0'
-  snipeSelection.style.left = '0'
-  snipeSelection.style.width = '0'
-  snipeSelection.style.height = '0'
-  snipeSelection.style.border = '1px solid #ffffff0a'
-  snipeSelection.style.backgroundColor = 'rgba(256, 256, 256, 0.1)'
+  snipeSelection.style.border = '1px solid #fff'
+  snipeSelection.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'
   snipeSelection.style.zIndex = '2147483647' // Maximum z-index
+
+  document.body.appendChild(snipeRegion)
   document.body.appendChild(snipeSelection)
 
-  // Grab the screen image with canvas
-  const canvas = document.createElement('canvas')
+  // Create a canvas element
+  const canvas: HTMLCanvasElement = document.createElement('canvas')
   canvas.width = window.innerWidth
   canvas.height = window.innerHeight
-  const ctx = canvas.getContext('2d')
+  const ctx: CanvasRenderingContext2D | null = canvas.getContext('2d')
   if (!ctx) {
     throw new Error('Could not get canvas context')
   }
 
-  // Crop the image with the user's selection
-  await new Promise((resolve) => {
-    snipeRegion.addEventListener('mousedown', (e) => {
-      const startX = e.clientX
-      const startY = e.clientY
+  // Initially declare the variables with a type and set to undefined
+  let startX: number | undefined
+  let startY: number | undefined
+  let endX: number | undefined
+  let endY: number | undefined
 
-      snipeSelection.style.top = `${startY}px`
-      snipeSelection.style.left = `${startX}px`
+  // Wait for the user to make a selection
+  await new Promise<void>((resolve) => {
+    const onMouseMove = (e: MouseEvent) => {
+      if (startX === undefined || startY === undefined) return
 
-      // Update the snipping tool view when the user moves the mouse
-      document.addEventListener('mousemove', (e) => {
-        snipeSelection.style.width = `${Math.abs(e.clientX - startX)}px`
-        snipeSelection.style.height = `${Math.abs(e.clientY - startY)}px`
-      })
+      const currentX: number = e.clientX
+      const currentY: number = e.clientY
+      const width: number = Math.abs(currentX - startX)
+      const height: number = Math.abs(currentY - startY)
+      snipeSelection.style.width = `${width}px`
+      snipeSelection.style.height = `${height}px`
+      snipeSelection.style.left = `${Math.min(startX, currentX)}px`
+      snipeSelection.style.top = `${Math.min(startY, currentY)}px`
+    }
 
-      // Crop the image when the user releases the mouse
-      snipeRegion.addEventListener('mouseup', (e) => {
-        const endX = e.clientX
-        const endY = e.clientY
-        const width = endX - startX
-        const height = endY - startY
-        const imageData = ctx.getImageData(startX, startY, width, height)
-        ctx.putImageData(imageData, 0, 0)
-        resolve(null)
-      })
-    })
+    const onMouseUp = (e: MouseEvent) => {
+      endX = e.clientX
+      endY = e.clientY
+      document.removeEventListener('mousemove', onMouseMove)
+      snipeRegion.removeEventListener('mouseup', onMouseUp)
+      document.body.removeChild(snipeRegion)
+      document.body.removeChild(snipeSelection)
+      resolve()
+    }
+
+    snipeRegion.addEventListener(
+      'mousedown',
+      (e: MouseEvent) => {
+        startX = e.clientX
+        startY = e.clientY
+        snipeSelection.style.left = `${startX}px`
+        snipeSelection.style.top = `${startY}px`
+
+        document.addEventListener('mousemove', onMouseMove)
+        document.addEventListener('mouseup', onMouseUp, { once: true })
+      },
+      { once: true },
+    )
   })
 
-  // Remove the snipping tool view
-  document.body.removeChild(snipeRegion)
-  document.body.removeChild(snipeSelection)
-
-  // Return the cropped image as a blob
-  const blob = await new Promise<Blob | null>((resolve) => {
-    canvas.toBlob((blob) => {
-      resolve(blob)
-    })
-  })
-  if (!blob) {
-    throw new Error('Could not get blob')
+  // Ensure that the coordinates are defined before using them
+  if (
+    typeof startX === 'undefined' ||
+    typeof startY === 'undefined' ||
+    typeof endX === 'undefined' ||
+    typeof endY === 'undefined'
+  ) {
+    throw new Error('Selection coordinates have not been defined.')
   }
+
+  // Now we can safely use the variables as they have been assigned during the mouse events
+  const width: number = Math.abs(endX - startX)
+  const height: number = Math.abs(endY - startY)
+  const left: number = Math.min(startX, endX)
+  const top: number = Math.min(startY, endY)
+
+  // Use html2canvas to capture the content of the page
+  const screenshotCanvas: HTMLCanvasElement = await html2canvas(document.body, {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    x: window.scrollX,
+    y: window.scrollY,
+    scale: 1,
+  })
+
+  // Create a cropped canvas as before
+  const croppedCanvas: HTMLCanvasElement = document.createElement('canvas')
+  croppedCanvas.width = width
+  croppedCanvas.height = height
+  const croppedCtx: CanvasRenderingContext2D | null =
+    croppedCanvas.getContext('2d')
+  if (!croppedCtx) {
+    throw new Error('Could not get cropped canvas context')
+  }
+
+  // Draw the captured area from the screenshotCanvas onto the cropped canvas
+  croppedCtx.drawImage(
+    screenshotCanvas,
+    left,
+    top,
+    width,
+    height,
+    0,
+    0,
+    width,
+    height,
+  )
+
+  // Convert the cropped canvas to a blob as before
+  const blob: Blob | null = await new Promise((resolve, reject) => {
+    croppedCanvas.toBlob((blob) => {
+      if (blob) {
+        resolve(blob)
+      } else {
+        reject(new Error('Blob conversion failed'))
+      }
+    })
+  })
+
+  if (!blob) {
+    throw new Error('Blob is null')
+  }
+
   return blob
 }
