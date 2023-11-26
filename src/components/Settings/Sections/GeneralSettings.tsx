@@ -4,6 +4,7 @@ import FieldWrapper from '../Elements/FieldWrapper'
 import { useSettings } from '../../../hooks/useSettings'
 import { ThemeOptions } from '../../../config/settings'
 import * as Switch from '@radix-ui/react-switch'
+import { capitalizeText } from '../../../lib/capitalizeText'
 
 const GeneralSettings = () => {
   const [settings, setSettings] = useSettings()
@@ -36,7 +37,7 @@ const GeneralSettings = () => {
         >
           {Object.values(ThemeOptions).map((theme) => (
             <option key={theme} value={theme}>
-              {theme}
+              {capitalizeText(theme)}
             </option>
           ))}
         </select>

@@ -4,9 +4,14 @@ import FieldWrapper from '../Elements/FieldWrapper'
 import { useSettings } from '../../../hooks/useSettings'
 import { validateApiKey } from '../../../lib/validApiKey'
 import { AvailableModels, Mode } from '../../../config/settings'
+import { capitalizeText } from '../../../lib/capitalizeText'
+import { useState } from 'react'
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 
 const ChatSettings = () => {
   const [settings, setSettings] = useSettings()
+  const [showPassword, setShowPassword] = useState(false)
+
   const chatSettings = settings.chat
 
   const apiKeyInputRef = React.useRef<HTMLInputElement>(null)
@@ -81,14 +86,29 @@ const ChatSettings = () => {
         onSubmit={handleOpenAiKeySubmit}
       >
         <div className="cdx-flex cdx-gap-2 cdx-items-center">
-          <input
-            required
-            pattern="sk-[a-zA-Z0-9]{48}"
-            className="input"
-            ref={apiKeyInputRef}
-            placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            defaultValue={chatSettings.openAIKey || ''}
-          />
+          <div className="cdx-relative cdx-w-full">
+            <input
+              required
+              pattern="sk-[a-zA-Z0-9]{48}"
+              ref={apiKeyInputRef}
+              placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              defaultValue={chatSettings.openAIKey || ''}
+              type={showPassword ? 'text' : 'password'}
+              className="input"
+            />
+
+            <button
+              type="button"
+              className="cdx-absolute cdx-right-4 cdx-top-1/2 cdx-transform cdx--translate-y-1/2 cdx-text-neutral-500 dark:cdx-text-neutral-200 cdx-bg-transparent cdx-outline-none cdx-cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <AiOutlineEyeInvisible size={18} />
+              ) : (
+                <AiOutlineEye size={18} />
+              )}
+            </button>
+          </div>
           <button type="submit" className="btn">
             Update
           </button>
@@ -109,9 +129,15 @@ const ChatSettings = () => {
           className="input cdx-w-44"
           onChange={handleModalChange}
         >
-          {Object.values(AvailableModels).map((modal) => (
+          {Object.keys(AvailableModels).map((modal) => (
             <option key={modal} value={modal}>
-              {modal}
+              {capitalizeText(
+                modal
+                  .toLowerCase()
+                  .replace('gpt', 'GPT')
+                  .replace('3_5', '3.5')
+                  .replaceAll('_', ' '),
+              )}
             </option>
           ))}
         </select>
@@ -131,11 +157,13 @@ const ChatSettings = () => {
           onChange={handleModeChange}
           className="input cdx-w-36"
         >
-          {Object.entries(Mode).map(([mode, value]) => (
-            <option key={value} value={value}>
-              {mode.replace('_', ' ').toLowerCase()}
-            </option>
-          ))}
+          {Object.keys(Mode)
+            .filter((v) => Number.isNaN(Number(v)))
+            .map((value) => (
+              <option key={value} value={value}>
+                {capitalizeText(value.replace('_', ' ').toLowerCase())}
+              </option>
+            ))}
         </select>
       </FieldWrapper>
     </div>
