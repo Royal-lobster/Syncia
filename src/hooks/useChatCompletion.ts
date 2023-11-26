@@ -89,7 +89,7 @@ export const useChatCompletion = ({
       ### Context
       ${matchedContext}
       ### Question:
-      ${message}
+      ${message.text}
     `
       : message.text
 

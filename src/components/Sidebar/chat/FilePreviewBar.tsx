@@ -7,6 +7,7 @@ interface FilePreviewBarProps {
 }
 
 const FilePreviewBar = ({ files, removeFile }: FilePreviewBarProps) => {
+  if (files.length === 0) return null
   return (
     <div className="cdx-flex cdx-gap-2 cdx-m-2">
       {files.map((file) => (
