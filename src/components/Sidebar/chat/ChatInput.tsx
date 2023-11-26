@@ -6,6 +6,7 @@ import { HiHand } from 'react-icons/hi'
 import ChatHistory from './ChatHistory'
 import { useChatHistory } from '../../../hooks/useChatHistory'
 import WebPageContentToggle from './WebPageContentToggle'
+import ImageCaptureButton from './ImageCaptureButton'
 
 interface SidebarInputProps {
   loading: boolean
@@ -120,6 +121,7 @@ export function SidebarInput({
             {MAX_MESSAGE_LENGTH.toLocaleString()}
           </span>
           <div className="cdx-flex cdx-items-center cdx-justify-center cdx-gap-4">
+            <ImageCaptureButton />
             <WebPageContentToggle />
             {!delayedLoading ? sendButton : stopButton}
           </div>

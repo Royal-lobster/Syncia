@@ -7,16 +7,27 @@
  */
 export const getScreenshotImage = async () => {
   // Create a snipping tool view for the user to select the area of the screen
-  const snippingTool = document.createElement('div')
-  snippingTool.style.position = 'fixed'
-  snippingTool.style.top = '0'
-  snippingTool.style.left = '0'
-  snippingTool.style.width = '100vw'
-  snippingTool.style.height = '100vh'
-  snippingTool.style.zIndex = '999'
-  snippingTool.style.background = 'rgba(0, 0, 0, 0.5)'
-  snippingTool.style.cursor = 'crosshair'
-  document.body.appendChild(snippingTool)
+  const snipeRegion = document.createElement('div')
+  snipeRegion.style.position = 'fixed'
+  snipeRegion.style.top = '0'
+  snipeRegion.style.left = '0'
+  snipeRegion.style.width = '100vw'
+  snipeRegion.style.height = '100vh'
+  snipeRegion.style.zIndex = '2147483646' // Maximum z-index
+  snipeRegion.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
+  snipeRegion.style.cursor = 'crosshair'
+  document.body.appendChild(snipeRegion)
+
+  const snipeSelection = document.createElement('div')
+  snipeSelection.style.position = 'fixed'
+  snipeSelection.style.top = '0'
+  snipeSelection.style.left = '0'
+  snipeSelection.style.width = '0'
+  snipeSelection.style.height = '0'
+  snipeSelection.style.border = '1px solid #ffffff0a'
+  snipeSelection.style.backgroundColor = 'rgba(256, 256, 256, 0.1)'
+  snipeSelection.style.zIndex = '2147483647' // Maximum z-index
+  document.body.appendChild(snipeSelection)
 
   // Grab the screen image with canvas
   const canvas = document.createElement('canvas')
@@ -29,10 +40,21 @@ export const getScreenshotImage = async () => {
 
   // Crop the image with the user's selection
   await new Promise((resolve) => {
-    snippingTool.addEventListener('mousedown', (e) => {
+    snipeRegion.addEventListener('mousedown', (e) => {
       const startX = e.clientX
       const startY = e.clientY
-      snippingTool.addEventListener('mouseup', (e) => {
+
+      snipeSelection.style.top = `${startY}px`
+      snipeSelection.style.left = `${startX}px`
+
+      // Update the snipping tool view when the user moves the mouse
+      document.addEventListener('mousemove', (e) => {
+        snipeSelection.style.width = `${Math.abs(e.clientX - startX)}px`
+        snipeSelection.style.height = `${Math.abs(e.clientY - startY)}px`
+      })
+
+      // Crop the image when the user releases the mouse
+      snipeRegion.addEventListener('mouseup', (e) => {
         const endX = e.clientX
         const endY = e.clientY
         const width = endX - startX
@@ -43,6 +65,10 @@ export const getScreenshotImage = async () => {
       })
     })
   })
+
+  // Remove the snipping tool view
+  document.body.removeChild(snipeRegion)
+  document.body.removeChild(snipeSelection)
 
   // Return the cropped image as a blob
   const blob = await new Promise<Blob | null>((resolve) => {
