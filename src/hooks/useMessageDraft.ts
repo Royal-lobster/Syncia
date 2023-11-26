@@ -1,23 +1,22 @@
-import { atom, useAtom } from 'jotai'
+import { useState } from 'react'
 import { getUUID } from '../lib/getUUID'
 
-interface MessageFile {
+export interface MessageFile {
   id: string
+  type: string
   blob: Blob
 }
 
-interface MessageDraft {
+export interface MessageDraft {
   text: string
   files: MessageFile[]
 }
 
-const messageDraftAtom = atom<MessageDraft>({
-  text: '',
-  files: [],
-})
-
 export const useMessageDraft = () => {
-  const [messageDraft, setMessageDraft] = useAtom(messageDraftAtom)
+  const [messageDraft, setMessageDraft] = useState<MessageDraft>({
+    text: '',
+    files: [],
+  })
 
   const setMessageDraftText = (text: string) => {
     setMessageDraft((p) => ({ ...p, text }))
@@ -26,6 +25,7 @@ export const useMessageDraft = () => {
   const addMessageDraftFile = (blob: Blob) => {
     const file = {
       id: getUUID(),
+      type: blob.type,
       blob,
     }
     setMessageDraft((p) => ({ ...p, files: [...p.files, file] }))

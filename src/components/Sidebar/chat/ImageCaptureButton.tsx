@@ -1,6 +1,12 @@
 import { RiScreenshot2Line } from 'react-icons/ri'
 
-const ImageCaptureButton = () => {
+interface ImageCaptureButtonProps {
+  addMessageDraftFile: (blob: Blob) => void
+}
+
+const ImageCaptureButton = ({
+  addMessageDraftFile,
+}: ImageCaptureButtonProps) => {
   const handleScreenshotClick = async () => {
     const image = await new Promise((resolve) => {
       window.parent.postMessage({ action: 'get-screenshot-image' }, '*')
@@ -11,6 +17,7 @@ const ImageCaptureButton = () => {
       })
     })
     console.log('image', image)
+    addMessageDraftFile(image as Blob)
   }
   return (
     <button

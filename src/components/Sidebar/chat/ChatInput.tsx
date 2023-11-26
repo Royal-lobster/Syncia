@@ -8,6 +8,7 @@ import { useChatHistory } from '../../../hooks/useChatHistory'
 import WebPageContentToggle from './WebPageContentToggle'
 import ImageCaptureButton from './ImageCaptureButton'
 import { useMessageDraft } from '../../../hooks/useMessageDraft'
+import FilePreviewBar from './FilePreviewBar'
 
 interface SidebarInputProps {
   loading: boolean
@@ -28,8 +29,13 @@ export function SidebarInput({
   cancelRequest,
   isWebpageContextOn,
 }: SidebarInputProps) {
-  const { messageDraft, setMessageDraftText, resetMessageDraft } =
-    useMessageDraft()
+  const {
+    messageDraft,
+    setMessageDraftText,
+    resetMessageDraft,
+    addMessageDraftFile,
+    removeMessageDraftFile,
+  } = useMessageDraft()
   const [delayedLoading, setDelayedLoading] = useState(false)
   const { history } = useChatHistory()
 
@@ -99,6 +105,12 @@ export function SidebarInput({
       </div>
 
       <div className="cdx-m-2 cdx-rounded-md cdx-border dark:cdx-border-neutral-800 cdx-border-neutral-300 dark:cdx-bg-neutral-900/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50">
+        {messageDraft.files.length > 0 && (
+          <FilePreviewBar
+            files={messageDraft.files}
+            removeFile={removeMessageDraftFile}
+          />
+        )}
         <TextareaAutosize
           minRows={2}
           maxLength={MAX_MESSAGE_LENGTH}
@@ -118,7 +130,7 @@ export function SidebarInput({
           }}
         />
         <div className="cdx-flex cdx-justify-between cdx-items-center cdx-p-3">
-          <ImageCaptureButton />
+          <ImageCaptureButton addMessageDraftFile={addMessageDraftFile} />
           <div className="cdx-flex cdx-items-center cdx-justify-center cdx-gap-4">
             <WebPageContentToggle />
             {!delayedLoading ? sendButton : stopButton}
