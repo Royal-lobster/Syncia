@@ -6,6 +6,10 @@ import html2canvas from 'html2canvas'
  * 2. Grab the screen image with canvas
  * 3. Crop the image with the user's selection
  * 4. Return the cropped image as a blob
+ *
+ * TODO: This approach is not ideal as the website visible to user may not be the same as the one
+ * captured by html2canvas. For example, if the user has adblock installed, the website may look
+ * different to the one captured by html2canvas. We should consider another approach to capture
  */
 export const getScreenshotImage = async (): Promise<Blob> => {
   // Create a snipping tool view for the user to select the area of the screen
@@ -21,7 +25,7 @@ export const getScreenshotImage = async (): Promise<Blob> => {
 
   const snipeSelection: HTMLDivElement = document.createElement('div')
   snipeSelection.style.position = 'fixed'
-  snipeSelection.style.border = '1px solid #fff'
+  snipeSelection.style.border = '1px solid #ffffff2a'
   snipeSelection.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'
   snipeSelection.style.zIndex = '2147483647' // Maximum z-index
 
