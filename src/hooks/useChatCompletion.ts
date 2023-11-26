@@ -6,6 +6,7 @@ import { AvailableModels, Mode } from '../config/settings'
 import { ChatRole, useCurrentChat } from './useCurrentChat'
 import { getMatchedContent } from '../lib/getMatchedContent'
 import { MessageDraft } from './useMessageDraft'
+import { convertBlobToBase64 } from '../lib/convertBlobToBase64'
 
 interface UseChatCompletionProps {
   model: AvailableModels
@@ -94,7 +95,21 @@ export const useChatCompletion = ({
     const messages = [
       new SystemMessage(systemPrompt),
       ...previousMessages,
-      new HumanMessage(expandedQuery),
+      new HumanMessage({
+        content: [
+          { type: 'text', text: expandedQuery },
+          ...(message.files.length > 0
+            ? await Promise.all(
+                message.files.map(async (file) => {
+                  return {
+                    type: 'image_url',
+                    image_url: await convertBlobToBase64(file.blob),
+                  } as const
+                }),
+              )
+            : []),
+        ],
+      }),
     ]
 
     await llm.call(messages, options)
