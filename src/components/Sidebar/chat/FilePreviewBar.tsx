@@ -12,22 +12,37 @@ const FilePreviewBar = ({ files, removeFile }: FilePreviewBarProps) => {
   return (
     <div className="cdx-flex cdx-gap-2 cdx-m-2">
       {files.map((file) => {
-        const imageUrl = file.src
+        const handlePreviewImageClick = async () => {
+          const image = new Image()
+          image.src = file.src
+          image.style.maxWidth = '100vw'
+          image.style.maxHeight = '100vh'
+          const newTab = window.open()
+          if (!newTab) return
+
+          const body = newTab.document.body
+          body.innerHTML = image.outerHTML
+          body.style.margin = '0'
+          body.style.display = 'grid'
+          body.style.placeItems = 'center'
+          body.style.height = '100vh'
+          body.style.width = '100vw'
+          body.style.backgroundColor = '#262626'
+        }
 
         return (
           <div key={file.id} className="cdx-flex cdx-relative">
-            <a
-              href={imageUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={handlePreviewImageClick}
               className="cdx-block cdx-flex-grow"
             >
               <img
-                src={imageUrl}
+                src={file.src}
                 alt="preview"
                 className="cdx-w-14 cdx-h-14 cdx-object-contain cdx-rounded dark:cdx-bg-neutral-800 cdx-bg-neutral-400"
               />
-            </a>
+            </button>
             {removeFile && (
               <button
                 onClick={() => removeFile(file.id)}
