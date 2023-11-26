@@ -87,12 +87,11 @@ th {
   margin-bottom: 0.25rem;
 }
 .markdown blockquote {
-  border-left-width: 0.25rem;
+  border-left-width: 2px;
   border-left-color: #3490dc;
   padding-left: 0.5rem;
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
-  background-color: #f7fafc;
   padding-top: 0.125rem;
   padding-bottom: 0.125rem;
 }
