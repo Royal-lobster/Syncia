@@ -1,20 +1,27 @@
-import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
-import CodeBlock from './markdown-components/CodeBlock'
-import remarkGfm from 'remark-gfm'
 import { useEffect, useRef } from 'react'
-import { Table } from './markdown-components/Table'
-import remarkBreaks from 'remark-breaks'
+import { RiCloseLine, RiErrorWarningLine, RiLoader4Line } from 'react-icons/ri'
+import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
 import rehypeRaw from 'rehype-raw'
+import remarkBreaks from 'remark-breaks'
+import remarkGfm from 'remark-gfm'
 import { ChatMessage, ChatRole } from '../../../hooks/useCurrentChat'
 import FilePreviewBar from './FilePreviewBar'
-import { RiCloseLine } from 'react-icons/ri'
+import CodeBlock from './markdown-components/CodeBlock'
+import { Table } from './markdown-components/Table'
 
 interface ChatListProps {
   messages: ChatMessage[]
   removeMessagePair: (timestamp: number) => void
+  generating: boolean
+  error: Error | null
 }
 
-const ChatList = ({ messages, removeMessagePair }: ChatListProps) => {
+const ChatList = ({
+  messages,
+  removeMessagePair,
+  generating,
+  error,
+}: ChatListProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -77,6 +84,25 @@ const ChatList = ({ messages, removeMessagePair }: ChatListProps) => {
               {msg.files && <FilePreviewBar files={msg.files} />}
             </div>
           ))
+      )}
+      {messages[messages.length - 1]?.role === ChatRole.USER && (
+        <div className="cdx-text-neutral-500">
+          {generating && !error && (
+            <div className="cdx-animate-pulse cdx-mt-4 cdx-flex cdx-justify-center cdx-items-center cdx-gap-2">
+              <RiLoader4Line className="cdx-animate-spin" />
+              <span>Generating</span>
+            </div>
+          )}
+          {error && (
+            <div className="cdx-p-4 cdx-flex cdx-items-center cdx-gap-4 cdx-bg-red-500/10">
+              <RiErrorWarningLine
+                className="cdx-text-red-500 cdx-flex-shrink-0"
+                size={20}
+              />
+              <span>{error.message}</span>
+            </div>
+          )}
+        </div>
       )}
     </div>
   )
