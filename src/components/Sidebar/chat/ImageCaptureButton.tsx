@@ -22,6 +22,7 @@ const ImageCaptureButton = ({
   }
   return (
     <button
+      title="BETA: Take a screenshot and send it to the chat. It will not work on some websites."
       onClick={handleScreenshotClick}
       type="button"
       className="cdx-bg-neutral-300 cdx-text-neutral-500 dark:cdx-text-neutral-200 dark:cdx-bg-neutral-800 cdx-p-2 cdx-rounded"
