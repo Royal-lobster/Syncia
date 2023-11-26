@@ -12,7 +12,8 @@ const FilePreviewBar = ({ files, removeFile }: FilePreviewBarProps) => {
   return (
     <div className="cdx-flex cdx-gap-2 cdx-m-2">
       {files.map((file) => {
-        const imageUrl = URL.createObjectURL(file.blob)
+        const imageUrl = file.src
+
         return (
           <div key={file.id} className="cdx-flex cdx-relative">
             <a

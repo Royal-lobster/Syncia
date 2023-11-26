@@ -3,10 +3,9 @@ import { ChatOpenAI } from 'langchain/chat_models/openai'
 import { AIMessage, HumanMessage, SystemMessage } from 'langchain/schema'
 import { useMemo, useState } from 'react'
 import { AvailableModels, Mode } from '../config/settings'
-import { ChatRole, useCurrentChat } from './useCurrentChat'
 import { getMatchedContent } from '../lib/getMatchedContent'
+import { ChatRole, useCurrentChat } from './useCurrentChat'
 import { MessageDraft } from './useMessageDraft'
-import { convertBlobToBase64 } from '../lib/convertBlobToBase64'
 
 interface UseChatCompletionProps {
   model: AvailableModels
@@ -108,7 +107,7 @@ export const useChatCompletion = ({
                   message.files.map(async (file) => {
                     return {
                       type: 'image_url',
-                      image_url: await convertBlobToBase64(file.blob),
+                      image_url: file.src,
                     } as const
                   }),
                 )
