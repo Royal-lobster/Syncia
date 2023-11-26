@@ -40,8 +40,6 @@ const getContextVectorStore = async (context: string, apiKey: string) => {
     return store
   }
 
-  console.log({ memoryVectors })
-
   const store = new MemoryVectorStore(embeddings)
   store.memoryVectors = memoryVectors
   return store

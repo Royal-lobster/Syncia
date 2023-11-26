@@ -6,14 +6,19 @@ import { HiHand } from 'react-icons/hi'
 import ChatHistory from './ChatHistory'
 import { useChatHistory } from '../../../hooks/useChatHistory'
 import WebPageContentToggle from './WebPageContentToggle'
+import ImageCaptureButton from './ImageCaptureButton'
+import { MessageDraft, useMessageDraft } from '../../../hooks/useMessageDraft'
+import FilePreviewBar from './FilePreviewBar'
+import MessageDraftLengthCounter from './MessageDraftLengthCounter'
 
 interface SidebarInputProps {
   loading: boolean
-  submitMessage: (message: string, context?: string) => void
+  submitMessage: (message: MessageDraft, context?: string) => void
   clearMessages: () => void
   chatIsEmpty: boolean
   cancelRequest: () => void
   isWebpageContextOn: boolean
+  isVisionModel: boolean
 }
 
 const MAX_MESSAGE_LENGTH = 10000
@@ -25,8 +30,15 @@ export function SidebarInput({
   chatIsEmpty,
   cancelRequest,
   isWebpageContextOn,
+  isVisionModel,
 }: SidebarInputProps) {
-  const [text, setText] = useState('')
+  const {
+    messageDraft,
+    setMessageDraftText,
+    resetMessageDraft,
+    addMessageDraftFile,
+    removeMessageDraftFile,
+  } = useMessageDraft()
   const [delayedLoading, setDelayedLoading] = useState(false)
   const { history } = useChatHistory()
 
@@ -44,8 +56,9 @@ export function SidebarInput({
     if (isWebpageContextOn) {
       const pageContent = new Promise((resolve) => {
         window.addEventListener('message', function (event) {
-          if (event.data.action === 'get-page-content') {
-            resolve(event.data.pageContent)
+          const { action, payload } = event.data
+          if (action === 'get-page-content') {
+            resolve(payload)
           }
         })
 
@@ -53,8 +66,8 @@ export function SidebarInput({
       })
       context = (await pageContent) as string
     }
-    submitMessage(text, isWebpageContextOn ? context : undefined)
-    setText('')
+    submitMessage(messageDraft, isWebpageContextOn ? context : undefined)
+    resetMessageDraft()
   }
 
   const sendButton = (
@@ -96,16 +109,22 @@ export function SidebarInput({
       </div>
 
       <div className="cdx-m-2 cdx-rounded-md cdx-border dark:cdx-border-neutral-800 cdx-border-neutral-300 dark:cdx-bg-neutral-900/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50">
+        {messageDraft.files.length > 0 && (
+          <FilePreviewBar
+            files={messageDraft.files}
+            removeFile={removeMessageDraftFile}
+          />
+        )}
         <TextareaAutosize
           minRows={2}
           maxLength={MAX_MESSAGE_LENGTH}
           placeholder="Type your message here..."
-          value={text}
+          value={messageDraft.text}
           disabled={loading}
-          className="cdx-p-3 cdx-w-full focus:!cdx-outline-none cdx-text-sm cdx-resize-none cdx-max-h-96 cdx-pb-0 cdx-bg-transparent !cdx-border-none"
+          className="cdx-p-3 cdx-w-full focus:!cdx-outline-none placeholder:cdx-text-neutral-500 cdx-text-sm cdx-resize-none cdx-max-h-96 cdx-pb-0 cdx-bg-transparent !cdx-border-none"
           onChange={(e) => {
             e.preventDefault()
-            setText(e.target.value)
+            setMessageDraftText(e.target.value)
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
@@ -115,10 +134,16 @@ export function SidebarInput({
           }}
         />
         <div className="cdx-flex cdx-justify-between cdx-items-center cdx-p-3">
-          <span className="cdx-text-xs cdx-text-neutral-500 dark:cdx-text-neutral-200">
-            {text.length.toLocaleString()} /{' '}
-            {MAX_MESSAGE_LENGTH.toLocaleString()}
-          </span>
+          {isVisionModel ? (
+            <ImageCaptureButton addMessageDraftFile={addMessageDraftFile} />
+          ) : (
+            <div>
+              <MessageDraftLengthCounter
+                length={messageDraft.text.length}
+                MAX_LENGTH={MAX_MESSAGE_LENGTH}
+              />
+            </div>
+          )}
           <div className="cdx-flex cdx-items-center cdx-justify-center cdx-gap-4">
             <WebPageContentToggle />
             {!delayedLoading ? sendButton : stopButton}

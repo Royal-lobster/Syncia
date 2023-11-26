@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { getCurrentSiteHostName } from '../lib/getCurrentSiteHostName'
 import { useChatHistory } from './useChatHistory'
 import { readStorage, setStorage } from './useStorage'
+import { MessageDraft, MessageFile } from './useMessageDraft'
 
 export enum ChatRole {
   USER = 'USER',
@@ -12,6 +13,7 @@ export enum ChatRole {
 export type ChatMessage = {
   role: ChatRole
   content: string
+  files?: MessageFile[]
   timestamp: number
 }
 
@@ -57,7 +59,6 @@ export const useCurrentChat = () => {
     // so we need to fetch it from the storage.
     const storedChatId = await readStorage<string | null>('CURRENT_CHAT_ID')
     if (!storedChatId) {
-      console.log('🌟 No current chat id found.')
       setMessages([])
       return
     }
@@ -73,6 +74,7 @@ export const useCurrentChat = () => {
 
   // We need to fetch stored messages when the tab is changed
   // so if changes were made in another tab, we can reflect them
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     chrome.tabs.onActivated.addListener(fetchStoredMessages)
     return () => chrome.tabs.onActivated.removeListener(fetchStoredMessages)
@@ -80,6 +82,7 @@ export const useCurrentChat = () => {
 
   // We need to fetch stored messages when the current chat id changes
   // we get new history from the storage stored with the new id
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     fetchStoredMessages()
   }, [currentChatId])
@@ -102,15 +105,9 @@ export const useCurrentChat = () => {
     })
   }
 
-  const addNewMessage = async (role: ChatRole, message: string) => {
+  const addNewMessage = async (role: ChatRole, message: MessageDraft) => {
     if (!currentChatIdRef.current || !historyRef.current.length) {
-      console.log({
-        currentChatId: currentChatIdRef.current,
-        historyLength: history.length,
-      })
-      console.log('🌟 Welcome New user ! creating your first chat history.')
       const newId = createChatHistory(await getCurrentSiteHostName())
-      console.log({ newId })
       setCurrentChatId(newId)
     }
 
@@ -130,7 +127,8 @@ export const useCurrentChat = () => {
     }
     const newMessage: ChatMessage = {
       role,
-      content: message,
+      content: message.text,
+      files: message.files,
       timestamp: Date.now(),
     }
     setMessages((m) => [...m, newMessage])
