@@ -15,7 +15,7 @@ const FilePreviewBar = ({ files, removeFile }: FilePreviewBarProps) => {
             <img
               src={URL.createObjectURL(file.blob)}
               alt="preview"
-              className="cdx-w-14 cdx-h-14 cdx-object-cover cdx-rounded cdx-bg-red-400"
+              className="cdx-w-14 cdx-h-14 cdx-object-cover cdx-rounded cdx-bg-neutral-500"
             />
           </div>
           <button
