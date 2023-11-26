@@ -1,4 +1,4 @@
-import { RiScreenshotLine } from 'react-icons/ri'
+import { RiScreenshot2Line } from 'react-icons/ri'
 
 const ImageCaptureButton = () => {
   const handleScreenshotClick = async () => {
@@ -13,8 +13,12 @@ const ImageCaptureButton = () => {
     console.log('image', image)
   }
   return (
-    <button onClick={handleScreenshotClick} type="button">
-      <RiScreenshotLine />
+    <button
+      onClick={handleScreenshotClick}
+      type="button"
+      className="cdx-bg-neutral-300 cdx-text-neutral-500 dark:cdx-text-neutral-200 dark:cdx-bg-neutral-800 cdx-p-2 cdx-rounded"
+    >
+      <RiScreenshot2Line size={20} />
     </button>
   )
 }

@@ -103,7 +103,7 @@ export function SidebarInput({
           placeholder="Type your message here..."
           value={text}
           disabled={loading}
-          className="cdx-p-3 cdx-w-full focus:!cdx-outline-none cdx-text-sm cdx-resize-none cdx-max-h-96 cdx-pb-0 cdx-bg-transparent !cdx-border-none"
+          className="cdx-p-3 cdx-w-full focus:!cdx-outline-none placeholder:cdx-text-neutral-500 cdx-text-sm cdx-resize-none cdx-max-h-96 cdx-pb-0 cdx-bg-transparent !cdx-border-none"
           onChange={(e) => {
             e.preventDefault()
             setText(e.target.value)
@@ -116,12 +116,8 @@ export function SidebarInput({
           }}
         />
         <div className="cdx-flex cdx-justify-between cdx-items-center cdx-p-3">
-          <span className="cdx-text-xs cdx-text-neutral-500 dark:cdx-text-neutral-200">
-            {text.length.toLocaleString()} /{' '}
-            {MAX_MESSAGE_LENGTH.toLocaleString()}
-          </span>
+          <ImageCaptureButton />
           <div className="cdx-flex cdx-items-center cdx-justify-center cdx-gap-4">
-            <ImageCaptureButton />
             <WebPageContentToggle />
             {!delayedLoading ? sendButton : stopButton}
           </div>

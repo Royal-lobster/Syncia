@@ -18,7 +18,7 @@ const ChatList = ({ messages }: ChatListProps) => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight
     }
-  }, [messages])
+  }, [])
 
   const filteredMsgs = messages.filter((msg) => msg.role !== ChatRole.SYSTEM)
 
@@ -36,10 +36,10 @@ const ChatList = ({ messages }: ChatListProps) => {
             height={300}
             width={300}
           />
-          <h1 className="cdx-text-xl cdx-text-gray-400">
-            Start a new conversation ✨
+          <h1 className="cdx-text-xl cdx-text-gray-500">
+            Start a new conversation 🎉
           </h1>
-          <p className="cdx-text-gray-400 cdx-mt-1 cdx-leading-tight cdx-font-light">
+          <p className="cdx-text-gray-500 cdx-mt-1 cdx-leading-tight cdx-font-light">
             Type your message at the bottom <br /> and press send button
           </p>
         </div>
