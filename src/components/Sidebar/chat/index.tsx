@@ -10,13 +10,19 @@ interface ChatProps {
 }
 
 const Chat = ({ settings }: ChatProps) => {
-  const { messages, submitQuery, clearMessages, generating, cancelRequest } =
-    useChatCompletion({
-      model: settings.chat.modal,
-      apiKey: settings.chat.openAIKey!,
-      mode: settings.chat.mode,
-      systemPrompt: SYSTEM_PROMPT,
-    })
+  const {
+    messages,
+    submitQuery,
+    clearMessages,
+    generating,
+    cancelRequest,
+    removeMessagePair,
+  } = useChatCompletion({
+    model: settings.chat.modal,
+    apiKey: settings.chat.openAIKey!,
+    mode: settings.chat.mode,
+    systemPrompt: SYSTEM_PROMPT,
+  })
 
   useEffect(() => {
     const handleWindowMessage = (event: MessageEvent) => {
@@ -37,7 +43,7 @@ const Chat = ({ settings }: ChatProps) => {
 
   return (
     <>
-      <ChatList messages={messages} />
+      <ChatList messages={messages} removeMessagePair={removeMessagePair} />
       <SidebarInput
         loading={generating}
         submitMessage={submitQuery}

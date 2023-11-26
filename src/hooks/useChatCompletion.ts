@@ -37,6 +37,7 @@ export const useChatCompletion = ({
     addNewMessage,
     commitToStoredMessages,
     clearMessages,
+    removeMessagePair,
   } = useCurrentChat()
   const [generating, setGenerating] = useState(false)
 
@@ -124,5 +125,12 @@ export const useChatCompletion = ({
     setGenerating(false)
   }
 
-  return { messages, submitQuery, generating, cancelRequest, clearMessages }
+  return {
+    messages,
+    submitQuery,
+    generating,
+    cancelRequest,
+    clearMessages,
+    removeMessagePair,
+  }
 }

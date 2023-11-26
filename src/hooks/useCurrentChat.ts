@@ -134,6 +134,16 @@ export const useCurrentChat = () => {
     setMessages((m) => [...m, newMessage])
   }
 
+  const removeMessagePair = (timestamp: number) => {
+    setMessages((p) => {
+      const index = p.findIndex((msg) => msg.timestamp === timestamp)
+      if (index === -1 || p[index].role !== ChatRole.USER) return p
+      p.splice(index, 2) // remove the user message and the assistant message
+      return [...p]
+    })
+    commitToStoredMessages()
+  }
+
   const commitToStoredMessages = async () => {
     if (!currentChatIdRef.current) return
     setStorage(getStoredChatKey(currentChatIdRef.current), messagesRef.current)
@@ -152,5 +162,6 @@ export const useCurrentChat = () => {
     commitToStoredMessages,
     clearMessages,
     currentChatId,
+    removeMessagePair,
   }
 }
