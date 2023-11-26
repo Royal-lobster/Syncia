@@ -50,6 +50,6 @@ export const defaultSettings: Settings = {
   },
   general: {
     theme: ThemeOptions.SYSTEM,
-    webpageContext: true,
+    webpageContext: false,
   },
 }
