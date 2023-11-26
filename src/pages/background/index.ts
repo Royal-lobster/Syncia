@@ -4,6 +4,7 @@ import {
   createContextMenuOnStorageChange,
 } from './quick-menu/createContextMenu'
 import { forwardContextMenuClicks } from './quick-menu/forwardContextMenu'
+import { captureScreenListener } from './sidebar/captureScreenListener'
 import { sendSidebarShortcut } from './sidebar/sendSidebarShortcut'
 import { sidebarToggleListeners } from './sidebar/sidebarToggleListeners'
 
@@ -14,6 +15,7 @@ backgroundLog()
 // =========================== //
 sidebarToggleListeners()
 sendSidebarShortcut()
+captureScreenListener()
 
 // =========================== //
 // Quick menu Scripts
