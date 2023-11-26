@@ -1,3 +1,4 @@
+import { getScreenshotImage } from '../../lib/getScreenShotImage'
 import { contentScriptLog } from '../../logs'
 
 contentScriptLog('Sidebar')
@@ -39,9 +40,10 @@ chrome.runtime.onMessage.addListener(function (msg) {
  * To get the page content, the sidebar sends a message with the action 'get-page-content'.
  * The page content is sent back to the sidebar by posting a message with the action 'get-page-content'.
  */
-window.addEventListener('message', (event) => {
+window.addEventListener('message', async (event) => {
   const { action, _payload } = event.data as { action: string; _payload: any }
 
+  // ACTION: get-page-content ==============================
   if (action === 'get-page-content') {
     console.log('get-page-content Triggered')
     const pageContent = document.body.innerText
@@ -49,6 +51,20 @@ window.addEventListener('message', (event) => {
       {
         action: 'get-page-content',
         pageContent,
+      },
+      '*',
+    )
+  }
+
+  // ACTION: get-screenshot-image ===========================
+  if (action === 'get-screenshot-image') {
+    iframe.style.width = '0px'
+    const image = await getScreenshotImage()
+    iframe.style.width = '400px'
+    iframe.contentWindow?.postMessage(
+      {
+        action: 'get-screenshot-image',
+        image,
       },
       '*',
     )
