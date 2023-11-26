@@ -1,15 +1,10 @@
-import html2canvas from 'html2canvas'
-
 /**
  * We use this function to
  * 1. Create a snipping tool view for the user to select the area of the screen
- * 2. Grab the screen image with canvas
- * 3. Crop the image with the user's selection
- * 4. Return the cropped image as a blob
- *
- * TODO: This approach is not ideal as the website visible to user may not be the same as the one
- * captured by html2canvas. For example, if the user has adblock installed, the website may look
- * different to the one captured by html2canvas. We should consider another approach to capture
+ * 2. Grab the coordinates of the user's selection
+ * 3. Take a screenshot of the screen
+ * 4. Crop the screenshot to the user's selection
+ * 5. Return the cropped image as a blob
  */
 export const getScreenshotImage = async (): Promise<Blob> => {
   // Create a snipping tool view for the user to select the area of the screen
@@ -31,15 +26,6 @@ export const getScreenshotImage = async (): Promise<Blob> => {
 
   document.body.appendChild(snipeRegion)
   document.body.appendChild(snipeSelection)
-
-  // Create a canvas element
-  const canvas: HTMLCanvasElement = document.createElement('canvas')
-  canvas.width = window.innerWidth
-  canvas.height = window.innerHeight
-  const ctx: CanvasRenderingContext2D | null = canvas.getContext('2d')
-  if (!ctx) {
-    throw new Error('Could not get canvas context')
-  }
 
   // Initially declare the variables with a type and set to undefined
   let startX: number | undefined
@@ -67,8 +53,6 @@ export const getScreenshotImage = async (): Promise<Blob> => {
       endY = e.clientY
       document.removeEventListener('mousemove', onMouseMove)
       snipeRegion.removeEventListener('mouseup', onMouseUp)
-      document.body.removeChild(snipeRegion)
-      document.body.removeChild(snipeSelection)
       resolve()
     }
 
@@ -87,6 +71,11 @@ export const getScreenshotImage = async (): Promise<Blob> => {
     )
   })
 
+  // Remove the snipping tool view
+  document.body.removeChild(snipeRegion)
+  document.body.removeChild(snipeSelection)
+  await new Promise((resolve) => setTimeout(resolve, 100)) // Wait for the DOM to update
+
   // Ensure that the coordinates are defined before using them
   if (
     typeof startX === 'undefined' ||
@@ -97,59 +86,44 @@ export const getScreenshotImage = async (): Promise<Blob> => {
     throw new Error('Selection coordinates have not been defined.')
   }
 
-  // Now we can safely use the variables as they have been assigned during the mouse events
-  const width: number = Math.abs(endX - startX)
-  const height: number = Math.abs(endY - startY)
-  const left: number = Math.min(startX, endX)
-  const top: number = Math.min(startY, endY)
-
-  // Use html2canvas to capture the content of the page
-  const screenshotCanvas: HTMLCanvasElement = await html2canvas(document.body, {
-    width: window.innerWidth,
-    height: window.innerHeight,
-    x: window.scrollX,
-    y: window.scrollY,
-    scale: 1,
-    useCORS: true,
-  })
-
-  // Create a cropped canvas as before
-  const croppedCanvas: HTMLCanvasElement = document.createElement('canvas')
-  croppedCanvas.width = width
-  croppedCanvas.height = height
-  const croppedCtx: CanvasRenderingContext2D | null =
-    croppedCanvas.getContext('2d')
-  if (!croppedCtx) {
-    throw new Error('Could not get cropped canvas context')
-  }
-
-  // Draw the captured area from the screenshotCanvas onto the cropped canvas
-  croppedCtx.drawImage(
-    screenshotCanvas,
-    left,
-    top,
-    width,
-    height,
-    0,
-    0,
-    width,
-    height,
-  )
-
-  // Convert the cropped canvas to a blob as before
-  const blob: Blob | null = await new Promise((resolve, reject) => {
-    croppedCanvas.toBlob((blob) => {
-      if (blob) {
-        resolve(blob)
-      } else {
-        reject(new Error('Blob conversion failed'))
-      }
+  // Take a screenshot of the screen
+  const screenshot = await new Promise<string>((resolve) => {
+    chrome.runtime.sendMessage({ action: 'captureVisibleTab' }, (dataUrl) => {
+      console.log({ dataUrl })
+      resolve(dataUrl)
     })
   })
 
-  if (!blob) {
-    throw new Error('Blob is null')
-  }
+  // Create a canvas element and draw the screenshot on it
+  const canvas: HTMLCanvasElement = document.createElement('canvas')
+  canvas.width = endX - startX
+  canvas.height = endY - startY
+  const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!
+  const image: HTMLImageElement = new Image()
+  image.src = screenshot
 
-  return blob
+  // Wait for the image to load
+  await new Promise((resolve) => {
+    image.onload = resolve
+  })
+
+  // Crop the screenshot to the user's selection
+  ctx.drawImage(
+    image,
+    startX * window.devicePixelRatio,
+    startY * window.devicePixelRatio,
+    (endX - startX) * window.devicePixelRatio,
+    (endY - startY) * window.devicePixelRatio,
+    0,
+    0,
+    endX - startX,
+    endY - startY,
+  )
+
+  // Convert the canvas to a blob and return it
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      resolve(blob!)
+    })
+  })
 }

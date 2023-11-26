@@ -35,7 +35,13 @@ export default defineManifest(async (env) => ({
     '48': 'images/icon-48.png',
     '128': 'images/icon-128.png',
   },
-  permissions: ['storage', 'unlimitedStorage', 'contextMenus', 'tabs'],
+  permissions: [
+    'storage',
+    'unlimitedStorage',
+    'contextMenus',
+    'tabs',
+    'activeTab',
+  ],
   background: {
     service_worker: 'src/pages/background/index.ts',
   },
