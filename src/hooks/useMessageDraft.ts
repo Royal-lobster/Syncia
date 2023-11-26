@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { getUUID } from '../lib/getUUID'
+import { convertBlobToBase64 } from '../lib/convertBlobToBase64'
 
 export interface MessageFile {
   id: string
   type: string
-  blob: Blob
+  src: string
 }
 
 export interface MessageDraft {
@@ -22,11 +23,11 @@ export const useMessageDraft = () => {
     setMessageDraft((p) => ({ ...p, text }))
   }
 
-  const addMessageDraftFile = (blob: Blob) => {
+  const addMessageDraftFile = async (blob: Blob) => {
     const file = {
       id: getUUID(),
       type: blob.type,
-      blob,
+      src: await convertBlobToBase64(blob),
     }
     setMessageDraft((p) => ({ ...p, files: [...p.files, file] }))
   }
