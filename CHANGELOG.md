@@ -1,5 +1,23 @@
 # syncia
 
+## 1.2.0
+
+### Minor Changes
+
+- 7abe7ae9: - adds ability to remove messages
+  - makes screenshots to show all with object fit contain
+  - fixed model names showing numbers
+  - make open ai key show and hide and hide by default
+- 97de2b32: Better loading and error handling
+- 806e8ce6: Stable Screenshot tool with GPT Vision
+
+### Patch Changes
+
+- 9efbfd67: Fixes screenshot tool images not loading up back to existing chat
+- afc23972: Fixes preview to open image in new tab properly
+- 1bd4d196: - adds question field not embedding when context is turned on
+  - fixes preview bar showing when there is no files
+
 ## 1.1.0
 
 ### Minor Changes
