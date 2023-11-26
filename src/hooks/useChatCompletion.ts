@@ -47,6 +47,7 @@ export const useChatCompletion = ({
         openAIApiKey: apiKey,
         modelName: model,
         temperature: Number(mode),
+        maxTokens: 4_096,
       }),
     [apiKey, model, mode],
   )

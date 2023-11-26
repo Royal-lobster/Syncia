@@ -6,6 +6,7 @@ import { Table } from './markdown-components/Table'
 import remarkBreaks from 'remark-breaks'
 import rehypeRaw from 'rehype-raw'
 import { ChatMessage, ChatRole } from '../../../hooks/useCurrentChat'
+import FilePreviewBar from './FilePreviewBar'
 
 interface ChatListProps {
   messages: ChatMessage[]
@@ -62,6 +63,7 @@ const ChatList = ({ messages }: ChatListProps) => {
               >
                 {msg.content.replace(/(?<=\n\n)(?![*-])\n/gi, '&nbsp;\n ')}
               </ReactMarkdown>
+              {msg.files && <FilePreviewBar files={msg.files} />}
             </div>
           ))
       )}

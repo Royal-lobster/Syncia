@@ -3,7 +3,7 @@ import { MessageFile } from '../../../hooks/useMessageDraft'
 
 interface FilePreviewBarProps {
   files: MessageFile[]
-  removeFile: (id: string) => void
+  removeFile?: (id: string) => void
 }
 
 const FilePreviewBar = ({ files, removeFile }: FilePreviewBarProps) => {
@@ -18,13 +18,15 @@ const FilePreviewBar = ({ files, removeFile }: FilePreviewBarProps) => {
               className="cdx-w-14 cdx-h-14 cdx-object-cover cdx-rounded cdx-bg-neutral-500"
             />
           </div>
-          <button
-            onClick={() => removeFile(file.id)}
-            type="button"
-            className="cdx-absolute cdx-top-0.5 cdx-right-0.5 cdx-bg-black/30 cdx-rounded-full cdx-text-neutral-500 dark:cdx-text-neutral-200 cdx-ml-2"
-          >
-            <RiCloseLine size={16} />
-          </button>
+          {removeFile && (
+            <button
+              onClick={() => removeFile(file.id)}
+              type="button"
+              className="cdx-absolute cdx-top-0.5 cdx-right-0.5 cdx-bg-black/30 cdx-rounded-full cdx-text-neutral-500 dark:cdx-text-neutral-200 cdx-ml-2"
+            >
+              <RiCloseLine size={16} />
+            </button>
+          )}
         </div>
       ))}
     </div>
