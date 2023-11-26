@@ -1,5 +1,12 @@
 # syncia
 
+## 1.1.0
+
+### Minor Changes
+
+- 3f1420c5: Adds webpage context
+- d4458e3f: Implements image capture for GPT 4 Vision
+
 ## 1.0.1
 
 ### Patch Changes
