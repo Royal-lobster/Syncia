@@ -1,4 +1,4 @@
-import { getScreenshotImage } from '../../lib/getScreenShotImage'
+import { getScreenshotImage } from '../../lib/getScreenshotImage'
 import { contentScriptLog } from '../../logs'
 
 contentScriptLog('Sidebar')
