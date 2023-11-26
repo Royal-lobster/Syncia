@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react'
 import { AvailableModels, Mode } from '../config/settings'
 import { ChatRole, useCurrentChat } from './useCurrentChat'
 import { getMatchedContent } from '../lib/getMatchedContent'
+import { MessageDraft } from './useMessageDraft'
 
 interface UseChatCompletionProps {
   model: AvailableModels
@@ -62,8 +63,8 @@ export const useChatCompletion = ({
 
   const controller = new AbortController()
 
-  const submitQuery = async (query: string, context?: string) => {
-    await addNewMessage(ChatRole.USER, query)
+  const submitQuery = async (message: MessageDraft, context?: string) => {
+    await addNewMessage(ChatRole.USER, message)
     const options = {
       signal: controller.signal,
       callbacks: [{ handleLLMNewToken: updateAssistantMessage }],
@@ -78,7 +79,7 @@ export const useChatCompletion = ({
      */
     let matchedContext
     if (context) {
-      matchedContext = await getMatchedContent(query, context, apiKey)
+      matchedContext = await getMatchedContent(message.text, context, apiKey)
     }
 
     const expandedQuery = matchedContext
@@ -86,9 +87,9 @@ export const useChatCompletion = ({
       ### Context
       ${matchedContext}
       ### Question:
-      ${query}
+      ${message}
     `
-      : query
+      : message.text
 
     const messages = [
       new SystemMessage(systemPrompt),

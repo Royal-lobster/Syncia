@@ -1,13 +1,13 @@
 import React from 'react'
 
-interface MessageDraftlengthCounterProps {
+interface MessageDraftLengthCounterProps {
   length: number
   MAX_LENGTH: number
 }
 const MessageDraftLengthCounter = ({
   length,
   MAX_LENGTH,
-}: MessageDraftlengthCounterProps) => {
+}: MessageDraftLengthCounterProps) => {
   return (
     <div className="cdx-text-neutral-500">
       <span>{length.toLocaleString()}</span>/

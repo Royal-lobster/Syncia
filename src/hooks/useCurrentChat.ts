@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { getCurrentSiteHostName } from '../lib/getCurrentSiteHostName'
 import { useChatHistory } from './useChatHistory'
 import { readStorage, setStorage } from './useStorage'
+import { MessageDraft, MessageFile } from './useMessageDraft'
 
 export enum ChatRole {
   USER = 'USER',
@@ -12,6 +13,7 @@ export enum ChatRole {
 export type ChatMessage = {
   role: ChatRole
   content: string
+  files?: MessageFile[]
   timestamp: number
 }
 
@@ -104,7 +106,7 @@ export const useCurrentChat = () => {
     })
   }
 
-  const addNewMessage = async (role: ChatRole, message: string) => {
+  const addNewMessage = async (role: ChatRole, message: MessageDraft) => {
     if (!currentChatIdRef.current || !historyRef.current.length) {
       console.log({
         currentChatId: currentChatIdRef.current,
@@ -132,7 +134,8 @@ export const useCurrentChat = () => {
     }
     const newMessage: ChatMessage = {
       role,
-      content: message,
+      content: message.text,
+      files: message.files,
       timestamp: Date.now(),
     }
     setMessages((m) => [...m, newMessage])

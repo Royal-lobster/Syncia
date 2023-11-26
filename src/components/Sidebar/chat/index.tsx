@@ -25,7 +25,7 @@ const Chat = ({ settings }: ChatProps) => {
         prompt: string
       }
       if (action === 'generate') {
-        submitQuery(prompt)
+        submitQuery({ text: prompt, files: [] })
       }
     }
     window.addEventListener('message', handleWindowMessage)

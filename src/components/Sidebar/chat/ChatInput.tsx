@@ -7,13 +7,13 @@ import ChatHistory from './ChatHistory'
 import { useChatHistory } from '../../../hooks/useChatHistory'
 import WebPageContentToggle from './WebPageContentToggle'
 import ImageCaptureButton from './ImageCaptureButton'
-import { useMessageDraft } from '../../../hooks/useMessageDraft'
+import { MessageDraft, useMessageDraft } from '../../../hooks/useMessageDraft'
 import FilePreviewBar from './FilePreviewBar'
 import MessageDraftLengthCounter from './MessageDraftLengthCounter'
 
 interface SidebarInputProps {
   loading: boolean
-  submitMessage: (message: string, context?: string) => void
+  submitMessage: (message: MessageDraft, context?: string) => void
   clearMessages: () => void
   chatIsEmpty: boolean
   cancelRequest: () => void
@@ -66,7 +66,7 @@ export function SidebarInput({
       })
       context = (await pageContent) as string
     }
-    submitMessage(messageDraft.text, isWebpageContextOn ? context : undefined)
+    submitMessage(messageDraft, isWebpageContextOn ? context : undefined)
     resetMessageDraft()
   }
 
