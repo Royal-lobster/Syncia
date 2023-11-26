@@ -4,7 +4,7 @@
  * user snipes the screen.
  */
 export const captureScreenListener = async () => {
-  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
     if (request.action === "captureVisibleTab") {
       chrome.tabs.captureVisibleTab((dataUrl) => {
         sendResponse(dataUrl);
