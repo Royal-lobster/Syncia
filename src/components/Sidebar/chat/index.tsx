@@ -17,6 +17,7 @@ const Chat = ({ settings }: ChatProps) => {
     generating,
     cancelRequest,
     removeMessagePair,
+    error,
   } = useChatCompletion({
     model: settings.chat.modal,
     apiKey: settings.chat.openAIKey!,
@@ -43,7 +44,12 @@ const Chat = ({ settings }: ChatProps) => {
 
   return (
     <>
-      <ChatList messages={messages} removeMessagePair={removeMessagePair} />
+      <ChatList
+        messages={messages}
+        removeMessagePair={removeMessagePair}
+        generating={generating}
+        error={error}
+      />
       <SidebarInput
         loading={generating}
         submitMessage={submitQuery}

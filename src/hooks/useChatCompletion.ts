@@ -40,6 +40,7 @@ export const useChatCompletion = ({
     removeMessagePair,
   } = useCurrentChat()
   const [generating, setGenerating] = useState(false)
+  const [error, setError] = useState<Error | null>(null)
 
   const llm = useMemo(
     () =>
@@ -73,50 +74,56 @@ export const useChatCompletion = ({
       callbacks: [{ handleLLMNewToken: updateAssistantMessage }],
     }
 
+    setError(null)
     setGenerating(true)
 
-    /**
-     * If context is provided, we need to use the LLM to get the relevant documents
-     * and then run the LLM on those documents. We use in memory vector store to
-     * get the relevant documents
-     */
-    let matchedContext
-    if (context) {
-      matchedContext = await getMatchedContent(message.text, context, apiKey)
-    }
+    try {
+      /**
+       * If context is provided, we need to use the LLM to get the relevant documents
+       * and then run the LLM on those documents. We use in memory vector store to
+       * get the relevant documents
+       */
+      let matchedContext
+      if (context) {
+        matchedContext = await getMatchedContent(message.text, context, apiKey)
+      }
 
-    const expandedQuery = matchedContext
-      ? endent`
+      const expandedQuery = matchedContext
+        ? endent`
       ### Context
       ${matchedContext}
       ### Question:
       ${message.text}
     `
-      : message.text
+        : message.text
 
-    const messages = [
-      new SystemMessage(systemPrompt),
-      ...previousMessages,
-      new HumanMessage({
-        content: [
-          { type: 'text', text: expandedQuery },
-          ...(message.files.length > 0
-            ? await Promise.all(
-                message.files.map(async (file) => {
-                  return {
-                    type: 'image_url',
-                    image_url: await convertBlobToBase64(file.blob),
-                  } as const
-                }),
-              )
-            : []),
-        ],
-      }),
-    ]
+      const messages = [
+        new SystemMessage(systemPrompt),
+        ...previousMessages,
+        new HumanMessage({
+          content: [
+            { type: 'text', text: expandedQuery },
+            ...(message.files.length > 0
+              ? await Promise.all(
+                  message.files.map(async (file) => {
+                    return {
+                      type: 'image_url',
+                      image_url: await convertBlobToBase64(file.blob),
+                    } as const
+                  }),
+                )
+              : []),
+          ],
+        }),
+      ]
 
-    await llm.call(messages, options)
-    commitToStoredMessages()
-    setGenerating(false)
+      await llm.call(messages, options)
+    } catch (e) {
+      setError(e as Error)
+    } finally {
+      commitToStoredMessages()
+      setGenerating(false)
+    }
   }
 
   const cancelRequest = () => {
@@ -132,5 +139,6 @@ export const useChatCompletion = ({
     cancelRequest,
     clearMessages,
     removeMessagePair,
+    error,
   }
 }
