@@ -75,7 +75,7 @@ export const getScreenshotImage = async (): Promise<Blob> => {
   document.body.removeChild(snipeRegion)
   document.body.removeChild(snipeSelection)
   await new Promise((resolve) => setTimeout(resolve, 100)) // Wait for the DOM to update
-  
+
   // Ensure that the coordinates are defined before using them
   if (
     typeof startX === 'undefined' ||
@@ -90,9 +90,9 @@ export const getScreenshotImage = async (): Promise<Blob> => {
   const screenshot = await new Promise<string>((resolve) => {
     chrome.runtime.sendMessage({ action: 'captureVisibleTab' }, (dataUrl) => {
       console.log({ dataUrl })
-      resolve(dataUrl);
-    });
-  });
+      resolve(dataUrl)
+    })
+  })
 
   // Create a canvas element and draw the screenshot on it
   const canvas: HTMLCanvasElement = document.createElement('canvas')
@@ -103,7 +103,9 @@ export const getScreenshotImage = async (): Promise<Blob> => {
   image.src = screenshot
 
   // Wait for the image to load
-  await new Promise((resolve) => {image.onload = resolve})
+  await new Promise((resolve) => {
+    image.onload = resolve
+  })
 
   // Crop the screenshot to the user's selection
   ctx.drawImage(

@@ -33,7 +33,7 @@ export const sidebarToggleListeners = () => {
     if (message.action === 'generate') {
       message.prompt
     }
-    if(message.action === 'close-sidebar'){
+    if (message.action === 'close-sidebar') {
       sendResponse({ action: 'close-sidebar' })
     }
   })

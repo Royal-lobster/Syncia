@@ -5,11 +5,11 @@
  */
 export const captureScreenListener = async () => {
   chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
-    if (request.action === "captureVisibleTab") {
+    if (request.action === 'captureVisibleTab') {
       chrome.tabs.captureVisibleTab((dataUrl) => {
-        sendResponse(dataUrl);
-      });
-      return true; // This will keep the message channel open until `sendResponse` is called.
+        sendResponse(dataUrl)
+      })
+      return true // This will keep the message channel open until `sendResponse` is called.
     }
-  });
-};
+  })
+}
