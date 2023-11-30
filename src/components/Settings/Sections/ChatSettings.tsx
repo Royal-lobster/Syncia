@@ -129,8 +129,8 @@ const ChatSettings = () => {
           className="input cdx-w-44"
           onChange={handleModalChange}
         >
-          {Object.keys(AvailableModels).map((modal) => (
-            <option key={modal} value={modal}>
+          {Object.entries(AvailableModels).map(([modal, value]) => (
+            <option key={modal} value={value}>
               {capitalizeText(
                 modal
                   .toLowerCase()
@@ -157,11 +157,11 @@ const ChatSettings = () => {
           onChange={handleModeChange}
           className="input cdx-w-36"
         >
-          {Object.keys(Mode)
-            .filter((v) => Number.isNaN(Number(v)))
-            .map((value) => (
-              <option key={value} value={value}>
-                {capitalizeText(value.replace('_', ' ').toLowerCase())}
+          {Object.entries(Mode)
+            .filter(([, v]) => !Number.isNaN(Number(v)))
+            .map(([key, value]) => (
+              <option key={key} value={value}>
+                {capitalizeText(key.replace('_', ' ').toLowerCase())}
               </option>
             ))}
         </select>
