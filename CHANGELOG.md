@@ -1,5 +1,12 @@
 # syncia
 
+## 1.2.1
+
+### Patch Changes
+
+- 145983b0: - Fixes unable to select between models
+  - Fixes unable to select between modes
+
 ## 1.2.0
 
 ### Minor Changes
