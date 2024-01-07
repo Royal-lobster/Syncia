@@ -24,7 +24,7 @@ document.body.appendChild(iframe)
  * To open the sidebar, the background script sends a message with the action 'open-sidebar'.
  * The sidebar is opened by setting the width of the iframe to 400px.
  */
-chrome.runtime.onMessage.addListener(function (msg) {
+chrome.runtime.onMessage.addListener((msg) => {
   if (msg.action === 'open-sidebar') {
     if (iframe.style.width === '0px') {
       iframe.style.width = '400px'
