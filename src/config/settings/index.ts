@@ -8,9 +8,9 @@ export enum ThemeOptions {
 
 export enum AvailableModels {
   GPT_4_VISION = 'gpt-4-vision-preview',
-  GPT_4_TURBO = 'gpt-4-1106-preview',
+  GPT_4_TURBO = 'gpt-4-0125-preview',
   GPT_4 = 'gpt-4',
-  GPT_3_5_TURBO = 'gpt-3.5-turbo-1106',
+  GPT_3_5_TURBO = 'gpt-3.5-turbo-0125',
 }
 
 export enum Mode {
