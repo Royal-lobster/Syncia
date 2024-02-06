@@ -1,5 +1,11 @@
 # syncia
 
+## 1.2.2
+
+### Patch Changes
+
+- 1d6ba89a: Update GPT 4 and 3.5 turbo models to 0125
+
 ## 1.2.1
 
 ### Patch Changes
