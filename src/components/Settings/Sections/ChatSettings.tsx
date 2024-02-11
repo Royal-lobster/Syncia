@@ -8,6 +8,7 @@ import { capitalizeText } from '../../../lib/capitalizeText'
 import { useState } from 'react'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import axios from 'axios'
+import * as Switch from '@radix-ui/react-switch'
 
 const ChatSettings = () => {
   const [settings, setSettings] = useSettings()
@@ -59,6 +60,8 @@ const ChatSettings = () => {
       if (models) {
         setDynamicModels(models.map((m) => m.name))
       }
+    } else {
+      setDynamicModels([])
     }
   }, [chatSettings.showLocalModels])
 
@@ -123,20 +126,33 @@ const ChatSettings = () => {
         description="Show local models in the modal selection via ollama (https://ollama.com/) which allows you to use open source models that run on your machine."
         row={true}
       >
-        <input
-          type="checkbox"
+        <Switch.Root
           checked={chatSettings.showLocalModels}
-          onChange={(e) =>
+          onCheckedChange={(value) => {
             setSettings({
               ...settings,
               chat: {
                 ...chatSettings,
-                showLocalModels: e.target.checked,
+                showLocalModels: value,
               },
             })
-          }
-        />
+            fetchLocalModels()
+          }}
+          className="cdx-w-[42px] cdx-h-[25px] cdx-bg-neutral-500 cdx-rounded-full cdx-relative data-[state=checked]:cdx-bg-blue-500 cdx-outline-none cdx-cursor-default"
+        >
+          <Switch.Thumb className="cdx-block cdx-w-[21px] cdx-h-[21px] cdx-bg-white cdx-rounded-full cdx-transition-transform cdx-duration-100 cdx-translate-x-0.5 cdx-will-change-transform data-[state=checked]:cdx-translate-x-[19px]" />
+        </Switch.Root>
       </FieldWrapper>
+
+      {chatSettings.showLocalModels && (
+        <div>
+          🚧 NOTE: You must run this command for this to work:
+          <code className="cdx-block dark:cdx-bg-white/10 cdx-bg-black/10 cdx-rounded cdx-mt-2 cdx-p-2">
+            OLLAMA_ORIGINS=
+            {window.location.origin} ollama start
+          </code>
+        </div>
+      )}
 
       <FieldWrapper
         title="Modal"
