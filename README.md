@@ -13,6 +13,7 @@ Syncia is a Chrome extension that enables users to chat with ChatGPT by opening 
 - 🎨 Has both light mode and dark mode !
 - 📚 Answer questions in context with text from webpage.
 - 👁️ Screenshot any region and query GPT 4 Vision
+- 🦙 Supports local models with Ollama
 - 🔐 Secure and fully Free and open source forever. (Please consider giving this project a star 🌟 and contributing 💖 to support the project.)
 
 ## 🐳 Installation
