@@ -13,6 +13,12 @@ export enum AvailableModels {
   GPT_3_5_TURBO = 'gpt-3.5-turbo-0125',
 }
 
+export enum DynamicModelsProviders {
+  OLLAMA = 'ollama',
+}
+
+export type DynamicModelName = `${DynamicModelsProviders}-${string}`
+
 export enum Mode {
   HIGHLY_PRECISE = 0,
   PRECISE = 0.5,
