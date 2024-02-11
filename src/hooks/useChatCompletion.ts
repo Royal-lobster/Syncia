@@ -82,7 +82,7 @@ export const useChatCompletion = ({
        * and then run the LLM on those documents. We use in memory vector store to
        * get the relevant documents
        */
-      let matchedContext
+      let matchedContext: string | undefined
       if (context) {
         matchedContext = await getMatchedContent(message.text, context, apiKey)
       }
