@@ -1,5 +1,11 @@
 # syncia
 
+## 1.3.0
+
+### Minor Changes
+
+- 8cffc3c2: Local Model support with ollama
+
 ## 1.2.2
 
 ### Patch Changes
