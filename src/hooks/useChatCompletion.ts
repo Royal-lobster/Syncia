@@ -107,21 +107,26 @@ export const useChatCompletion = ({
         new SystemMessage(systemPrompt),
         ...previousMessages,
         new HumanMessage({
-          content: [
-            { type: 'text', text: expandedQuery },
-            ...(message.files.length > 0
-              ? await Promise.all(
-                  message.files.map(async (file) => {
-                    return {
-                      type: 'image_url',
-                      image_url: file.src,
-                    } as const
-                  }),
-                )
-              : []),
-          ],
+          content:
+            message.files.length > 0
+              ? [
+                  { type: 'text', text: expandedQuery },
+                  ...(message.files.length > 0
+                    ? await Promise.all(
+                        message.files.map(async (file) => {
+                          return {
+                            type: 'image_url',
+                            image_url: file.src,
+                          } as const
+                        }),
+                      )
+                    : []),
+                ]
+              : expandedQuery,
         }),
       ]
+
+      console.log(JSON.stringify(messages, null, 2))
 
       await llm.invoke(messages, options)
     } catch (e) {
