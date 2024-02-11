@@ -30,6 +30,7 @@ export type Settings = {
     openAIKey: string | null
     modal: AvailableModels
     mode: Mode
+    showLocalModels: boolean
   }
   general: {
     theme: ThemeOptions
@@ -47,6 +48,7 @@ export const defaultSettings: Settings = {
     openAIKey: null,
     modal: AvailableModels.GPT_4_VISION,
     mode: Mode.BALANCED,
+    showLocalModels: false,
   },
   general: {
     theme: ThemeOptions.SYSTEM,
