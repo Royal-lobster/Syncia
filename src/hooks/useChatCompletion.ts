@@ -1,6 +1,11 @@
 import endent from 'endent'
 import { ChatOpenAI } from 'langchain/chat_models/openai'
-import { AIMessage, HumanMessage, SystemMessage } from 'langchain/schema'
+import { Ollama } from '@langchain/community/llms/ollama'
+import {
+  AIMessage,
+  HumanMessage,
+  SystemMessage,
+} from '@langchain/core/messages'
 import { useMemo, useState } from 'react'
 import { AvailableModels, Mode } from '../config/settings'
 import { getMatchedContent } from '../lib/getMatchedContent'
@@ -41,17 +46,19 @@ export const useChatCompletion = ({
   const [generating, setGenerating] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 
-  const llm = useMemo(
-    () =>
-      new ChatOpenAI({
+  const llm = useMemo(() => {
+    const isOpenAIModel = Object.values(AvailableModels).includes(model)
+    if (isOpenAIModel) {
+      return new ChatOpenAI({
         streaming: true,
         openAIApiKey: apiKey,
         modelName: model,
         temperature: Number(mode),
         maxTokens: 4_096,
-      }),
-    [apiKey, model, mode],
-  )
+      })
+    }
+    return new Ollama({ model: model.replace('ollama-', '') })
+  }, [apiKey, model, mode])
 
   const previousMessages = messages.map((msg) => {
     switch (msg.role) {
@@ -116,7 +123,7 @@ export const useChatCompletion = ({
         }),
       ]
 
-      await llm.call(messages, options)
+      await llm.invoke(messages, options)
     } catch (e) {
       setError(e as Error)
     } finally {

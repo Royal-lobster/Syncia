@@ -3,12 +3,7 @@ import SectionHeading from '../Elements/SectionHeading'
 import FieldWrapper from '../Elements/FieldWrapper'
 import { useSettings } from '../../../hooks/useSettings'
 import { validateApiKey } from '../../../lib/validApiKey'
-import {
-  AvailableModels,
-  DynamicModelName,
-  DynamicModelsProviders,
-  Mode,
-} from '../../../config/settings'
+import { AvailableModels, Mode } from '../../../config/settings'
 import { capitalizeText } from '../../../lib/capitalizeText'
 import { useState } from 'react'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
@@ -17,7 +12,7 @@ import axios from 'axios'
 const ChatSettings = () => {
   const [settings, setSettings] = useSettings()
   const [showPassword, setShowPassword] = useState(false)
-  const [dynamicModels, setDynamicModels] = useState<DynamicModelName[]>([])
+  const [dynamicModels, setDynamicModels] = useState<string[]>([])
   const OpenAiApiKeyInputRef = React.useRef<HTMLInputElement>(null)
 
   const chatSettings = settings.chat
@@ -58,12 +53,11 @@ const ChatSettings = () => {
     if (chatSettings.showLocalModels) {
       const {
         data: { models },
-      } = await axios<{ models: string[] }>('http://localhost:11434/api/tags')
+      } = await axios<{ models: { name: string }[] }>(
+        'http://localhost:11434/api/tags',
+      )
       if (models) {
-        const dynamicModels = models.map(
-          (m) => `${DynamicModelsProviders.OLLAMA}-${m}` as const,
-        )
-        setDynamicModels(dynamicModels)
+        setDynamicModels(models.map((m) => m.name))
       }
     }
   }, [chatSettings.showLocalModels])
