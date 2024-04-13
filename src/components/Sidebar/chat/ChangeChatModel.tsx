@@ -1,8 +1,7 @@
-import { RiRobotLine } from 'react-icons/ri'
+import { BsRobot } from 'react-icons/bs'
 import type { AvailableModels } from '../../../config/settings'
 import { useChatModels } from '../../../hooks/useChatModels'
 import { capitalizeText } from '../../../lib/capitalizeText'
-import { BsRobot } from 'react-icons/bs'
 
 const ChangeChatModel = () => {
   const { availableModels, activeChatModel, setActiveChatModel } =
