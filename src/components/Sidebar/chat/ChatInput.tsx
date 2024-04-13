@@ -13,6 +13,7 @@ import {
 } from '../../../hooks/useMessageDraft'
 import FilePreviewBar from './FilePreviewBar'
 import MessageDraftLengthCounter from './MessageDraftLengthCounter'
+import ChangeChatModel from './ChangeChatModel'
 
 interface SidebarInputProps {
   loading: boolean
@@ -108,6 +109,7 @@ export function SidebarInput({
         ) : (
           <div />
         )}
+        <ChangeChatModel />
         {(history.length || !chatIsEmpty) && <ChatHistory />}
       </div>
 

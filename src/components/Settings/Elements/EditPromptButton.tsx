@@ -2,7 +2,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { useRef, useState } from 'react'
 import { HiPencilAlt } from 'react-icons/hi'
 import TextareaAutosize from 'react-textarea-autosize'
-import { Prompt, usePrompts } from '../../../hooks/usePrompts'
+import { type Prompt, usePrompts } from '../../../hooks/usePrompts'
 import DialogPortal from '../../Layout/DialogPortal'
 
 export const EditPromptButton = ({
