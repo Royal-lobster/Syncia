@@ -17,15 +17,16 @@ export const generateReadableRelativeDate = (
 
   if (seconds < 60) {
     return 'Just now'
-  } else if (minutes < 60) {
-    return `${minutes} mins ago`
-  } else if (hours < 24) {
-    return `${hours} hr ago`
-  } else {
-    return dateObj.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    })
   }
+  if (minutes < 60) {
+    return `${minutes} mins ago`
+  }
+  if (hours < 24) {
+    return `${hours} hr ago`
+  }
+  return dateObj.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
 }

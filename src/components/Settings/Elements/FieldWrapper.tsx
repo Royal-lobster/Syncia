@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 
 interface FieldWrapperProps {
   title: string
@@ -18,20 +18,20 @@ const FieldWrapper = ({
   return (
     <form
       data-row={row || undefined}
-      className='cdx-flex cdx-flex-col cdx-gap-1 data-[row]:cdx-items-center cdx-my-4 data-[row]:cdx-flex-row data-[row]:cdx-justify-between data-[row]:cdx-gap-2'
+      className="cdx-flex cdx-flex-col cdx-gap-1 data-[row]:cdx-items-center cdx-my-4 data-[row]:cdx-flex-row data-[row]:cdx-justify-between data-[row]:cdx-gap-2"
       onSubmit={onSubmit}
     >
       <div>
-        <label className='cdx-text-xl dark:cdx-text-neutral-200 cdx-text-neutral-700'>
+        <label className="cdx-text-xl dark:cdx-text-neutral-200 cdx-text-neutral-700">
           {title}
         </label>
         {description && (
-          <p className='cdx-text-sm cdx-mt-2 cdx-text-neutral-400'>
+          <p className="cdx-text-sm cdx-mt-2 cdx-text-neutral-400">
             {description}
           </p>
         )}
       </div>
-      <div className='cdx-mt-2'>{children}</div>
+      <div className="cdx-mt-2">{children}</div>
     </form>
   )
 }

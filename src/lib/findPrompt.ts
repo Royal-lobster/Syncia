@@ -11,7 +11,8 @@ export const findPrompt = async (id: string) => {
     for (const prompt of prompts) {
       if (prompt.id === id) {
         return prompt
-      } else if (prompt.children) {
+      }
+      if (prompt.children) {
         const found = find(prompt.children)
         if (found) {
           return found

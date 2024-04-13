@@ -1,5 +1,5 @@
 import endent from 'endent'
-import { ChatOpenAI } from 'langchain/chat_models/openai'
+import { ChatOpenAI } from '@langchain/openai'
 import { Ollama } from '@langchain/community/llms/ollama'
 import {
   AIMessage,
@@ -7,10 +7,10 @@ import {
   SystemMessage,
 } from '@langchain/core/messages'
 import { useMemo, useState } from 'react'
-import { AvailableModels, Mode } from '../config/settings'
+import { AvailableModels, type Mode } from '../config/settings'
 import { getMatchedContent } from '../lib/getMatchedContent'
 import { ChatRole, useCurrentChat } from './useCurrentChat'
-import { MessageDraft } from './useMessageDraft'
+import type { MessageDraft } from './useMessageDraft'
 
 interface UseChatCompletionProps {
   model: AvailableModels

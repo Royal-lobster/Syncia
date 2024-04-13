@@ -1,19 +1,18 @@
-import React, { useCallback, useEffect } from 'react'
-import SectionHeading from '../Elements/SectionHeading'
-import FieldWrapper from '../Elements/FieldWrapper'
-import { useSettings } from '../../../hooks/useSettings'
-import { validateApiKey } from '../../../lib/validApiKey'
-import { AvailableModels, Mode } from '../../../config/settings'
-import { capitalizeText } from '../../../lib/capitalizeText'
-import { useState } from 'react'
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
-import axios from 'axios'
 import * as Switch from '@radix-ui/react-switch'
+import React, { useState } from 'react'
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
+import { useSettings } from '../../../hooks/useSettings'
+import { useChatModels } from '../../../hooks/useChatModels'
+import { capitalizeText } from '../../../lib/capitalizeText'
+import { validateApiKey } from '../../../lib/validApiKey'
+import FieldWrapper from '../Elements/FieldWrapper'
+import SectionHeading from '../Elements/SectionHeading'
+import { type AvailableModels, Mode } from '../../../config/settings'
 
 const ChatSettings = () => {
   const [settings, setSettings] = useSettings()
   const [showPassword, setShowPassword] = useState(false)
-  const [dynamicModels, setDynamicModels] = useState<string[]>([])
+  const { availableModels, fetchLocalModels } = useChatModels()
   const OpenAiApiKeyInputRef = React.useRef<HTMLInputElement>(null)
 
   const chatSettings = settings.chat
@@ -49,30 +48,6 @@ const ChatSettings = () => {
       }, 2000)
     }
   }
-
-  const fetchLocalModels = useCallback(async () => {
-    if (chatSettings.showLocalModels) {
-      const {
-        data: { models },
-      } = await axios<{ models: { name: string }[] }>(
-        'http://localhost:11434/api/tags',
-      )
-      if (models) {
-        setDynamicModels(models.map((m) => m.name))
-      }
-    } else {
-      setDynamicModels([])
-    }
-  }, [chatSettings.showLocalModels])
-
-  useEffect(() => {
-    fetchLocalModels()
-  }, [fetchLocalModels])
-
-  const availableModels = [
-    ...Object.entries(AvailableModels),
-    ...dynamicModels.map((m) => [m, m]),
-  ]
 
   return (
     <div className="cdx-w-full cdx-flex-shrink-0 cdx-rounded-md">

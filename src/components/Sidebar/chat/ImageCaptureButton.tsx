@@ -10,7 +10,7 @@ const ImageCaptureButton = ({
   const handleScreenshotClick = async () => {
     const imageBlob: Blob = await new Promise((resolve) => {
       window.parent.postMessage({ action: 'get-screenshot-image' }, '*')
-      window.addEventListener('message', function (event) {
+      window.addEventListener('message', (event) => {
         const { action, payload } = event.data
         if (action === 'get-screenshot-image') {
           resolve(payload)
@@ -24,9 +24,9 @@ const ImageCaptureButton = ({
     <button
       onClick={handleScreenshotClick}
       type="button"
-      className="cdx-bg-neutral-300 cdx-text-neutral-500 dark:cdx-text-neutral-200 dark:cdx-bg-neutral-800 cdx-p-2 cdx-rounded"
+      className="cdx-bg-neutral-300 cdx-text-neutral-500 dark:cdx-text-neutral-200 dark:cdx-bg-neutral-800 cdx-p-1.5 cdx-rounded"
     >
-      <RiScreenshot2Line size={20} />
+      <RiScreenshot2Line size={18} />
     </button>
   )
 }

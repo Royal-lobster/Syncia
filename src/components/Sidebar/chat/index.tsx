@@ -3,7 +3,7 @@ import ChatList from './ChatList'
 import { SidebarInput } from './ChatInput'
 import { useChatCompletion } from '../../../hooks/useChatCompletion'
 import { SYSTEM_PROMPT } from '../../../config/prompts'
-import { AvailableModels, Settings } from '../../../config/settings'
+import { AvailableModels, type Settings } from '../../../config/settings'
 
 interface ChatProps {
   settings: Settings

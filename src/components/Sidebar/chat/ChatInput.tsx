@@ -7,9 +7,13 @@ import ChatHistory from './ChatHistory'
 import { useChatHistory } from '../../../hooks/useChatHistory'
 import WebPageContentToggle from './WebPageContentToggle'
 import ImageCaptureButton from './ImageCaptureButton'
-import { MessageDraft, useMessageDraft } from '../../../hooks/useMessageDraft'
+import {
+  type MessageDraft,
+  useMessageDraft,
+} from '../../../hooks/useMessageDraft'
 import FilePreviewBar from './FilePreviewBar'
-import MessageDraftLengthCounter from './MessageDraftLengthCounter'
+import ChangeChatModel from './ChangeChatModel'
+import InsertPromptToDraftButton from './InsertPromptToDraftButton'
 
 interface SidebarInputProps {
   loading: boolean
@@ -52,10 +56,10 @@ export function SidebarInput({
   }, [loading])
 
   const handleSubmit = async () => {
-    let context
+    let context: string | undefined
     if (isWebpageContextOn) {
       const pageContent = new Promise((resolve) => {
-        window.addEventListener('message', function (event) {
+        window.addEventListener('message', (event) => {
           const { action, payload } = event.data
           if (action === 'get-page-content') {
             resolve(payload)
@@ -98,14 +102,17 @@ export function SidebarInput({
           <button
             type="button"
             onClick={clearMessages}
-            className="cdx-rounded-full cdx-h-10 cdx-w-10 cdx-grid cdx-place-items-center cdx-text-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white"
+            className="cdx-rounded-full cdx-h-8 cdx-w-8 cdx-grid cdx-place-items-center cdx-text-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white"
           >
-            <GiMagicBroom size={18} className="mx-auto" />
+            <GiMagicBroom size={16} className="mx-auto" />
           </button>
         ) : (
           <div />
         )}
-        {(history.length || !chatIsEmpty) && <ChatHistory />}
+        <div className="cdx-flex cdx-gap-2">
+          <ChangeChatModel />
+          {(history.length || !chatIsEmpty) && <ChatHistory />}
+        </div>
       </div>
 
       <div className="cdx-m-2 cdx-rounded-md cdx-border dark:cdx-border-neutral-800 cdx-border-neutral-300 dark:cdx-bg-neutral-900/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50">
@@ -134,16 +141,14 @@ export function SidebarInput({
           }}
         />
         <div className="cdx-flex cdx-justify-between cdx-items-center cdx-p-3">
-          {isVisionModel ? (
-            <ImageCaptureButton addMessageDraftFile={addMessageDraftFile} />
-          ) : (
-            <div>
-              <MessageDraftLengthCounter
-                length={messageDraft.text.length}
-                MAX_LENGTH={MAX_MESSAGE_LENGTH}
-              />
-            </div>
-          )}
+          <div className="cdx-flex cdx-gap-2">
+            {isVisionModel && (
+              <ImageCaptureButton addMessageDraftFile={addMessageDraftFile} />
+            )}
+            <InsertPromptToDraftButton
+              setMessageDraftText={setMessageDraftText}
+            />
+          </div>
           <div className="cdx-flex cdx-items-center cdx-justify-center cdx-gap-4">
             <WebPageContentToggle />
             {!delayedLoading ? sendButton : stopButton}
