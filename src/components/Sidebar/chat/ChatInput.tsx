@@ -102,15 +102,17 @@ export function SidebarInput({
           <button
             type="button"
             onClick={clearMessages}
-            className="cdx-rounded-full cdx-h-10 cdx-w-10 cdx-grid cdx-place-items-center cdx-text-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white"
+            className="cdx-rounded-full cdx-h-8 cdx-w-8 cdx-grid cdx-place-items-center cdx-text-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white"
           >
-            <GiMagicBroom size={18} className="mx-auto" />
+            <GiMagicBroom size={16} className="mx-auto" />
           </button>
         ) : (
           <div />
         )}
-        <ChangeChatModel />
-        {(history.length || !chatIsEmpty) && <ChatHistory />}
+        <div className="cdx-flex cdx-gap-2">
+          <ChangeChatModel />
+          {(history.length || !chatIsEmpty) && <ChatHistory />}
+        </div>
       </div>
 
       <div className="cdx-m-2 cdx-rounded-md cdx-border dark:cdx-border-neutral-800 cdx-border-neutral-300 dark:cdx-bg-neutral-900/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50">

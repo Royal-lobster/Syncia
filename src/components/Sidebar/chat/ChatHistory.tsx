@@ -29,7 +29,7 @@ const ChatHistory = () => {
   return (
     <div>
       <DropdownMenu.Root>
-        <DropdownMenu.Trigger className="cdx-border dark:cdx-bg-neutral-800/80 cdx-backdrop-blur cdx-border-neutral-500/20 cdx-flex cdx-gap-2 cdx-items-center cdx-p-2 cdx-text-sm cdx-text-neutral-700 dark:cdx-text-neutral-300 cdx-rounded-md">
+        <DropdownMenu.Trigger className="cdx-flex cdx-items-center cdx-gap-1 cdx-text-neutral-500 dark:cdx-bg-black/20 cdx-bg-black/10 cdx-border cdx-rounded-md cdx-border-neutral-400/30 dark:cdx-border-neutral-500/30 cdx-py-1 cdx-px-3">
           <RiTimeLine size={18} className="cdx-flex-shrink-0" /> History
         </DropdownMenu.Trigger>
         <DropdownMenu.Content
