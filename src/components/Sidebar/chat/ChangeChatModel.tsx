@@ -6,12 +6,17 @@ const ChangeChatModel = () => {
   const { availableModels, activeChatModel, setActiveChatModel } =
     useChatModels()
   return (
-    <div>
+    <div className="cdx-flex cdx-gap-1 cdx-text-neutral-500  dark:cdx-bg-black/20 cdx-bg-black/10 cdx-border cdx-rounded-full cdx-border-neutral-400/30 dark:cdx-border-neutral-500/50 cdx-px-2 cdx-py-1">
+      <span className="cdx-pl-1">Using</span>
       <select
         value={activeChatModel}
-        className="input cdx-w-44"
+        className="cdx-bg-transparent cdx-underline cdx-decoration-dotted cdx-underline-offset-4 !m-0 !p-0 cdx-box-border"
         onChange={(e) => {
           setActiveChatModel(e.target.value as AvailableModels)
+        }}
+        style={{
+          appearance: 'none',
+          backgroundImage: 'none',
         }}
       >
         {availableModels.map(([modal, value]) => (

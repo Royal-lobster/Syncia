@@ -1,5 +1,5 @@
 import { HumanMessage } from '@langchain/core/messages'
-import { ChatOpenAI } from 'langchain/chat_models/openai'
+import { ChatOpenAI } from '@langchain/openai'
 
 export const validateApiKey = async (
   openAIApiKey: string,

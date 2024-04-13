@@ -1,4 +1,4 @@
-import { OpenAIEmbeddings } from 'langchain/embeddings/openai'
+import { OpenAIEmbeddings } from '@langchain/openai'
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 import { MemoryVectorStore } from 'langchain/vectorstores/memory'
 import { createSHA256Hash } from './createSHA256Hash'
