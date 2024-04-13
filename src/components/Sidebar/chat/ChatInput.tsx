@@ -7,7 +7,10 @@ import ChatHistory from './ChatHistory'
 import { useChatHistory } from '../../../hooks/useChatHistory'
 import WebPageContentToggle from './WebPageContentToggle'
 import ImageCaptureButton from './ImageCaptureButton'
-import { MessageDraft, useMessageDraft } from '../../../hooks/useMessageDraft'
+import {
+  type MessageDraft,
+  useMessageDraft,
+} from '../../../hooks/useMessageDraft'
 import FilePreviewBar from './FilePreviewBar'
 import MessageDraftLengthCounter from './MessageDraftLengthCounter'
 
@@ -52,10 +55,10 @@ export function SidebarInput({
   }, [loading])
 
   const handleSubmit = async () => {
-    let context
+    let context: string | undefined
     if (isWebpageContextOn) {
       const pageContent = new Promise((resolve) => {
-        window.addEventListener('message', function (event) {
+        window.addEventListener('message', (event) => {
           const { action, payload } = event.data
           if (action === 'get-page-content') {
             resolve(payload)
