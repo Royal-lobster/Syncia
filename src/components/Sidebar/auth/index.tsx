@@ -17,10 +17,9 @@ const Auth = () => {
   const handleOpenAiKeySubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
-    const key = data.get('openAiKey')
-    const isVaildApiKey: boolean = await validateApiKey(key as string)
+    const key = data.get('openAiKey') as string | null
 
-    if (key && isVaildApiKey) {
+    if (key && (await validateApiKey(key))) {
       setSettings((prev) => ({
         ...prev,
         chat: {
