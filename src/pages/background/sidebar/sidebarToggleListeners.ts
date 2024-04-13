@@ -8,7 +8,7 @@
  */
 export const sidebarToggleListeners = () => {
   // Toggle sidebar when user performs a keyboard shortcut
-  chrome.commands.onCommand.addListener(function (command) {
+  chrome.commands.onCommand.addListener((command) => {
     console.log(`🚚 [Command Received] ${command}`)
     if (command === 'open-sidebar') {
       toggleSidebar()
@@ -19,11 +19,7 @@ export const sidebarToggleListeners = () => {
   chrome.action.onClicked.addListener(toggleSidebar)
 
   // Toggle sidebar programmatically
-  chrome.runtime.onMessage.addListener(function (
-    message,
-    _sender,
-    sendResponse,
-  ) {
+  chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     if (
       message.action === 'close-sidebar' ||
       message.action === 'open-sidebar'
@@ -40,7 +36,7 @@ export const sidebarToggleListeners = () => {
 }
 
 const toggleSidebar = () => {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     if (tabs[0].id) {
       chrome.tabs.sendMessage(tabs[0].id, { action: 'open-sidebar' })
     }

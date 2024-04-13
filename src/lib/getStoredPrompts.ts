@@ -1,4 +1,4 @@
-import { Prompt } from '../hooks/usePrompts'
+import type { Prompt } from '../hooks/usePrompts'
 import { defaultPrompts } from '../config/prompts/default'
 
 export const getStoredPrompts = async () => {
@@ -13,7 +13,7 @@ export const getStoredPrompts = async () => {
 
 const getStoredLocalPrompts = async () => {
   const storedLocalPrompts = await new Promise((resolve) => {
-    chrome.storage.local.get('PROMPTS', function (result) {
+    chrome.storage.local.get('PROMPTS', (result) => {
       resolve(result.PROMPTS)
     })
   })

@@ -6,12 +6,12 @@
  * from the content script.
  */
 export const sendSidebarShortcut = () => {
-  chrome.commands.getAll(function (commands) {
+  chrome.commands.getAll((commands) => {
     // Get shortcut
     const shortcut = commands.find((c) => c.name === 'open-sidebar')?.shortcut
 
     // Send shortcut to client
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       if (tabs[0].id) {
         chrome.tabs.onUpdated.addListener(function listener(tabId, info) {
           if (info.status === 'complete' && tabId === tabs[0].id) {

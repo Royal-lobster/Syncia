@@ -1,5 +1,11 @@
-import { PrimitiveAtom, useAtom } from 'jotai'
-import { Dispatch, SetStateAction, useCallback, useEffect, useRef } from 'react'
+import { type PrimitiveAtom, useAtom } from 'jotai'
+import {
+  type Dispatch,
+  type SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react'
 
 export type StorageArea = 'sync' | 'local'
 

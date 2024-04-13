@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useSettings } from './useSettings'
 import { ThemeOptions } from '../config/settings'
 

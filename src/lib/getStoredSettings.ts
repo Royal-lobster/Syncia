@@ -1,4 +1,4 @@
-import { Settings, defaultSettings } from '../config/settings'
+import { type Settings, defaultSettings } from '../config/settings'
 
 export const getStoredSettings = async () => {
   const storedSettings = await getStoredLocalSettings()
@@ -12,7 +12,7 @@ export const getStoredSettings = async () => {
 
 const getStoredLocalSettings = async () => {
   const storedLocalSettings = await new Promise((resolve) => {
-    chrome.storage.local.get('SETTINGS', function (result) {
+    chrome.storage.local.get('SETTINGS', (result) => {
       resolve(result.SETTINGS)
     })
   })

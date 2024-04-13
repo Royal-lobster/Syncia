@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { getCurrentSiteHostName } from '../lib/getCurrentSiteHostName'
 import { useChatHistory } from './useChatHistory'
 import { readStorage, setStorage } from './useStorage'
-import { MessageDraft, MessageFile } from './useMessageDraft'
+import type { MessageDraft, MessageFile } from './useMessageDraft'
 
 export enum ChatRole {
   USER = 'USER',

@@ -3,7 +3,7 @@ import HighlightMenu from 'react-highlight-menu'
 import { createRoot } from 'react-dom/client'
 import { contentScriptLog } from '../../../logs'
 import Whitelister from 'redirect-whitelister'
-import { Settings } from '../../../config/settings'
+import type { Settings } from '../../../config/settings'
 
 /**
  * Initializes the visual quick menu. (when the user selects text)

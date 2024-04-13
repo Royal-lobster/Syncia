@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 import { atom } from 'jotai'
 import { useStorage } from './useStorage'
-import { Settings, defaultSettings } from '../config/settings'
+import { type Settings, defaultSettings } from '../config/settings'
 
 const settingsAtom = atom<Settings>(defaultSettings)
 export function useSettings(): [Settings, Dispatch<SetStateAction<Settings>>] {
