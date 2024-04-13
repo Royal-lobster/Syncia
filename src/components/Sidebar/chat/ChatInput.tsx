@@ -12,8 +12,8 @@ import {
   useMessageDraft,
 } from '../../../hooks/useMessageDraft'
 import FilePreviewBar from './FilePreviewBar'
-import MessageDraftLengthCounter from './MessageDraftLengthCounter'
 import ChangeChatModel from './ChangeChatModel'
+import InsertPromptToDraftButton from './InsertPromptToDraftButton'
 
 interface SidebarInputProps {
   loading: boolean
@@ -141,16 +141,14 @@ export function SidebarInput({
           }}
         />
         <div className="cdx-flex cdx-justify-between cdx-items-center cdx-p-3">
-          {isVisionModel ? (
-            <ImageCaptureButton addMessageDraftFile={addMessageDraftFile} />
-          ) : (
-            <div>
-              <MessageDraftLengthCounter
-                length={messageDraft.text.length}
-                MAX_LENGTH={MAX_MESSAGE_LENGTH}
-              />
-            </div>
-          )}
+          <div className="cdx-flex cdx-gap-2">
+            {isVisionModel && (
+              <ImageCaptureButton addMessageDraftFile={addMessageDraftFile} />
+            )}
+            <InsertPromptToDraftButton
+              setMessageDraftText={setMessageDraftText}
+            />
+          </div>
           <div className="cdx-flex cdx-items-center cdx-justify-center cdx-gap-4">
             <WebPageContentToggle />
             {!delayedLoading ? sendButton : stopButton}
