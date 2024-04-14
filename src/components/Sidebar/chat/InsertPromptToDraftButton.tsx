@@ -6,7 +6,6 @@ import {
   RiFilePaperLine,
   RiInsertRowTop,
 } from 'react-icons/ri'
-import { ContentClassNames } from '../../QuickMenu'
 import { usePrompts } from '../../../hooks/usePrompts'
 import { RecursiveItem } from '../../QuickMenu/RecursiveItem'
 
@@ -33,7 +32,7 @@ const InsertPromptToDraftButton = ({
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           style={{ zIndex: 2147483647 }}
-          className={ContentClassNames}
+          className="cdx-flex cdx-flex-col cdx-min-w-[150px] cdx-gap-2 cdx-backdrop-blur-sm !cdx-font-sans cdx-m-2 cdx-bg-neutral-50 cdx-shadow-md cdx-p-2 cdx-rounded dark:cdx-bg-neutral-800 cdx-text-neutral-800 dark:cdx-text-neutral-100"
         >
           <DropdownMenu.Group>
             {prompts
