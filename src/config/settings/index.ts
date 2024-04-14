@@ -7,10 +7,9 @@ export enum ThemeOptions {
 }
 
 export enum AvailableModels {
-  GPT_4_VISION = 'gpt-4-vision-preview',
-  GPT_4_TURBO = 'gpt-4-0125-preview',
+  GPT_4_TURBO = 'gpt-4-turbo',
   GPT_4 = 'gpt-4',
-  GPT_3_5_TURBO = 'gpt-3.5-turbo-0125',
+  GPT_3_5_TURBO = 'gpt-3.5-turbo',
 }
 
 export enum Mode {
@@ -46,7 +45,7 @@ export const defaultSettings: Settings = {
   },
   chat: {
     openAIKey: null,
-    model: AvailableModels.GPT_4_VISION,
+    model: AvailableModels.GPT_4_TURBO,
     mode: Mode.BALANCED,
     showLocalModels: false,
   },

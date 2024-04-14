@@ -8,6 +8,7 @@ import { validateApiKey } from '../../../lib/validApiKey'
 import FieldWrapper from '../Elements/FieldWrapper'
 import SectionHeading from '../Elements/SectionHeading'
 import { type AvailableModels, Mode } from '../../../config/settings'
+import { getReadableModelName } from '../../../lib/getReadableModelName'
 
 const ChatSettings = () => {
   const [settings, setSettings] = useSettings()
@@ -149,13 +150,7 @@ const ChatSettings = () => {
         >
           {availableModels.map(([model, value]) => (
             <option key={model} value={value}>
-              {capitalizeText(
-                model
-                  .toLowerCase()
-                  .replace('gpt', 'GPT')
-                  .replace('3_5', '3.5')
-                  .replaceAll('_', ' '),
-              )}
+              {getReadableModelName(model)}
             </option>
           ))}
         </select>
