@@ -29,21 +29,21 @@ const ChatHistory = () => {
   return (
     <div>
       <DropdownMenu.Root>
-        <DropdownMenu.Trigger className="cdx-flex cdx-items-center cdx-gap-1 cdx-text-neutral-500 dark:cdx-bg-black/20 cdx-bg-black/10 cdx-border cdx-rounded-md cdx-border-neutral-400/30 dark:cdx-border-neutral-500/30 cdx-py-1 cdx-px-3">
+        <DropdownMenu.Trigger className="cdx-flex cdx-items-center cdx-gap-1 cdx-text-neutral-500 dark:cdx-bg-neutral-900 cdx-bg-neutral-200 cdx-border cdx-rounded-md cdx-border-neutral-400/30 dark:cdx-border-neutral-500/30 cdx-py-1 cdx-px-3">
           <RiTimeLine size={18} className="cdx-flex-shrink-0" /> History
         </DropdownMenu.Trigger>
         <DropdownMenu.Content
           side="top"
-          className="cdx-max-w-xs cdx-mr-3 cdx-w-[280px] cdx-bg-white/90 dark:cdx-bg-neutral-800/80 cdx-rounded-lg cdx-mb-1.5 cdx-pb-3 cdx-overflow-hidden focus:outline-none"
+          className="cdx-max-w-xs cdx-mr-3 cdx-w-[280px] dark:cdx-bg-neutral-900 cdx-bg-neutral-200 cdx-border cdx-border-neutral-400/30 dark:cdx-border-neutral-500/30 cdx-rounded-lg cdx-mb-1.5 cdx-pb-3 cdx-overflow-hidden focus:outline-none"
         >
-          <div className="cdx-backdrop-blur-md">
+          <div>
             <div className="cdx-flex cdx-justify-between cdx-items-center cdx-p-3 cdx-border-b-[#E5E7EB] cdx-border-b dark:cdx-border-b-[#2F2F2F]">
               <h1 className="cdx-text-lg cdx-font-bold cdx-text-[#5A5A5A] dark:cdx-text-[#E3E3E3]">
                 History
               </h1>
               <button
                 type="button"
-                className="cdx-flex cdx-items-center cdx-text-white cdx-bg-[#3B82F6] cdx-gap-1.5 cdx-px-2.5 cdx-py-1.5 cdx-rounded-sm cdx-font-medium"
+                className="cdx-flex cdx-items-center cdx-text-white cdx-bg-[#3B82F6] cdx-gap-1.5 cdx-px-2.5 cdx-py-1.5 cdx-rounded-md cdx-font-medium"
                 onClick={handleCreateNewChat}
               >
                 <RiAddLine />

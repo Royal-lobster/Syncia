@@ -116,7 +116,7 @@ export const useChatCompletion = ({
                         message.files.map(async (file) => {
                           return {
                             type: 'image_url',
-                            image_url: file.src,
+                            image_url: { url: file.src },
                           } as const
                         }),
                       )

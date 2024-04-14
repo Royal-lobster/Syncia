@@ -1,13 +1,13 @@
 import { BsRobot } from 'react-icons/bs'
 import type { AvailableModels } from '../../../config/settings'
 import { useChatModels } from '../../../hooks/useChatModels'
-import { capitalizeText } from '../../../lib/capitalizeText'
+import { getReadableModelName } from '../../../lib/getReadableModelName'
 
 const ChangeChatModel = () => {
   const { availableModels, activeChatModel, setActiveChatModel } =
     useChatModels()
   return (
-    <div className="cdx-flex cdx-items-center cdx-gap-1 cdx-text-neutral-500 dark:cdx-bg-black/20 cdx-bg-black/10 cdx-border cdx-rounded-md cdx-border-neutral-400/30 dark:cdx-border-neutral-500/30 cdx-py-1 cdx-px-3">
+    <div className="cdx-flex cdx-items-center cdx-gap-1 cdx-text-neutral-500 dark:cdx-bg-neutral-900 cdx-bg-neutral-200 cdx-border cdx-rounded-md cdx-border-neutral-400/30 dark:cdx-border-neutral-500/30 cdx-py-1 cdx-px-3">
       <BsRobot size={18} className="cdx-flex-shrink-0" />
       <select
         value={activeChatModel}
@@ -16,15 +16,9 @@ const ChangeChatModel = () => {
           setActiveChatModel(e.target.value as AvailableModels)
         }}
       >
-        {availableModels.map(([modal, value]) => (
-          <option key={modal} value={value}>
-            {capitalizeText(
-              modal
-                .toLowerCase()
-                .replace('gpt', 'GPT')
-                .replace('3_5', '3.5')
-                .replaceAll('_', ' '),
-            )}
+        {availableModels.map(([model, value]) => (
+          <option key={model} value={value}>
+            {getReadableModelName(model)}
           </option>
         ))}
       </select>

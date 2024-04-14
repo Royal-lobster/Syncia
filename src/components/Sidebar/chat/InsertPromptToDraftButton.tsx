@@ -1,7 +1,11 @@
 import React from 'react'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import { RiAddLine } from 'react-icons/ri'
-import { ContentClassNames } from '../../QuickMenu'
+import {
+  RiAddLine,
+  RiFileCopy2Line,
+  RiFilePaperLine,
+  RiInsertRowTop,
+} from 'react-icons/ri'
 import { usePrompts } from '../../../hooks/usePrompts'
 import { RecursiveItem } from '../../QuickMenu/RecursiveItem'
 
@@ -22,13 +26,13 @@ const InsertPromptToDraftButton = ({
           type="button"
           className="cdx-bg-neutral-300 cdx-text-neutral-500 dark:cdx-text-neutral-200 dark:cdx-bg-neutral-800 cdx-p-1.5 cdx-rounded"
         >
-          <RiAddLine size={18} />
+          <RiFileCopy2Line size={18} />
         </button>
       </DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           style={{ zIndex: 2147483647 }}
-          className={ContentClassNames}
+          className="cdx-flex cdx-flex-col cdx-min-w-[150px] cdx-gap-2 cdx-backdrop-blur-sm !cdx-font-sans cdx-m-2 cdx-bg-neutral-50 cdx-shadow-md cdx-p-2 cdx-rounded dark:cdx-bg-neutral-800 cdx-text-neutral-800 dark:cdx-text-neutral-100"
         >
           <DropdownMenu.Group>
             {prompts
