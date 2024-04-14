@@ -1,3 +1,4 @@
+import { AvailableModels, type Settings } from '../../config/settings'
 import { getScreenshotImage } from '../../lib/getScreenshotImage'
 import { contentScriptLog } from '../../logs'
 
@@ -32,6 +33,18 @@ chrome.runtime.onMessage.addListener((msg) => {
       iframe.style.width = '0px'
     }
   }
+})
+
+/**
+ * Convert local data `modal` typo to `model`
+ */
+chrome.storage.sync.get(['SETTINGS'], (result) => {
+  const chatSettings = (result.SETTINGS as Settings)?.chat
+  if ('modal' in chatSettings) {
+    chatSettings.model = AvailableModels.GPT_4_TURBO
+    delete chatSettings.modal
+  }
+  chrome.storage.sync.set({ SETTINGS: result.SETTINGS })
 })
 
 /**
