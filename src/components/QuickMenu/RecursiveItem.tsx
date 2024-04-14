@@ -1,5 +1,4 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import { ContentClassNames, ItemClassNames } from '.'
 import type { Prompt } from '../../hooks/usePrompts'
 import { HiOutlineChevronRight } from 'react-icons/hi'
 
