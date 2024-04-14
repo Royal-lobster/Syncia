@@ -40,7 +40,7 @@ const Auth = () => {
       <div className="cdx-text-sm cdx-text-gray-400 cdx-mt-2">
         You can get one{' '}
         <a
-          href="https://beta.openai.com/account/api-keys"
+          href="https://platform.openai.com/api-keys"
           target="_blank"
           rel="noreferrer"
           className="cdx-text-blue-400"

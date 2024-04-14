@@ -59,7 +59,7 @@ const ChatSettings = () => {
 
       <FieldWrapper
         title="Open AI Key"
-        description="You can get your Open AI key from https://beta.openai.com/account/api-keys"
+        description="You can get your Open AI key from https://platform.openai.com/api-keys"
         onSubmit={handleOpenAiKeySubmit}
       >
         <div className="cdx-flex cdx-gap-2 cdx-items-center">
