@@ -1,11 +1,6 @@
-import React from 'react'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import {
-  RiAddLine,
-  RiFileCopy2Line,
-  RiFilePaperLine,
-  RiInsertRowTop,
-} from 'react-icons/ri'
+import React from 'react'
+import { RiFileCopy2Line } from 'react-icons/ri'
 import { usePrompts } from '../../../hooks/usePrompts'
 import { RecursiveItem } from '../../QuickMenu/RecursiveItem'
 
