@@ -1,7 +1,7 @@
 import { BsRobot } from 'react-icons/bs'
 import type { AvailableModels } from '../../../config/settings'
 import { useChatModels } from '../../../hooks/useChatModels'
-import { capitalizeText } from '../../../lib/capitalizeText'
+import { getReadableModelName } from '../../../lib/getReadableModelName'
 
 const ChangeChatModel = () => {
   const { availableModels, activeChatModel, setActiveChatModel } =
@@ -16,15 +16,9 @@ const ChangeChatModel = () => {
           setActiveChatModel(e.target.value as AvailableModels)
         }}
       >
-        {availableModels.map(([modal, value]) => (
-          <option key={modal} value={value}>
-            {capitalizeText(
-              modal
-                .toLowerCase()
-                .replace('gpt', 'GPT')
-                .replace('3_5', '3.5')
-                .replaceAll('_', ' '),
-            )}
+        {availableModels.map(([model, value]) => (
+          <option key={model} value={value}>
+            {getReadableModelName(model)}
           </option>
         ))}
       </select>

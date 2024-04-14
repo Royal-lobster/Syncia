@@ -19,7 +19,7 @@ const Chat = ({ settings }: ChatProps) => {
     removeMessagePair,
     error,
   } = useChatCompletion({
-    model: settings.chat.modal,
+    model: settings.chat.model,
     apiKey: settings.chat.openAIKey!,
     mode: settings.chat.mode,
     systemPrompt: SYSTEM_PROMPT,
@@ -57,7 +57,7 @@ const Chat = ({ settings }: ChatProps) => {
         clearMessages={clearMessages}
         cancelRequest={cancelRequest}
         isWebpageContextOn={settings.general.webpageContext}
-        isVisionModel={settings.chat.modal === AvailableModels.GPT_4_VISION}
+        isVisionModel={settings.chat.model === AvailableModels.GPT_4_VISION}
       />
     </>
   )

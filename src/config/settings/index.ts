@@ -28,7 +28,7 @@ export type Settings = {
   }
   chat: {
     openAIKey: string | null
-    modal: AvailableModels
+    model: AvailableModels
     mode: Mode
     showLocalModels: boolean
   }
@@ -46,7 +46,7 @@ export const defaultSettings: Settings = {
   },
   chat: {
     openAIKey: null,
-    modal: AvailableModels.GPT_4_VISION,
+    model: AvailableModels.GPT_4_VISION,
     mode: Mode.BALANCED,
     showLocalModels: false,
   },

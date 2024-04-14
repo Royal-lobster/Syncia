@@ -7,7 +7,7 @@ export const useChatModels = () => {
   const [settings, setSettings] = useSettings()
   const [dynamicModels, setDynamicModels] = useState<string[]>([])
   const chatSettings = settings.chat
-  const activeChatModel = chatSettings.modal
+  const activeChatModel = chatSettings.model
 
   const fetchLocalModels = useCallback(async () => {
     if (chatSettings.showLocalModels) {
@@ -38,7 +38,7 @@ export const useChatModels = () => {
       ...settings,
       chat: {
         ...chatSettings,
-        modal: model,
+        model: model,
       },
     })
   }

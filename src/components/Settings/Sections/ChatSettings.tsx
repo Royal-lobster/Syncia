@@ -93,12 +93,12 @@ const ChatSettings = () => {
       </FieldWrapper>
 
       {/* =========================
-             Modal Setting
+             Model Setting
       ===========================*/}
 
       <FieldWrapper
         title="Show Local Models"
-        description="Show local models in the modal selection via ollama (https://ollama.com/) which allows you to use open source models that run on your machine."
+        description="Show local models in the model selection via ollama (https://ollama.com/) which allows you to use open source models that run on your machine."
         row={true}
       >
         <Switch.Root
@@ -130,27 +130,27 @@ const ChatSettings = () => {
       )}
 
       <FieldWrapper
-        title="Modal"
+        title="Model"
         description="Choose between OpenAI Chat Modals. For more information, visit https://platform.openai.com/docs/models/overview"
         row={true}
       >
         <select
-          value={chatSettings.modal}
+          value={chatSettings.model}
           className="input cdx-w-44"
           onChange={(e) => {
             setSettings({
               ...settings,
               chat: {
                 ...chatSettings,
-                modal: e.target.value as AvailableModels,
+                model: e.target.value as AvailableModels,
               },
             })
           }}
         >
-          {availableModels.map(([modal, value]) => (
-            <option key={modal} value={value}>
+          {availableModels.map(([model, value]) => (
+            <option key={model} value={value}>
               {capitalizeText(
-                modal
+                model
                   .toLowerCase()
                   .replace('gpt', 'GPT')
                   .replace('3_5', '3.5')
