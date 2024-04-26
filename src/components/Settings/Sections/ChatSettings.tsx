@@ -53,11 +53,6 @@ const ChatSettings = () => {
   return (
     <div className="cdx-w-full cdx-flex-shrink-0 cdx-rounded-md">
       <SectionHeading title="Chat" />
-
-      {/* =========================
-              OPEN AI KEY
-      ===========================*/}
-
       <FieldWrapper
         title="Open AI Key"
         description="You can get your Open AI key from https://platform.openai.com/api-keys"
@@ -67,7 +62,7 @@ const ChatSettings = () => {
           <div className="cdx-relative cdx-w-full">
             <input
               required
-              pattern="sk-[a-zA-Z0-9]{48}"
+              pattern="^(sk(-proj)?-[a-zA-Z0-9]{48}$"
               ref={OpenAiApiKeyInputRef}
               placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
               defaultValue={chatSettings.openAIKey || ''}
@@ -92,11 +87,9 @@ const ChatSettings = () => {
           </button>
         </div>
       </FieldWrapper>
-
       {/* =========================
              Model Setting
-      ===========================*/}
-
+          ===========================*/}
       <FieldWrapper
         title="Show Local Models"
         description="Show local models in the model selection via ollama (https://ollama.com/) which allows you to use open source models that run on your machine."
@@ -119,7 +112,6 @@ const ChatSettings = () => {
           <Switch.Thumb className="cdx-block cdx-w-[21px] cdx-h-[21px] cdx-bg-white cdx-rounded-full cdx-transition-transform cdx-duration-100 cdx-translate-x-0.5 cdx-will-change-transform data-[state=checked]:cdx-translate-x-[19px]" />
         </Switch.Root>
       </FieldWrapper>
-
       {chatSettings.showLocalModels && (
         <div>
           🚧 NOTE: You must run this command for this to work:
@@ -129,7 +121,6 @@ const ChatSettings = () => {
           </code>
         </div>
       )}
-
       <FieldWrapper
         title="Model"
         description="Choose between OpenAI Chat Modals. For more information, visit https://platform.openai.com/docs/models/overview"
@@ -155,11 +146,9 @@ const ChatSettings = () => {
           ))}
         </select>
       </FieldWrapper>
-
       {/* =========================
               Mode Setting
       ===========================*/}
-
       <FieldWrapper
         title="Mode"
         description="Tweak temperature of response. Creative will generate more non deterministic responses, Precise will generate more deterministic responses."
