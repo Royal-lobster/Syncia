@@ -57,7 +57,7 @@ const Chat = ({ settings }: ChatProps) => {
         clearMessages={clearMessages}
         cancelRequest={cancelRequest}
         isWebpageContextOn={settings.general.webpageContext}
-        isVisionModel={settings.chat.model === AvailableModels.GPT_4_TURBO}
+        isVisionModel={settings.chat.model === AvailableModels.GPT_4_TURBO || settings.chat.model === AvailableModels.GPT_4O}
       />
     </>
   )
