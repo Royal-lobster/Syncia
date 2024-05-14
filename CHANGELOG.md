@@ -1,5 +1,11 @@
 # syncia
 
+## 1.4.1
+
+### Patch Changes
+
+- c1b7113f: Adds GPT 4o support
+
 ## 1.4.0
 
 ### Minor Changes
