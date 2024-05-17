@@ -59,7 +59,7 @@ const Auth = () => {
         placeholder="Enter your OpenAI API key"
         data-error={error ? 'true' : undefined}
         className="cdx-mt-4 cdx-text-center cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50 data-[error]:cdx-text-red-500"
-        pattern="sk-[a-zA-Z0-9]{48}"
+        pattern="sk-[a-zA-Z0-9]+"
       />
 
       {error && (
