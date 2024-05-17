@@ -1,5 +1,11 @@
 # syncia
 
+## 1.4.2
+
+### Patch Changes
+
+- d7193c5a: Marks GPT-4o model as vision model
+
 ## 1.4.1
 
 ### Patch Changes
