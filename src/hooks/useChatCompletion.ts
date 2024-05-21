@@ -29,6 +29,8 @@ interface UseChatCompletionProps {
  *
  * And returns them along with useful state from useCurrentChat hook
  */
+let controller: AbortController
+
 export const useChatCompletion = ({
   model,
   apiKey,
@@ -71,10 +73,9 @@ export const useChatCompletion = ({
     }
   })
 
-  const controller = new AbortController()
-
   const submitQuery = async (message: MessageDraft, context?: string) => {
     await addNewMessage(ChatRole.USER, message)
+    controller = new AbortController()
     const options = {
       signal: controller.signal,
       callbacks: [{ handleLLMNewToken: updateAssistantMessage }],
