@@ -1,5 +1,12 @@
 # syncia
 
+## 1.4.3
+
+### Patch Changes
+
+- 36d7b91e: Fix Stop button not working
+- c041ecdd: openAI project apikey input on welcome screen
+
 ## 1.4.2
 
 ### Patch Changes
