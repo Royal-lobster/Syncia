@@ -17,6 +17,7 @@ interface UseChatCompletionProps {
   apiKey: string
   mode: Mode
   systemPrompt: string
+  baseURL: string
 }
 
 /**
@@ -36,6 +37,7 @@ export const useChatCompletion = ({
   apiKey,
   mode,
   systemPrompt,
+  baseURL
 }: UseChatCompletionProps) => {
   const {
     messages,
@@ -55,12 +57,15 @@ export const useChatCompletion = ({
         streaming: true,
         openAIApiKey: apiKey,
         modelName: model,
+        configuration: {
+          baseURL:  baseURL,
+        },
         temperature: Number(mode),
         maxTokens: 4_096,
       })
     }
     return new Ollama({ model: model.replace('ollama-', '') })
-  }, [apiKey, model, mode])
+  }, [apiKey, model, mode, baseURL])
 
   const previousMessages = messages.map((msg) => {
     switch (msg.role) {
@@ -92,7 +97,7 @@ export const useChatCompletion = ({
        */
       let matchedContext: string | undefined
       if (context) {
-        matchedContext = await getMatchedContent(message.text, context, apiKey)
+        matchedContext = await getMatchedContent(message.text, context, apiKey, baseURL)
       }
 
       const expandedQuery = matchedContext

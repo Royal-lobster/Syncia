@@ -23,6 +23,7 @@ const Chat = ({ settings }: ChatProps) => {
     apiKey: settings.chat.openAIKey!,
     mode: settings.chat.mode,
     systemPrompt: SYSTEM_PROMPT,
+    baseURL: settings.chat.openAiBaseUrl || "",
   })
 
   useEffect(() => {
@@ -59,7 +60,8 @@ const Chat = ({ settings }: ChatProps) => {
         isWebpageContextOn={settings.general.webpageContext}
         isVisionModel={
           settings.chat.model === AvailableModels.GPT_4_TURBO ||
-          settings.chat.model === AvailableModels.GPT_4O
+          settings.chat.model === AvailableModels.GPT_4O ||
+          settings.chat.model === AvailableModels.GPT_4O_MINI
         }
       />
     </>

@@ -15,6 +15,7 @@ const ChatSettings = () => {
   const [showPassword, setShowPassword] = useState(false)
   const { availableModels, fetchLocalModels } = useChatModels()
   const OpenAiApiKeyInputRef = React.useRef<HTMLInputElement>(null)
+  const OpenAiBaseUrlInputRef = React.useRef<HTMLInputElement>(null)
 
   const chatSettings = settings.chat
 
@@ -23,18 +24,22 @@ const ChatSettings = () => {
   ) => {
     event.preventDefault()
     const target = event.target as HTMLFormElement
-    const input = target.querySelector('input') as HTMLInputElement
+    const input = target.querySelector('.apikey') as HTMLInputElement
+    const baseurl = target.querySelector('.openAiBaseUrl') as HTMLInputElement
+
     const value = input.value
+    const bValue = baseurl.value 
     setSettings({
       ...settings,
       chat: {
         ...chatSettings,
         openAIKey: value,
+        openAiBaseUrl: baseurl.value ,
       },
     })
 
     if (OpenAiApiKeyInputRef.current) {
-      const isOpenAiKeyValid: boolean = await validateApiKey(value)
+      const isOpenAiKeyValid: boolean = await validateApiKey(value, bValue)
 
       const inputStyles = isOpenAiKeyValid
         ? { classname: 'input-success', value: `✅  ${value}` }
@@ -46,6 +51,16 @@ const ChatSettings = () => {
         if (!OpenAiApiKeyInputRef.current) return
         OpenAiApiKeyInputRef.current?.classList.remove(inputStyles.classname)
         OpenAiApiKeyInputRef.current.value = value
+      }, 2000)
+    }
+
+    if (OpenAiBaseUrlInputRef.current) {
+      OpenAiBaseUrlInputRef.current.classList.add('input-success')
+      OpenAiBaseUrlInputRef.current.value = `✅ ${bValue}`
+      setTimeout(() => {
+        if (!OpenAiBaseUrlInputRef.current) return
+        OpenAiBaseUrlInputRef.current?.classList.remove('input-success')
+        OpenAiBaseUrlInputRef.current.value = bValue
       }, 2000)
     }
   }
@@ -62,12 +77,18 @@ const ChatSettings = () => {
           <div className="cdx-relative cdx-w-full">
             <input
               required
-              pattern="^(sk(-proj)?-[a-zA-Z0-9]{48}$"
               ref={OpenAiApiKeyInputRef}
               placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
               defaultValue={chatSettings.openAIKey || ''}
               type={showPassword ? 'text' : 'password'}
-              className="input"
+              className="input apikey"
+            />
+            <input 
+              ref={OpenAiBaseUrlInputRef}
+              name="openAiBaseUrl" 
+              defaultValue={chatSettings.openAiBaseUrl || 'https://api.openai.com/v1'}
+              placeholder="Enter your OpenAI Base URL" 
+              className="openAiBaseUrl cdx-mt-4 cdx-text-center cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50 data-[error]:cdx-text-red-500"
             />
 
             <button
