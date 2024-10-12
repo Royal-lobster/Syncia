@@ -9,7 +9,7 @@ export const validateApiKey = async (
     baseURL:  baseURL || "https://api.openai.com/v1",
   },})
   try {
-    //await model.invoke([new HumanMessage('Say Ok')])
+    await model.invoke([new HumanMessage('Say Ok')])
     return true
   } catch (e) {
     console.error(e)
