@@ -28,7 +28,7 @@ const ChatList = ({
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight
     }
-  }, [])
+  }, [messages]) // Add messages as a dependency
 
   const filteredMsgs = messages.filter((msg) => msg.role !== ChatRole.SYSTEM)
 
@@ -109,3 +109,4 @@ const ChatList = ({
 }
 
 export default ChatList
+

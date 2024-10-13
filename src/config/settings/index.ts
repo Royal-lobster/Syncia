@@ -11,6 +11,7 @@ export enum AvailableModels {
   GPT_4_TURBO = 'gpt-4-turbo',
   GPT_4 = 'gpt-4',
   GPT_3_5_TURBO = 'gpt-3.5-turbo',
+  GPT_4O_MINI = 'gpt-4o-mini',
 }
 
 export enum Mode {
@@ -31,6 +32,7 @@ export type Settings = {
     model: AvailableModels
     mode: Mode
     showLocalModels: boolean
+    openAiBaseUrl: string | null
   }
   general: {
     theme: ThemeOptions
@@ -46,9 +48,10 @@ export const defaultSettings: Settings = {
   },
   chat: {
     openAIKey: null,
-    model: AvailableModels.GPT_4_TURBO,
+    model: AvailableModels.GPT_4O_MINI,
     mode: Mode.BALANCED,
     showLocalModels: false,
+    openAiBaseUrl: null,
   },
   general: {
     theme: ThemeOptions.SYSTEM,

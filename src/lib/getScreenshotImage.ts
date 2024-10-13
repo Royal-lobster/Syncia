@@ -96,8 +96,8 @@ export const getScreenshotImage = async (): Promise<Blob> => {
 
   // Create a canvas element and draw the screenshot on it
   const canvas: HTMLCanvasElement = document.createElement('canvas')
-  canvas.width = endX - startX
-  canvas.height = endY - startY
+  canvas.width = endX > startX ? endX - startX : startX - endX
+  canvas.height = endY > startY ? endY - startY : startY - endY
   const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!
   const image: HTMLImageElement = new Image()
   image.src = screenshot
@@ -108,16 +108,19 @@ export const getScreenshotImage = async (): Promise<Blob> => {
   })
 
   // Crop the screenshot to the user's selection
+  let finalStartX = startX < endX ? startX : endX
+  let finalStaryY = startY < endY ? startY : endY
+
   ctx.drawImage(
     image,
-    startX * window.devicePixelRatio,
-    startY * window.devicePixelRatio,
-    (endX - startX) * window.devicePixelRatio,
-    (endY - startY) * window.devicePixelRatio,
+    finalStartX * window.devicePixelRatio,
+    finalStaryY * window.devicePixelRatio,
+    (canvas.width) * window.devicePixelRatio,
+    (canvas.height) * window.devicePixelRatio,
     0,
     0,
-    endX - startX,
-    endY - startY,
+    canvas.width,
+    canvas.height,
   )
 
   // Convert the canvas to a blob and return it

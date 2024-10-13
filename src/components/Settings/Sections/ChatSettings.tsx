@@ -15,6 +15,7 @@ const ChatSettings = () => {
   const [showPassword, setShowPassword] = useState(false)
   const { availableModels, fetchLocalModels } = useChatModels()
   const OpenAiApiKeyInputRef = React.useRef<HTMLInputElement>(null)
+  const OpenAiBaseUrlInputRef = React.useRef<HTMLInputElement>(null)
 
   const chatSettings = settings.chat
 
@@ -23,29 +24,42 @@ const ChatSettings = () => {
   ) => {
     event.preventDefault()
     const target = event.target as HTMLFormElement
-    const input = target.querySelector('input') as HTMLInputElement
-    const value = input.value
-    setSettings({
-      ...settings,
-      chat: {
-        ...chatSettings,
-        openAIKey: value,
-      },
-    })
+ 
+    const apiKeyValue = target.openAiApiKey.value
+    const baseurlValue = target.openAiBaseUrl.value
 
     if (OpenAiApiKeyInputRef.current) {
-      const isOpenAiKeyValid: boolean = await validateApiKey(value)
-
+      const isOpenAiKeyValid: boolean = await validateApiKey(apiKeyValue, baseurlValue)
+      if (!isOpenAiKeyValid) {
+        setSettings({
+          ...settings,
+          chat: {
+            ...chatSettings,
+            openAIKey: apiKeyValue,
+            openAiBaseUrl: baseurlValue ,
+          },
+        })
+      }
       const inputStyles = isOpenAiKeyValid
-        ? { classname: 'input-success', value: `✅  ${value}` }
-        : { classname: 'input-failed', value: `❌  ${value}` }
+        ? { classname: 'input-success', value: `✅  ${apiKeyValue}` }
+        : { classname: 'input-failed', value: `❌  ${apiKeyValue}` }
 
       OpenAiApiKeyInputRef.current.classList.add(inputStyles.classname)
       OpenAiApiKeyInputRef.current.value = inputStyles.value
       setTimeout(() => {
         if (!OpenAiApiKeyInputRef.current) return
         OpenAiApiKeyInputRef.current?.classList.remove(inputStyles.classname)
-        OpenAiApiKeyInputRef.current.value = value
+        OpenAiApiKeyInputRef.current.value = apiKeyValue
+      }, 2000)
+    }
+
+    if (OpenAiBaseUrlInputRef.current) {
+      OpenAiBaseUrlInputRef.current.classList.add('input-success')
+      OpenAiBaseUrlInputRef.current.value = `✅ ${baseurlValue}`
+      setTimeout(() => {
+        if (!OpenAiBaseUrlInputRef.current) return
+        OpenAiBaseUrlInputRef.current?.classList.remove('input-success')
+        OpenAiBaseUrlInputRef.current.value = baseurlValue
       }, 2000)
     }
   }
@@ -62,12 +76,19 @@ const ChatSettings = () => {
           <div className="cdx-relative cdx-w-full">
             <input
               required
-              pattern="^(sk(-proj)?-[a-zA-Z0-9]{48}$"
               ref={OpenAiApiKeyInputRef}
+              name="openAiApiKey"
               placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
               defaultValue={chatSettings.openAIKey || ''}
               type={showPassword ? 'text' : 'password'}
               className="input"
+            />
+            <input 
+              ref={OpenAiBaseUrlInputRef}
+              name="openAiBaseUrl" 
+              defaultValue={chatSettings.openAiBaseUrl || ''}
+              placeholder="Enter your OpenAI Base URL" 
+              className="cdx-mt-4 cdx-text-center cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50 data-[error]:cdx-text-red-500"
             />
 
             <button

@@ -18,13 +18,15 @@ const Auth = () => {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
     const key = data.get('openAiKey') as string | null
+    const openAiBaseUrl = data.get('openAiBaseUrl') as string | "https://api.openai.com/v1"
 
-    if (key && (await validateApiKey(key))) {
+    if (key && (await validateApiKey(key,openAiBaseUrl))) {
       setSettings((prev) => ({
         ...prev,
         chat: {
           ...prev.chat,
           openAIKey: key as string,
+          openAiBaseUrl: openAiBaseUrl as string,
         },
       }))
     } else {
@@ -59,7 +61,11 @@ const Auth = () => {
         placeholder="Enter your OpenAI API key"
         data-error={error ? 'true' : undefined}
         className="cdx-mt-4 cdx-text-center cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50 data-[error]:cdx-text-red-500"
-        pattern="sk-(proj-)?[a-zA-Z0-9]{48}"
+      />
+      <input 
+        name="openAiBaseUrl" 
+        placeholder="Enter your OpenAI Base URL" 
+        className="cdx-mt-4 cdx-text-center cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50 data-[error]:cdx-text-red-500"
       />
 
       {error && (
