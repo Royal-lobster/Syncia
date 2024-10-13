@@ -1,5 +1,13 @@
 # syncia
 
+## 1.5.0
+
+### Minor Changes
+
+- 14e0dcff: - Support change Base URL
+  - Support gpt-4o-mini
+  - Scroll to bottom after message list updated
+
 ## 1.4.3
 
 ### Patch Changes
