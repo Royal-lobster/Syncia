@@ -30,7 +30,7 @@ const ChatSettings = () => {
 
     if (OpenAiApiKeyInputRef.current) {
       const isOpenAiKeyValid: boolean = await validateApiKey(apiKeyValue, baseurlValue)
-      if (!isOpenAiKeyValid) {
+      if (isOpenAiKeyValid) {
         setSettings({
           ...settings,
           chat: {
