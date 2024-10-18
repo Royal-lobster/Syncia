@@ -1,5 +1,11 @@
 # syncia
 
+## 1.5.1
+
+### Patch Changes
+
+- 7181acf3: bug fix on save settings
+
 ## 1.5.0
 
 ### Minor Changes
