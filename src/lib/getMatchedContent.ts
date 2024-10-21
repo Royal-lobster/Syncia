@@ -11,9 +11,9 @@ export const getMatchedContent = async (
   query: string,
   context: string,
   apiKey: string,
-  baseURL: string
+  baseURL: string,
 ) => {
-  const vectorStore = await getContextVectorStore(context, apiKey,baseURL)
+  const vectorStore = await getContextVectorStore(context, apiKey, baseURL)
   const retriever = vectorStore.asRetriever()
   const relevantDocs = await retriever.getRelevantDocuments(query)
   return relevantDocs.map((doc) => doc.pageContent).join('\n')
@@ -24,15 +24,17 @@ export const getMatchedContent = async (
  * from the context. It caches the vector store in the local storage
  * for faster retrieval
  */
-const getContextVectorStore = async (context: string, apiKey: string, baseURL: string) => {
-  const embeddings = new OpenAIEmbeddings(
-    { 
-      openAIApiKey: apiKey ,
-      configuration: {
-        baseURL: baseURL,
-      },
-    }
-  )
+const getContextVectorStore = async (
+  context: string,
+  apiKey: string,
+  baseURL: string,
+) => {
+  const embeddings = new OpenAIEmbeddings({
+    openAIApiKey: apiKey,
+    configuration: {
+      baseURL: baseURL,
+    },
+  })
   const hashKey = `SYNCIA_STORE_EMBEDDINGS_${await createSHA256Hash(context)}`
   const memoryVectors: [] | null = JSON.parse(
     localStorage.getItem(hashKey) || 'null',

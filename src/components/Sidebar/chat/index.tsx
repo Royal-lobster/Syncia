@@ -23,7 +23,7 @@ const Chat = ({ settings }: ChatProps) => {
     apiKey: settings.chat.openAIKey!,
     mode: settings.chat.mode,
     systemPrompt: SYSTEM_PROMPT,
-    baseURL: settings.chat.openAiBaseUrl || "",
+    baseURL: settings.chat.openAiBaseUrl || '',
   })
 
   useEffect(() => {

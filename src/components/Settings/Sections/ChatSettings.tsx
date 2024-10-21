@@ -24,19 +24,22 @@ const ChatSettings = () => {
   ) => {
     event.preventDefault()
     const target = event.target as HTMLFormElement
- 
+
     const apiKeyValue = target.openAiApiKey.value
     const baseurlValue = target.openAiBaseUrl.value
 
     if (OpenAiApiKeyInputRef.current) {
-      const isOpenAiKeyValid: boolean = await validateApiKey(apiKeyValue, baseurlValue)
+      const isOpenAiKeyValid: boolean = await validateApiKey(
+        apiKeyValue,
+        baseurlValue,
+      )
       if (isOpenAiKeyValid) {
         setSettings({
           ...settings,
           chat: {
             ...chatSettings,
             openAIKey: apiKeyValue,
-            openAiBaseUrl: baseurlValue ,
+            openAiBaseUrl: baseurlValue,
           },
         })
       }
@@ -83,11 +86,11 @@ const ChatSettings = () => {
               type={showPassword ? 'text' : 'password'}
               className="input"
             />
-            <input 
+            <input
               ref={OpenAiBaseUrlInputRef}
-              name="openAiBaseUrl" 
+              name="openAiBaseUrl"
               defaultValue={chatSettings.openAiBaseUrl || ''}
-              placeholder="Enter your OpenAI Base URL" 
+              placeholder="Enter your OpenAI Base URL"
               className="cdx-mt-4 cdx-text-center cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50 data-[error]:cdx-text-red-500"
             />
 

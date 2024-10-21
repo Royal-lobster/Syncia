@@ -108,15 +108,15 @@ export const getScreenshotImage = async (): Promise<Blob> => {
   })
 
   // Crop the screenshot to the user's selection
-  let finalStartX = startX < endX ? startX : endX
-  let finalStaryY = startY < endY ? startY : endY
+  const finalStartX = startX < endX ? startX : endX
+  const finalStaryY = startY < endY ? startY : endY
 
   ctx.drawImage(
     image,
     finalStartX * window.devicePixelRatio,
     finalStaryY * window.devicePixelRatio,
-    (canvas.width) * window.devicePixelRatio,
-    (canvas.height) * window.devicePixelRatio,
+    canvas.width * window.devicePixelRatio,
+    canvas.height * window.devicePixelRatio,
     0,
     0,
     canvas.width,

@@ -37,7 +37,7 @@ export const useChatCompletion = ({
   apiKey,
   mode,
   systemPrompt,
-  baseURL
+  baseURL,
 }: UseChatCompletionProps) => {
   const {
     messages,
@@ -58,7 +58,7 @@ export const useChatCompletion = ({
         openAIApiKey: apiKey,
         modelName: model,
         configuration: {
-          baseURL:  baseURL,
+          baseURL: baseURL,
         },
         temperature: Number(mode),
         maxTokens: 4_096,
@@ -97,7 +97,12 @@ export const useChatCompletion = ({
        */
       let matchedContext: string | undefined
       if (context) {
-        matchedContext = await getMatchedContent(message.text, context, apiKey, baseURL)
+        matchedContext = await getMatchedContent(
+          message.text,
+          context,
+          apiKey,
+          baseURL,
+        )
       }
 
       const expandedQuery = matchedContext

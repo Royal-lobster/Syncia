@@ -3,11 +3,14 @@ import { ChatOpenAI } from '@langchain/openai'
 
 export const validateApiKey = async (
   openAIApiKey: string,
-  baseURL: string
+  baseURL: string,
 ): Promise<boolean> => {
-  const model = new ChatOpenAI({ openAIApiKey:openAIApiKey,configuration: {
-    baseURL:  baseURL || "https://api.openai.com/v1",
-  },})
+  const model = new ChatOpenAI({
+    openAIApiKey: openAIApiKey,
+    configuration: {
+      baseURL: baseURL || 'https://api.openai.com/v1',
+    },
+  })
   try {
     await model.invoke([new HumanMessage('Say Ok')])
     return true
