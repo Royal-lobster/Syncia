@@ -1,5 +1,5 @@
 import { RiCloseLine } from 'react-icons/ri'
-import { MessageFile } from '../../../hooks/useMessageDraft'
+import type { MessageFile } from '../../../hooks/useMessageDraft'
 
 interface FilePreviewBarProps {
   files: MessageFile[]

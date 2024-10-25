@@ -1,5 +1,5 @@
 import * as Switch from '@radix-ui/react-switch'
-import React from 'react'
+import type React from 'react'
 import TextareaAutosize from 'react-textarea-autosize'
 import { useSettings } from '../../../hooks/useSettings'
 import FieldWrapper from '../Elements/FieldWrapper'
@@ -41,7 +41,7 @@ const QuickMenuSettings = () => {
       <SectionHeading title="Quick Menu" />
 
       {/* =========================
-        Enable Visible Quick Menu 
+        Enable Visible Quick Menu
       ===========================*/}
       <FieldWrapper
         title="Enable Quick Menu"

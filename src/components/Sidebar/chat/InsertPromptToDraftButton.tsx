@@ -53,7 +53,11 @@ const InsertPromptToDraftButton = ({
               </DropdownMenu.Label>
             )}
             {noCategoryPrompts.map((item) => (
-              <RecursiveItem item={item} handleGenerate={setMessageDraftText} />
+              <RecursiveItem
+                item={item}
+                key={item.id}
+                handleGenerate={setMessageDraftText}
+              />
             ))}
           </DropdownMenu.Group>
         </DropdownMenu.Content>
