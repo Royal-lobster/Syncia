@@ -1,19 +1,18 @@
-import { HumanMessage } from '@langchain/core/messages'
-import { ChatOpenAI } from '@langchain/openai'
-
 export const validateApiKey = async (
   openAIApiKey: string,
   baseURL: string,
 ): Promise<boolean> => {
-  const model = new ChatOpenAI({
-    openAIApiKey: openAIApiKey,
-    configuration: {
-      baseURL: baseURL || 'https://api.openai.com/v1',
-    },
-  })
   try {
-    await model.invoke([new HumanMessage('Say Ok')])
-    return true
+    const response = await fetch(
+      `${baseURL || 'https://api.openai.com/v1'}/models`,
+      {
+        headers: {
+          Authorization: `Bearer ${openAIApiKey}`,
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+    return response.status === 200
   } catch (e) {
     console.error(e)
     return false
