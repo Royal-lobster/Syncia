@@ -1,35 +1,24 @@
 import endent from 'endent'
 import { ChatOpenAI } from '@langchain/openai'
-import { Ollama } from '@langchain/community/llms/ollama'
 import {
   AIMessage,
   HumanMessage,
   SystemMessage,
 } from '@langchain/core/messages'
 import { useMemo, useState } from 'react'
-import { AvailableModels, type Mode } from '../config/settings'
+import type { Mode, ModelInfo } from '../config/settings'
 import { getMatchedContent } from '../lib/getMatchedContent'
 import { ChatRole, useCurrentChat } from './useCurrentChat'
 import type { MessageDraft } from './useMessageDraft'
 
 interface UseChatCompletionProps {
-  model: AvailableModels
+  model: ModelInfo
   apiKey: string
   mode: Mode
   systemPrompt: string
   baseURL: string
 }
 
-/**
- * This hook is responsible for managing the chat completion
- * functionality by using the useCurrentChat hook
- *
- * It adds functions for
- * - submitting a query to the chat
- * - cancelling a query
- *
- * And returns them along with useful state from useCurrentChat hook
- */
 let controller: AbortController
 
 export const useChatCompletion = ({
@@ -51,20 +40,16 @@ export const useChatCompletion = ({
   const [error, setError] = useState<Error | null>(null)
 
   const llm = useMemo(() => {
-    const isOpenAIModel = Object.values(AvailableModels).includes(model)
-    if (isOpenAIModel) {
-      return new ChatOpenAI({
-        streaming: true,
-        openAIApiKey: apiKey,
-        modelName: model,
-        configuration: {
-          baseURL: baseURL,
-        },
-        temperature: Number(mode),
-        maxTokens: 4_096,
-      })
-    }
-    return new Ollama({ model: model.replace('ollama-', '') })
+    return new ChatOpenAI({
+      streaming: true,
+      openAIApiKey: apiKey,
+      modelName: model.id,
+      configuration: {
+        baseURL: baseURL,
+      },
+      temperature: Number(mode),
+      maxTokens: model.max_context_length,
+    })
   }, [apiKey, model, mode, baseURL])
 
   const previousMessages = messages.map((msg) => {
@@ -90,11 +75,6 @@ export const useChatCompletion = ({
     setGenerating(true)
 
     try {
-      /**
-       * If context is provided, we need to use the LLM to get the relevant documents
-       * and then run the LLM on those documents. We use in memory vector store to
-       * get the relevant documents
-       */
       let matchedContext: string | undefined
       if (context) {
         matchedContext = await getMatchedContent(
@@ -119,7 +99,7 @@ export const useChatCompletion = ({
         ...previousMessages,
         new HumanMessage({
           content:
-            message.files.length > 0
+            message.files.length > 0 && model.capabilities.vision
               ? [
                   { type: 'text', text: expandedQuery },
                   ...(message.files.length > 0

@@ -6,19 +6,28 @@ export enum ThemeOptions {
   SYSTEM = 'system',
 }
 
-export enum AvailableModels {
-  GPT_4O = 'gpt-4o',
-  GPT_4_TURBO = 'gpt-4-turbo',
-  GPT_4 = 'gpt-4',
-  GPT_3_5_TURBO = 'gpt-3.5-turbo',
-  GPT_4O_MINI = 'gpt-4o-mini',
-}
-
 export enum Mode {
   HIGHLY_PRECISE = 0,
   PRECISE = 0.5,
   BALANCED = 1,
   CREATIVE = 1.5,
+}
+
+export type ModelCapabilities = {
+  completion_chat: boolean
+  function_calling: boolean
+  vision: boolean
+  fine_tuning: boolean
+  completion_fim: boolean
+}
+
+export type ModelInfo = {
+  id: string
+  name: string
+  description: string
+  capabilities: ModelCapabilities
+  max_context_length: number
+  owned_by: string
 }
 
 export type Settings = {
@@ -29,9 +38,8 @@ export type Settings = {
   }
   chat: {
     openAIKey: string | null
-    model: AvailableModels
+    model: ModelInfo | null
     mode: Mode
-    showLocalModels: boolean
     openAiBaseUrl: string | null
   }
   general: {
@@ -48,9 +56,8 @@ export const defaultSettings: Settings = {
   },
   chat: {
     openAIKey: null,
-    model: AvailableModels.GPT_4O_MINI,
+    model: null,
     mode: Mode.BALANCED,
-    showLocalModels: false,
     openAiBaseUrl: null,
   },
   general: {

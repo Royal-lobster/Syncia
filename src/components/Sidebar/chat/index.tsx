@@ -3,7 +3,7 @@ import ChatList from './ChatList'
 import { SidebarInput } from './ChatInput'
 import { useChatCompletion } from '../../../hooks/useChatCompletion'
 import { SYSTEM_PROMPT } from '../../../config/prompts'
-import { AvailableModels, type Settings } from '../../../config/settings'
+import type { Settings } from '../../../config/settings'
 
 interface ChatProps {
   settings: Settings
@@ -19,7 +19,7 @@ const Chat = ({ settings }: ChatProps) => {
     removeMessagePair,
     error,
   } = useChatCompletion({
-    model: settings.chat.model,
+    model: settings.chat.model!,
     apiKey: settings.chat.openAIKey!,
     mode: settings.chat.mode,
     systemPrompt: SYSTEM_PROMPT,
@@ -58,11 +58,7 @@ const Chat = ({ settings }: ChatProps) => {
         clearMessages={clearMessages}
         cancelRequest={cancelRequest}
         isWebpageContextOn={settings.general.webpageContext}
-        isVisionModel={
-          settings.chat.model === AvailableModels.GPT_4_TURBO ||
-          settings.chat.model === AvailableModels.GPT_4O ||
-          settings.chat.model === AvailableModels.GPT_4O_MINI
-        }
+        isVisionModel={settings.chat.model?.capabilities.vision || false}
       />
     </>
   )

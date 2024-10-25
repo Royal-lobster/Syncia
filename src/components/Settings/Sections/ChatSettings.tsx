@@ -7,13 +7,12 @@ import { capitalizeText } from '../../../lib/capitalizeText'
 import { validateApiKey } from '../../../lib/validApiKey'
 import FieldWrapper from '../Elements/FieldWrapper'
 import SectionHeading from '../Elements/SectionHeading'
-import { type AvailableModels, Mode } from '../../../config/settings'
-import { getReadableModelName } from '../../../lib/getReadableModelName'
+import { Mode } from '../../../config/settings'
 
 const ChatSettings = () => {
   const [settings, setSettings] = useSettings()
   const [showPassword, setShowPassword] = useState(false)
-  const { availableModels, fetchLocalModels } = useChatModels()
+  const { models, setActiveChatModel } = useChatModels()
   const OpenAiApiKeyInputRef = React.useRef<HTMLInputElement>(null)
   const OpenAiBaseUrlInputRef = React.useRef<HTMLInputElement>(null)
 
@@ -120,69 +119,29 @@ const ChatSettings = () => {
             Update
           </button>
         </div>
-      </FieldWrapper>{' '}
-      {/* =========================
-             Model Setting
-          ===========================*/}
-      <FieldWrapper
-        title="Show Local Models"
-        description="Show local models in the model selection via ollama (https://ollama.com/) which allows you to use open source models that run on your machine."
-        row={true}
-      >
-        <Switch.Root
-          checked={chatSettings.showLocalModels}
-          onCheckedChange={(value) => {
-            setSettings({
-              ...settings,
-              chat: {
-                ...chatSettings,
-                showLocalModels: value,
-              },
-            })
-            fetchLocalModels()
-          }}
-          className="cdx-w-[42px] cdx-h-[25px] cdx-bg-neutral-500 cdx-rounded-full cdx-relative data-[state=checked]:cdx-bg-blue-500 cdx-outline-none cdx-cursor-default"
-        >
-          <Switch.Thumb className="cdx-block cdx-w-[21px] cdx-h-[21px] cdx-bg-white cdx-rounded-full cdx-transition-transform cdx-duration-100 cdx-translate-x-0.5 cdx-will-change-transform data-[state=checked]:cdx-translate-x-[19px]" />
-        </Switch.Root>
       </FieldWrapper>
-      {chatSettings.showLocalModels && (
-        <div>
-          🚧 NOTE: You must run this command for this to work:
-          <code className="cdx-block dark:cdx-bg-white/10 cdx-bg-black/10 cdx-rounded cdx-mt-2 cdx-p-2">
-            OLLAMA_ORIGINS=
-            {window.location.origin} ollama start
-          </code>
-        </div>
-      )}
       <FieldWrapper
         title="Model"
-        description="Choose between OpenAI Chat Modals. For more information, visit https://platform.openai.com/docs/models/overview"
+        description="Choose between available chat models"
         row={true}
       >
         <select
-          value={chatSettings.model}
+          value={chatSettings.model?.id || ''}
           className="input cdx-w-44"
           onChange={(e) => {
-            setSettings({
-              ...settings,
-              chat: {
-                ...chatSettings,
-                model: e.target.value as AvailableModels,
-              },
-            })
+            const selectedModel = models.find((m) => m.id === e.target.value)
+            if (selectedModel) {
+              setActiveChatModel(selectedModel)
+            }
           }}
         >
-          {availableModels.map(([model, value]) => (
-            <option key={model} value={value}>
-              {getReadableModelName(model)}
+          {models.map((model) => (
+            <option key={model.id} value={model.id}>
+              {model.name}
             </option>
           ))}
         </select>
       </FieldWrapper>
-      {/* =========================
-              Mode Setting
-      ===========================*/}
       <FieldWrapper
         title="Mode"
         description="Tweak temperature of response. Creative will generate more non deterministic responses, Precise will generate more deterministic responses."
