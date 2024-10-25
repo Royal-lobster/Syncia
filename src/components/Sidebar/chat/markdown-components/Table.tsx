@@ -1,4 +1,4 @@
-import { ReactMarkdownProps } from 'react-markdown/lib/ast-to-react'
+import type { ReactMarkdownProps } from 'react-markdown/lib/ast-to-react'
 
 type TableType =
   | keyof JSX.IntrinsicElements

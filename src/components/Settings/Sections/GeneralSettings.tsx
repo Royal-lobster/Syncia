@@ -1,4 +1,4 @@
-import React from 'react'
+import type React from 'react'
 import SectionHeading from '../Elements/SectionHeading'
 import FieldWrapper from '../Elements/FieldWrapper'
 import { useSettings } from '../../../hooks/useSettings'

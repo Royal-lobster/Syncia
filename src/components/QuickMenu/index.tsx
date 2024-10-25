@@ -81,7 +81,11 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
               </DropdownMenu.Label>
             )}
             {noCategoryPrompts.map((item) => (
-              <RecursiveItem item={item} handleGenerate={handleGenerate} />
+              <RecursiveItem
+                item={item}
+                key={item.id}
+                handleGenerate={handleGenerate}
+              />
             ))}
           </DropdownMenu.Group>
         </DropdownMenu.Content>

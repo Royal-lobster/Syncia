@@ -15,19 +15,16 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
 
-      - name: Setup Node.js 18.x
-        uses: actions/setup-node@v2
+      - name: Setup Node.js and pnpm
+        uses: wyvox/action-setup-pnpm@v3
         with:
-          node-version: 18.x
+          node-version: '18'
 
-      - name: Install Dependencies
-        run: yarn
-
-      - name: Create Release Pull Request or Trigger Publish Workflow
+      - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: yarn release
+            publish: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}

@@ -1,12 +1,12 @@
 import {
   FolderTreeItemWrapper,
   SortableTree,
-  TreeItemComponentProps,
-  TreeItems,
+  type TreeItemComponentProps,
+  type TreeItems,
 } from 'dnd-kit-sortable-tree'
 import React from 'react'
 import { IoMove } from 'react-icons/io5'
-import { Prompt, usePrompts } from '../../../hooks/usePrompts'
+import { type Prompt, usePrompts } from '../../../hooks/usePrompts'
 import { AddItemButton } from './AddItemButton'
 import { DeletePromptButton } from './DeletePromptButton'
 import { EditPromptButton } from './EditPromptButton'

@@ -24,6 +24,7 @@ const ChatList = ({
 }: ChatListProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: This is intentional, we need this for scroll to bottom
   useEffect(() => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight

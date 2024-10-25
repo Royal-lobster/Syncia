@@ -1,18 +1,16 @@
-name: Checks
+name: Lint Checks
 on: [push]
 jobs:
   ci:
-    name: Lint using rome
+    name: Lint using biome
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - name: Installing dependencies
-        run: yarn install --frozen-lockfile
-      - name: Lint rome
-        run: yarn rome ci .
+      - name: Checkout code
+        uses: actions/checkout@v3
 
+      - name: Setup Node.js and pnpm
+        uses: wyvox/action-setup-pnpm@v3
+        with:
+          node-version: '18'
+      - name: Lint biome
+        run: pnpm biome ci .
