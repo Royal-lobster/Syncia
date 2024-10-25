@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSettings } from '../../../hooks/useSettings'
 import { validateApiKey } from '../../../lib/validApiKey'
+import { useChatModels } from '../../../hooks/useChatModels'
+import { ModelInfo } from '../../../config/settings'
 
 const Auth = () => {
   const [, setSettings] = useSettings()
+  const { models, setActiveChatModel, fetchAvailableModels } = useChatModels()
   const [error, setError] = React.useState<string | null>(null)
   const [showAdvanced, setShowAdvanced] = React.useState(false)
+  const [showModelSelect, setShowModelSelect] = useState(false)
 
   useEffect(() => {
     if (error) {
@@ -27,10 +31,12 @@ const Auth = () => {
         ...prev,
         chat: {
           ...prev.chat,
-          openAIKey: key as string,
+          openAIKey: key,
           openAiBaseUrl: openAiBaseUrl,
         },
       }))
+      await fetchAvailableModels()
+      setShowModelSelect(true)
     } else {
       setError('Invalid API key. Please try with a valid one.')
     }
@@ -99,6 +105,33 @@ const Auth = () => {
             defaultValue="https://api.openai.com/v1"
             className="cdx-text-center cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50"
           />
+        </div>
+      )}
+
+      {showModelSelect && models.length > 0 && (
+        <div className="cdx-w-full cdx-mt-4">
+          <label
+            htmlFor="model"
+            className="cdx-block cdx-text-center cdx-text-sm cdx-text-gray-500 dark:cdx-text-gray-400 cdx-mb-2"
+          >
+            Select Model
+          </label>
+          <select
+            id="model"
+            onChange={(e) => {
+              const selectedModel = models.find((m) => m.id === e.target.value)
+              if (selectedModel) {
+                setActiveChatModel(selectedModel)
+              }
+            }}
+            className="cdx-text-center cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50"
+          >
+            {models.map((model) => (
+              <option key={model.id} value={model.id}>
+                {model.name}
+              </option>
+            ))}
+          </select>
         </div>
       )}
 
