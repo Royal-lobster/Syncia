@@ -5,6 +5,7 @@ import { validateApiKey } from '../../../lib/validApiKey'
 const Auth = () => {
   const [, setSettings] = useSettings()
   const [error, setError] = React.useState<string | null>(null)
+  const [showAdvanced, setShowAdvanced] = React.useState(false)
 
   useEffect(() => {
     if (error) {
@@ -18,9 +19,8 @@ const Auth = () => {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
     const key = data.get('openAiKey') as string | null
-    const openAiBaseUrl = data.get('openAiBaseUrl') as
-      | string
-      | 'https://api.openai.com/v1'
+    const openAiBaseUrl =
+      (data.get('openAiBaseUrl') as string) || 'https://api.openai.com/v1'
 
     if (key && (await validateApiKey(key, openAiBaseUrl))) {
       setSettings((prev) => ({
@@ -28,13 +28,14 @@ const Auth = () => {
         chat: {
           ...prev.chat,
           openAIKey: key as string,
-          openAiBaseUrl: openAiBaseUrl as string,
+          openAiBaseUrl: openAiBaseUrl,
         },
       }))
     } else {
       setError('Invalid API key. Please try with a valid one.')
     }
   }
+
   return (
     <form
       onSubmit={handleOpenAiKeySubmit}
@@ -58,17 +59,48 @@ const Auth = () => {
       <div className="cdx-text-sm cdx-text-gray-400 cdx-mt-2">
         sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
       </div>
-      <input
-        name="openAiKey"
-        placeholder="Enter your OpenAI API key"
-        data-error={error ? 'true' : undefined}
-        className="cdx-mt-4 cdx-text-center cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50 data-[error]:cdx-text-red-500"
-      />
-      <input
-        name="openAiBaseUrl"
-        placeholder="Enter your OpenAI Base URL"
-        className="cdx-mt-4 cdx-text-center cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50 data-[error]:cdx-text-red-500"
-      />
+
+      <div className="cdx-w-full cdx-mt-6">
+        <label
+          htmlFor="openAiKey"
+          className="cdx-block cdx-text-center cdx-text-sm cdx-text-gray-500 dark:cdx-text-gray-400 cdx-mb-2"
+        >
+          API Key
+        </label>
+        <input
+          id="openAiKey"
+          name="openAiKey"
+          placeholder="Paste your OpenAI API key"
+          data-error={error ? 'true' : undefined}
+          className="cdx-text-center cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50 data-[error]:cdx-text-red-500"
+        />
+      </div>
+
+      <button
+        type="button"
+        onClick={() => setShowAdvanced(!showAdvanced)}
+        className="cdx-mt-4 cdx-text-sm cdx-text-blue-400 hover:cdx-underline"
+      >
+        {showAdvanced ? 'Hide Advanced Settings' : 'Show Advanced Settings'}
+      </button>
+
+      {showAdvanced && (
+        <div className="cdx-w-full cdx-mt-4">
+          <label
+            htmlFor="openAiBaseUrl"
+            className="cdx-block cdx-text-center cdx-text-sm cdx-text-gray-500 dark:cdx-text-gray-400 cdx-mb-2"
+          >
+            Base URL (optional)
+          </label>
+          <input
+            id="openAiBaseUrl"
+            name="openAiBaseUrl"
+            placeholder="https://api.openai.com/v1"
+            defaultValue="https://api.openai.com/v1"
+            className="cdx-text-center cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50"
+          />
+        </div>
+      )}
 
       {error && (
         <div className="cdx-text-sm cdx-text-red-500 cdx-mt-2">{error}</div>
@@ -80,6 +112,7 @@ const Auth = () => {
       >
         Submit
       </button>
+
       <div className="cdx-text-sm cdx-text-gray-400 cdx-mt-2">
         (Note: we only store your key locally. We do not send it anywhere. You
         can check the{' '}
