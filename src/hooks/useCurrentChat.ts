@@ -138,12 +138,16 @@ export const useCurrentChat = () => {
     setMessages((p) => {
       const index = p.findIndex((msg) => msg.timestamp === timestamp)
       if (index === -1 || p[index].role !== ChatRole.USER) return p
-      p.splice(index, 1) // remove user message
-      if (p[index] && p[index].role === ChatRole.ASSISTANT) {
+      const newMessages = [...p]
+      newMessages.splice(index, 1) // remove user message
+      if (
+        newMessages[index] &&
+        newMessages[index].role === ChatRole.ASSISTANT
+      ) {
         // remove assistant message
-        p.splice(index, 1)
+        newMessages.splice(index, 1)
       }
-      return [...p]
+      return newMessages
     })
     commitToStoredMessages()
   }
