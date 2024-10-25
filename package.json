@@ -15,12 +15,12 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "release": "yarn build && publish-extension --chrome-zip \"artifacts/chrome.zip\" --chrome-extension-id \"$CHROME_EXTENSION_ID\" --chrome-client-id \"$CHROME_CLIENT_ID\" --chrome-client-secret \"$CHROME_CLIENT_SECRET\" --chrome-refresh-token \"$CHROME_REFRESH_TOKEN\"",
-    "release:cli": "yarn build && dotenv -e .env -- publish-extension --chrome-zip \"artifacts/chrome.zip\" --chrome-extension-id \"$CHROME_EXTENSION_ID\" --chrome-client-id \"$CHROME_CLIENT_ID\" --chrome-client-secret \"$CHROME_CLIENT_SECRET\" --chrome-refresh-token \"$CHROME_REFRESH_TOKEN\"",
+    "release": "pnpm build && publish-extension --chrome-zip \"artifacts/chrome.zip\" --chrome-extension-id \"$CHROME_EXTENSION_ID\" --chrome-client-id \"$CHROME_CLIENT_ID\" --chrome-client-secret \"$CHROME_CLIENT_SECRET\" --chrome-refresh-token \"$CHROME_REFRESH_TOKEN\"",
+    "release:cli": "pnpm build && dotenv -e .env -- publish-extension --chrome-zip \"artifacts/chrome.zip\" --chrome-extension-id \"$CHROME_EXTENSION_ID\" --chrome-client-id \"$CHROME_CLIENT_ID\" --chrome-client-secret \"$CHROME_CLIENT_SECRET\" --chrome-refresh-token \"$CHROME_REFRESH_TOKEN\"",
     "format": "biome format . --write",
     "lint": "biome check .",
     "flush": "rm -rf artifacts/ dist/",
-    "lint:fix": "yarn lint --apply"
+    "lint:fix": "pnpm lint --apply"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
