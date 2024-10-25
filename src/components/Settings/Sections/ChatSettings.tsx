@@ -86,14 +86,6 @@ const ChatSettings = () => {
               type={showPassword ? 'text' : 'password'}
               className="input"
             />
-            <input
-              ref={OpenAiBaseUrlInputRef}
-              name="openAiBaseUrl"
-              defaultValue={chatSettings.openAiBaseUrl || ''}
-              placeholder="Enter your OpenAI Base URL"
-              className="cdx-mt-4 cdx-text-center cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50 data-[error]:cdx-text-red-500"
-            />
-
             <button
               type="button"
               className="cdx-absolute cdx-right-4 cdx-top-1/2 cdx-transform cdx--translate-y-1/2 cdx-text-neutral-500 dark:cdx-text-neutral-200 cdx-bg-transparent cdx-outline-none cdx-cursor-pointer"
@@ -111,6 +103,24 @@ const ChatSettings = () => {
           </button>
         </div>
       </FieldWrapper>
+      <FieldWrapper
+        title="OpenAI Base URL"
+        description="Enter your custom OpenAI API base URL (optional)"
+        onSubmit={handleOpenAiKeySubmit}
+      >
+        <div className="cdx-flex cdx-gap-2 cdx-items-center">
+          <input
+            ref={OpenAiBaseUrlInputRef}
+            name="openAiBaseUrl"
+            defaultValue={chatSettings.openAiBaseUrl || ''}
+            placeholder="Enter your OpenAI Base URL"
+            className="input cdx-w-full"
+          />
+          <button type="submit" className="btn">
+            Update
+          </button>
+        </div>
+      </FieldWrapper>{' '}
       {/* =========================
              Model Setting
           ===========================*/}
