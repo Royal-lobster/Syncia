@@ -8,7 +8,7 @@ const ChangeChatModel = () => {
       <BsRobot size={18} className="cdx-flex-shrink-0" />
       <select
         value={activeChatModel || ''}
-        className="cdx-bg-transparent !m-0 !p-0 cdx-box-border cdx-w-min focus:cdx-outline-none focus:cdx-ring-1"
+        className="cdx-bg-transparent !m-0 !p-0 cdx-box-border cdx-w-min focus:cdx-outline-none focus:cdx-ring-1 cdx-max-w-[100px]"
         onChange={(e) => {
           setActiveChatModel(e.target.value)
         }}
