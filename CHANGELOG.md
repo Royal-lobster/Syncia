@@ -1,5 +1,14 @@
 # syncia
 
+## 1.5.2
+
+### Patch Changes
+
+- e3573e1: Fixes UI for welcome auth screen and settings page base url input
+- 866a388: - Dynamic modal names from /modals
+  - Deprecates usage of ollama modals directly, we can now use them via openai compatible endpoint
+- ce34074: API key validation with /modals endpoint
+
 ## 1.5.1
 
 ### Patch Changes
