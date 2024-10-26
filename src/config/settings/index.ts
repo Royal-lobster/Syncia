@@ -13,23 +13,6 @@ export enum Mode {
   CREATIVE = 1.5,
 }
 
-export type ModelCapabilities = {
-  completion_chat: boolean
-  function_calling: boolean
-  vision: boolean
-  fine_tuning: boolean
-  completion_fim: boolean
-}
-
-export type ModelInfo = {
-  id: string
-  name: string
-  description: string
-  capabilities: ModelCapabilities
-  max_context_length: number
-  owned_by: string
-}
-
 export type Settings = {
   quickMenu: {
     enabled: boolean
@@ -38,7 +21,7 @@ export type Settings = {
   }
   chat: {
     openAIKey: string | null
-    model: ModelInfo | null
+    model: string | null
     mode: Mode
     openAiBaseUrl: string | null
   }

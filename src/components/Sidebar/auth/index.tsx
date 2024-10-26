@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { useChatModels } from '../../../hooks/useChatModels'
 import { useSettings } from '../../../hooks/useSettings'
 import { validateApiKey } from '../../../lib/validApiKey'
-import { useChatModels } from '../../../hooks/useChatModels'
-import { ModelInfo } from '../../../config/settings'
 
 const Auth = () => {
   const [, setSettings] = useSettings()
@@ -13,9 +12,7 @@ const Auth = () => {
 
   useEffect(() => {
     if (error) {
-      setTimeout(() => {
-        setError(null)
-      }, 3000)
+      setTimeout(() => setError(null), 3000)
     }
   }, [error])
 
@@ -118,17 +115,12 @@ const Auth = () => {
           </label>
           <select
             id="model"
-            onChange={(e) => {
-              const selectedModel = models.find((m) => m.id === e.target.value)
-              if (selectedModel) {
-                setActiveChatModel(selectedModel)
-              }
-            }}
+            onChange={(e) => setActiveChatModel(e.target.value)}
             className="cdx-text-center cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50"
           >
             {models.map((model) => (
               <option key={model.id} value={model.id}>
-                {model.name}
+                {model.id}
               </option>
             ))}
           </select>

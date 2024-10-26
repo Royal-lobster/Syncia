@@ -6,13 +6,13 @@ import {
   SystemMessage,
 } from '@langchain/core/messages'
 import { useMemo, useState } from 'react'
-import type { Mode, ModelInfo } from '../config/settings'
+import type { Mode } from '../config/settings'
 import { getMatchedContent } from '../lib/getMatchedContent'
 import { ChatRole, useCurrentChat } from './useCurrentChat'
 import type { MessageDraft } from './useMessageDraft'
 
 interface UseChatCompletionProps {
-  model: ModelInfo
+  model: string
   apiKey: string
   mode: Mode
   systemPrompt: string
@@ -43,12 +43,11 @@ export const useChatCompletion = ({
     return new ChatOpenAI({
       streaming: true,
       openAIApiKey: apiKey,
-      modelName: model.id,
+      modelName: model,
       configuration: {
         baseURL: baseURL,
       },
       temperature: Number(mode),
-      maxTokens: model.max_context_length,
     })
   }, [apiKey, model, mode, baseURL])
 
@@ -99,7 +98,7 @@ export const useChatCompletion = ({
         ...previousMessages,
         new HumanMessage({
           content:
-            message.files.length > 0 && model.capabilities.vision
+            message.files.length > 0
               ? [
                   { type: 'text', text: expandedQuery },
                   ...(message.files.length > 0

@@ -126,18 +126,13 @@ const ChatSettings = () => {
         row={true}
       >
         <select
-          value={chatSettings.model?.id || ''}
+          value={chatSettings.model || ''}
           className="input cdx-w-44"
-          onChange={(e) => {
-            const selectedModel = models.find((m) => m.id === e.target.value)
-            if (selectedModel) {
-              setActiveChatModel(selectedModel)
-            }
-          }}
+          onChange={(e) => setActiveChatModel(e.target.value)}
         >
           {models.map((model) => (
             <option key={model.id} value={model.id}>
-              {model.name}
+              {model.id}
             </option>
           ))}
         </select>

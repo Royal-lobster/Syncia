@@ -1,11 +1,17 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSettings } from './useSettings'
 import axios from 'axios'
-import type { ModelInfo } from '../config/settings'
+
+type OpenAIModel = {
+  id: string
+  object: string
+  created: number
+  owned_by: string
+}
 
 export const useChatModels = () => {
   const [settings, setSettings] = useSettings()
-  const [models, setModels] = useState<ModelInfo[]>([])
+  const [models, setModels] = useState<OpenAIModel[]>([])
   const chatSettings = settings.chat
   const activeChatModel = chatSettings.model
 
@@ -20,12 +26,7 @@ export const useChatModels = () => {
           },
         })
 
-        // Filter for chat-capable models
-        const chatModels = data.data.filter(
-          (model: ModelInfo) => model.capabilities?.completion_chat === true,
-        )
-
-        setModels(chatModels)
+        setModels(data.data)
       } catch (error) {
         console.log('Failed to fetch models:', error)
         setModels([])
@@ -37,12 +38,12 @@ export const useChatModels = () => {
     fetchAvailableModels()
   }, [fetchAvailableModels])
 
-  const setActiveChatModel = (model: ModelInfo) => {
+  const setActiveChatModel = (modelId: string) => {
     setSettings({
       ...settings,
       chat: {
         ...chatSettings,
-        model,
+        model: modelId,
       },
     })
   }
