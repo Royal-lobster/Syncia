@@ -1,13 +1,12 @@
-import * as Switch from '@radix-ui/react-switch'
 import React, { useState } from 'react'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
-import { useSettings } from '../../../hooks/useSettings'
+import { Mode } from '../../../config/settings'
 import { useChatModels } from '../../../hooks/useChatModels'
+import { useSettings } from '../../../hooks/useSettings'
 import { capitalizeText } from '../../../lib/capitalizeText'
 import { validateApiKey } from '../../../lib/validApiKey'
 import FieldWrapper from '../Elements/FieldWrapper'
 import SectionHeading from '../Elements/SectionHeading'
-import { Mode } from '../../../config/settings'
 
 const ChatSettings = () => {
   const [settings, setSettings] = useSettings()
@@ -22,10 +21,8 @@ const ChatSettings = () => {
     event: React.FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault()
-    const target = event.target as HTMLFormElement
-
-    const apiKeyValue = target.openAiApiKey.value
-    const baseurlValue = target.openAiBaseUrl.value
+    const apiKeyValue = OpenAiApiKeyInputRef.current?.value || ''
+    const baseurlValue = OpenAiBaseUrlInputRef.current?.value || ''
 
     if (OpenAiApiKeyInputRef.current) {
       const isOpenAiKeyValid: boolean = await validateApiKey(
