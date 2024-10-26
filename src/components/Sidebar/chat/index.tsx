@@ -58,7 +58,7 @@ const Chat = ({ settings }: ChatProps) => {
         clearMessages={clearMessages}
         cancelRequest={cancelRequest}
         isWebpageContextOn={settings.general.webpageContext}
-        isVisionModel={settings.chat.model?.includes('vision') || false}
+        isVisionModel={true}
       />
     </>
   )
