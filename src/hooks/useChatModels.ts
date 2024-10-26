@@ -1,52 +1,57 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useSettings } from './useSettings'
 import axios from 'axios'
-import { AvailableModels } from '../config/settings'
+
+type OpenAIModel = {
+  id: string
+  object: string
+  created: number
+  owned_by: string
+}
 
 export const useChatModels = () => {
   const [settings, setSettings] = useSettings()
-  const [dynamicModels, setDynamicModels] = useState<string[]>([])
+  const [models, setModels] = useState<OpenAIModel[]>([])
   const chatSettings = settings.chat
   const activeChatModel = chatSettings.model
 
-  const fetchLocalModels = useCallback(async () => {
-    if (chatSettings.showLocalModels) {
-      const {
-        data: { models },
-      } = await axios<{ models: { name: string }[] }>(
-        'http://localhost:11434/api/tags',
-      )
-      if (models) {
-        setDynamicModels(models.map((m) => m.name))
+  const fetchAvailableModels = useCallback(async () => {
+    if (chatSettings.openAIKey) {
+      try {
+        const baseUrl =
+          chatSettings.openAiBaseUrl || 'https://api.openai.com/v1'
+        const { data } = await axios.get(`${baseUrl}/models`, {
+          headers: {
+            Authorization: `Bearer ${chatSettings.openAIKey}`,
+          },
+        })
+
+        setModels(data.data)
+      } catch (error) {
+        console.log('Failed to fetch models:', error)
+        setModels([])
       }
-    } else {
-      setDynamicModels([])
     }
-  }, [chatSettings.showLocalModels])
+  }, [chatSettings.openAIKey, chatSettings.openAiBaseUrl])
 
   useEffect(() => {
-    fetchLocalModels()
-  }, [fetchLocalModels])
+    fetchAvailableModels()
+  }, [fetchAvailableModels])
 
-  const availableModels = [
-    ...Object.entries(AvailableModels),
-    ...dynamicModels.map((m) => [m, m]),
-  ]
-
-  const setActiveChatModel = (model: AvailableModels) => {
+  const setActiveChatModel = (modelId: string) => {
     setSettings({
       ...settings,
       chat: {
         ...chatSettings,
-        model: model,
+        model: modelId,
       },
     })
   }
 
   return {
-    availableModels,
+    models,
     activeChatModel,
     setActiveChatModel,
-    fetchLocalModels,
+    fetchAvailableModels,
   }
 }
