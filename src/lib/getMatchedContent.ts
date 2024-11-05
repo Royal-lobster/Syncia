@@ -2,6 +2,7 @@ import { OpenAIEmbeddings } from '@langchain/openai'
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 import { MemoryVectorStore } from 'langchain/vectorstores/memory'
 import { createSHA256Hash } from './createSHA256Hash'
+import { getFromIndexedDB, saveToIndexedDB } from '../hooks/useStorage'
 
 /**
  * This function is responsible for getting the matched content
@@ -21,7 +22,7 @@ export const getMatchedContent = async (
 
 /**
  * This function is responsible for getting the context vector store
- * from the context. It caches the vector store in the local storage
+ * from the context. It caches the vector store in the IndexedDB
  * for faster retrieval
  */
 const getContextVectorStore = async (
@@ -36,9 +37,7 @@ const getContextVectorStore = async (
     },
   })
   const hashKey = `SYNCIA_STORE_EMBEDDINGS_${await createSHA256Hash(context)}`
-  const memoryVectors: [] | null = JSON.parse(
-    localStorage.getItem(hashKey) || 'null',
-  )
+  const memoryVectors: [] | null = await getFromIndexedDB(hashKey)
 
   if (!memoryVectors) {
     const textSplitter = new RecursiveCharacterTextSplitter({
@@ -46,7 +45,7 @@ const getContextVectorStore = async (
     })
     const docs = await textSplitter.createDocuments([context])
     const store = await MemoryVectorStore.fromDocuments(docs, embeddings)
-    localStorage.setItem(hashKey, JSON.stringify(store.memoryVectors))
+    await saveToIndexedDB(hashKey, store.memoryVectors)
     return store
   }
 

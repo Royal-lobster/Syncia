@@ -104,3 +104,69 @@ export async function setStorage<T>(
     return false
   }
 }
+
+/**
+ * Function to save data to IndexedDB
+ */
+export const saveToIndexedDB = async (key: string, data: any) => {
+  return new Promise<void>((resolve, reject) => {
+    const request = indexedDB.open('SynciaDB', 1)
+
+    request.onupgradeneeded = (event) => {
+      const db = (event.target as IDBOpenDBRequest).result
+      db.createObjectStore('embeddings')
+    }
+
+    request.onsuccess = (event) => {
+      const db = (event.target as IDBOpenDBRequest).result
+      const transaction = db.transaction('embeddings', 'readwrite')
+      const store = transaction.objectStore('embeddings')
+      store.put(data, key)
+
+      transaction.oncomplete = () => {
+        resolve()
+      }
+
+      transaction.onerror = (event) => {
+        reject(event)
+      }
+    }
+
+    request.onerror = (event) => {
+      reject(event)
+    }
+  })
+}
+
+/**
+ * Function to retrieve data from IndexedDB
+ */
+export const getFromIndexedDB = async (key: string) => {
+  return new Promise<any>((resolve, reject) => {
+    const request = indexedDB.open('SynciaDB', 1)
+
+    request.onupgradeneeded = (event) => {
+      const db = (event.target as IDBOpenDBRequest).result
+      db.createObjectStore('embeddings')
+    }
+
+    request.onsuccess = (event) => {
+      const db = (event.target as IDBOpenDBRequest).result
+      const transaction = db.transaction('embeddings', 'readonly')
+      const store = transaction.objectStore('embeddings')
+      const getRequest = store.get(key)
+
+      getRequest.onsuccess = () => {
+        resolve(getRequest.result)
+      }
+
+      getRequest.onerror = (event) => {
+        reject(event)
+      }
+    }
+
+    request.onerror = (event) => {
+      reject(event)
+    }
+  })
+}
