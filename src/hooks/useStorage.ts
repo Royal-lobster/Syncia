@@ -7,7 +7,7 @@ import {
   useRef,
 } from 'react'
 
-export type StorageArea = 'sync' | 'local'
+export type StorageArea = 'sync' | 'local' | 'indexedDB'
 
 // custom hook to set chrome local/sync storage
 // should also set a listener on this specific key
@@ -75,6 +75,9 @@ export async function readStorage<T>(
   key: string,
   area: StorageArea = 'local',
 ): Promise<T | undefined> {
+  if (area === 'indexedDB') {
+    return getFromIndexedDB<T>(key)
+  }
   try {
     const result = await chrome.storage[area].get(key)
     return result?.[key]
@@ -96,6 +99,10 @@ export async function setStorage<T>(
   value: T,
   area: StorageArea = 'local',
 ): Promise<boolean> {
+  if (area === 'indexedDB') {
+    await saveToIndexedDB<T>(key, value)
+    return true
+  }
   try {
     await chrome.storage[area].set({ [key]: value })
     return true
@@ -105,10 +112,10 @@ export async function setStorage<T>(
   }
 }
 
-/**
- * Function to save data to IndexedDB
- */
-export const saveToIndexedDB = async (key: string, data: any) => {
+export const saveToIndexedDB = async <T>(
+  key: string,
+  data: T,
+): Promise<void> => {
   return new Promise<void>((resolve, reject) => {
     const request = indexedDB.open('SynciaDB', 1)
 
@@ -138,11 +145,8 @@ export const saveToIndexedDB = async (key: string, data: any) => {
   })
 }
 
-/**
- * Function to retrieve data from IndexedDB
- */
-export const getFromIndexedDB = async (key: string) => {
-  return new Promise<any>((resolve, reject) => {
+export const getFromIndexedDB = async <T>(key: string): Promise<T> => {
+  return new Promise<T>((resolve, reject) => {
     const request = indexedDB.open('SynciaDB', 1)
 
     request.onupgradeneeded = (event) => {
