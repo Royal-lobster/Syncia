@@ -24,6 +24,7 @@ export type Settings = {
     model: string | null
     mode: Mode
     openAiBaseUrl: string | null
+    embeddingModel: string | null
   }
   general: {
     theme: ThemeOptions
@@ -42,6 +43,7 @@ export const defaultSettings: Settings = {
     model: null,
     mode: Mode.BALANCED,
     openAiBaseUrl: null,
+    embeddingModel: null,
   },
   general: {
     theme: ThemeOptions.SYSTEM,
