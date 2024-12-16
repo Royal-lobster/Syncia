@@ -161,6 +161,31 @@ const ChatSettings = () => {
             ))}
         </select>
       </FieldWrapper>
+      <FieldWrapper
+        title="Embedding Model"
+        description="Choose between available embedding models"
+        row={true}
+      >
+        <select
+          value={chatSettings.embeddingModel || ''}
+          className="input cdx-w-44"
+          onChange={(e) => {
+            setSettings({
+              ...settings,
+              chat: {
+                ...chatSettings,
+                embeddingModel: e.target.value,
+              },
+            })
+          }}
+        >
+          {models.map((model) => (
+            <option key={model.id} value={model.id}>
+              {model.id}
+            </option>
+          ))}
+        </select>
+      </FieldWrapper>
     </div>
   )
 }
