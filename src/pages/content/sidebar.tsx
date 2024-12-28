@@ -59,7 +59,9 @@ window.addEventListener('message', async (event) => {
   // ACTION: copy-to-clipboard =============================
   if (action === 'copy-to-clipboard') {
     const { content } = _payload as { content: string }
-    navigator.clipboard.writeText(content)
+    navigator.clipboard.writeText(content).catch((err) => {
+      console.error('Clipboard write failed', err)
+    })
   }
 
   // ACTION: get-screenshot-image ===========================
