@@ -41,6 +41,7 @@ export default defineManifest(async (env) => ({
     'contextMenus',
     'tabs',
     'activeTab',
+    'clipboardWrite',
   ],
   background: {
     service_worker: 'src/pages/background/index.ts',
