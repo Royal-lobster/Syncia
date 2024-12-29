@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client'
-import './index.css'
+import './styles.css'
 import Settings from '../../components/Settings'
 import { DndContext } from '@dnd-kit/core'
 
