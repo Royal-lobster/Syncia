@@ -1,6 +1,7 @@
 import { defineConfig } from 'wxt'
 
 export default defineConfig({
+  srcDir: 'src',
   manifest: {
     action: {
       default_title: 'Syncia - Open Sidebar',
