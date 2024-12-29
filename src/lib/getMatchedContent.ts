@@ -3,6 +3,7 @@ import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter'
 import { MemoryVectorStore } from 'langchain/vectorstores/memory'
 import { createSHA256Hash } from './createSHA256Hash'
 import { readStorage, setStorage } from '../hooks/useStorage'
+import { useSettings } from '../hooks/useSettings'
 
 export const getMatchedContent = async (
   query: string,
@@ -21,8 +22,11 @@ const getContextVectorStore = async (
   apiKey: string,
   baseURL: string,
 ) => {
+  const [settings] = useSettings()
+  const embeddingModel = settings.chat.embeddingModel || 'text-embedding-ada-002'
   const embeddings = new OpenAIEmbeddings({
     openAIApiKey: apiKey,
+    modelName: embeddingModel,
     configuration: {
       baseURL: baseURL,
     },
