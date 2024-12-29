@@ -9,13 +9,5 @@ export default defineConfig({
         port: 5173,
       },
     },
-    build: {
-      rollupOptions: {
-        input: {
-          sidebar: 'src/pages/sidebar/index.html',
-          settings: 'src/pages/settings/index.html',
-        },
-      },
-    },
   }),
 })

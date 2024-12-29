@@ -8,18 +8,19 @@ import { captureScreenListener } from './sidebar/captureScreenListener'
 import { sendSidebarShortcut } from './sidebar/sendSidebarShortcut'
 import { sidebarToggleListeners } from './sidebar/sidebarToggleListeners'
 
-backgroundLog()
+export default defineBackground({
+  main() {
+    // Initialize logging
+    backgroundLog()
 
-// =========================== //
-// Sidebar Scripts
-// =========================== //
-sidebarToggleListeners()
-sendSidebarShortcut()
-captureScreenListener()
+    // Sidebar functionality
+    sidebarToggleListeners()
+    sendSidebarShortcut()
+    captureScreenListener()
 
-// =========================== //
-// Quick menu Scripts
-// =========================== //
-createContextMenu()
-forwardContextMenuClicks()
-createContextMenuOnStorageChange()
+    // Quick menu functionality
+    createContextMenu()
+    forwardContextMenuClicks()
+    createContextMenuOnStorageChange()
+  },
+})
