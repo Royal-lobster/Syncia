@@ -1,5 +1,10 @@
 import { useEffect, useRef } from 'react'
-import { RiCloseLine, RiErrorWarningLine, RiLoader4Line } from 'react-icons/ri'
+import {
+  RiCloseLine,
+  RiErrorWarningLine,
+  RiLoader4Line,
+  RiFileCopyLine,
+} from 'react-icons/ri'
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
 import rehypeRaw from 'rehype-raw'
 import remarkBreaks from 'remark-breaks'
@@ -32,6 +37,20 @@ const ChatList = ({
   }, [messages]) // Add messages as a dependency
 
   const filteredMsgs = messages.filter((msg) => msg.role !== ChatRole.SYSTEM)
+
+  const formatContent = (content: string) => {
+    return content.replace(/(?<=\n\n)(?![*-])\n/gi, '&nbsp;\n ')
+  }
+
+  const handleCopyMessage = (content: string) => {
+    window.parent.postMessage(
+      {
+        action: 'copy-to-clipboard',
+        _payload: { content },
+      },
+      '*',
+    )
+  }
 
   return (
     <div
@@ -72,6 +91,15 @@ const ChatList = ({
                   <RiCloseLine />
                 </button>
               )}
+              {msg.role === ChatRole.ASSISTANT && (
+                <button
+                  type="button"
+                  onClick={() => handleCopyMessage(formatContent(msg.content))}
+                  className="cdx-absolute group-hover:cdx-visible cdx-invisible cdx-right-2 cdx-top-2 cdx-p-0.5 cdx-bg-black/20 cdx-rounded"
+                >
+                  <RiFileCopyLine />
+                </button>
+              )}
               <ReactMarkdown
                 remarkPlugins={[remarkGfm, remarkBreaks]}
                 rehypePlugins={[rehypeRaw]}
@@ -80,7 +108,7 @@ const ChatList = ({
                   table: Table,
                 }}
               >
-                {msg.content.replace(/(?<=\n\n)(?![*-])\n/gi, '&nbsp;\n ')}
+                {formatContent(msg.content)}
               </ReactMarkdown>
               {msg.files && <FilePreviewBar files={msg.files} />}
             </div>
