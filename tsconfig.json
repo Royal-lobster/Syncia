@@ -1,5 +1,5 @@
 {
-  "extends": ".wxt/tsconfig.json",
+  "extends": "./.wxt/tsconfig.json",
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
