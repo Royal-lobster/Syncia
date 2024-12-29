@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .input {
+    @apply cdx-p-2 cdx-text-base cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-800 dark:cdx-bg-neutral-900/80 cdx-border-neutral-200 cdx-bg-neutral-200/90 focus:cdx-outline-none focus:cdx-ring-2 focus:cdx-ring-blue-900 focus:cdx-ring-opacity-50;
+  }
+  .input-success {
+    @apply cdx-border-green-500 cdx-text-green-500 cdx-bg-green-500/10;
+  }
+  .input-failed {
+    @apply cdx-border-red-500 cdx-text-red-500 cdx-bg-red-500/10;
+  }
+  .btn {
+    @apply cdx-flex cdx-whitespace-nowrap cdx-gap-2 cdx-text-base disabled:cdx-bg-slate-500 disabled:cdx-text-slate-400 cdx-items-center cdx-bg-blue-500 hover:cdx-bg-blue-700 cdx-text-white cdx-py-2 cdx-px-4 cdx-rounded;
+  }
+}
+
+* {
+  word-break: break-word;
+}
