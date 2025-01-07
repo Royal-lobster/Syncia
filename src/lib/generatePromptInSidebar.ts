@@ -6,7 +6,7 @@ export const generatePromptInSidebar = (
 ) => {
   const fullPrompt = getTransformedPrompt(prompt, selectedText)
   const sideBarIframe = document.getElementById(
-    'syncia_sidebar',
+    'deepchat_sidebar',
   ) as HTMLIFrameElement
   if (sideBarIframe.style.width === '0px') {
     sideBarIframe.style.width = '400px'

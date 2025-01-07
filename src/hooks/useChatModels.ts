@@ -5,7 +5,7 @@ import axios from 'axios'
 type OpenAIModel = {
   id: string
   object: string
-  created: number
+  //created: number
   owned_by: string
 }
 

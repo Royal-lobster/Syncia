@@ -11,7 +11,7 @@ const Auth = () => {
   const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     apiKey: '',
-    baseUrl: 'https://api.openai.com/v1',
+    baseUrl: 'https://api.deepseek.com/v1',
   })
 
   useEffect(() => {
@@ -92,7 +92,7 @@ const Auth = () => {
           id="baseUrl"
           value={formData.baseUrl}
           onChange={handleInputChange}
-          placeholder="https://api.openai.com/v1"
+          placeholder="https://api.deepseek.com/v1"
           className="cdx-p-2 cdx-w-full cdx-rounded-md cdx-border dark:cdx-border-neutral-600 cdx-border-neutral-200 dark:cdx-bg-neutral-800/90 cdx-bg-neutral-200/90"
         />
       </div>
@@ -134,7 +134,7 @@ const Auth = () => {
         Note: we only store your key locally. We do not send it anywhere. You
         can check the{' '}
         <a
-          href="https://github.com/Royal-lobster/Syncia"
+          href="https://github.com/hedwi/deepchat"
           className="cdx-text-blue-400"
         >
           source code

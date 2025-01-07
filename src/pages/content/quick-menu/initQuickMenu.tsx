@@ -13,11 +13,11 @@ import type { Settings } from '../../../config/settings'
 const initQuickMenu = () => {
   contentScriptLog('QuickMenu')
 
-  document.body.classList.add('syncia_body')
+  document.body.classList.add('deepchat_body')
   const root = createRoot(document.createElement('div'))
   root.render(
     <HighlightMenu
-      target=".syncia_body"
+      target=".deepchat_body"
       menu={({ selectedText, setMenuOpen }) => (
         <QuickMenu selectedText={selectedText} setMenuOpen={setMenuOpen} />
       )}

@@ -48,7 +48,7 @@ export const QuickMenu = ({ selectedText, setMenuOpen }: QuickMenuProps) => {
             />
           </div>
           <span className="cdx-py-1 cdx-text-sm !cdx-font-sans cdx-px-1.5 cdx-mt-0.5">
-            Syncia
+            DeepChat
           </span>
         </button>
       </DropdownMenu.Trigger>

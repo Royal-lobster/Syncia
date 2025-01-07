@@ -117,7 +117,7 @@ export const saveToIndexedDB = async <T>(
   data: T,
 ): Promise<void> => {
   return new Promise<void>((resolve, reject) => {
-    const request = indexedDB.open('SynciaDB', 1)
+    const request = indexedDB.open('DeepChatDB', 1)
 
     request.onupgradeneeded = (event) => {
       const db = (event.target as IDBOpenDBRequest).result
@@ -147,7 +147,7 @@ export const saveToIndexedDB = async <T>(
 
 export const getFromIndexedDB = async <T>(key: string): Promise<T> => {
   return new Promise<T>((resolve, reject) => {
-    const request = indexedDB.open('SynciaDB', 1)
+    const request = indexedDB.open('DeepChatDB', 1)
 
     request.onupgradeneeded = (event) => {
       const db = (event.target as IDBOpenDBRequest).result

@@ -15,7 +15,7 @@ iframe.style.zIndex = '9000000000000000000'
 iframe.style.border = '0px'
 iframe.style.colorScheme = 'auto'
 iframe.src = chrome.runtime.getURL('/src/pages/sidebar/index.html')
-iframe.id = 'syncia_sidebar'
+iframe.id = 'deepchat_sidebar'
 
 document.body.appendChild(iframe)
 

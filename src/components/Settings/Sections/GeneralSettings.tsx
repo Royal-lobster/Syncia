@@ -44,7 +44,7 @@ const GeneralSettings = () => {
       </FieldWrapper>
       <FieldWrapper
         title="Webpage Context"
-        description="Enable Syncia to answer questions based on the current webpage content"
+        description="Enable DeepChat to answer questions based on the current webpage content"
         row
       >
         <Switch.Root
