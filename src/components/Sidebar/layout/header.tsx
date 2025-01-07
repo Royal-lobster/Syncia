@@ -27,7 +27,7 @@ const Header = () => {
     <div className="cdx-flex cdx-justify-between cdx-p-3.5 cdx-border-b dark:cdx-border-neutral-700/50 cdx-border-neutral-300">
       <h1 className="cdx-text-2xl cdx-flex cdx-items-center cdx-gap-2 cdx-m-0 cdx-p-0">
         <BsRobot className="cdx-text-blue-400" />
-        Syncia
+        DeepChat
       </h1>
 
       <div className="cdx-flex cdx-text-neutral-500 cdx-gap-2 cdx-items-center">

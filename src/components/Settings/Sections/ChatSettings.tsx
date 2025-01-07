@@ -67,8 +67,8 @@ const ChatSettings = () => {
     <div className="cdx-w-full cdx-flex-shrink-0 cdx-rounded-md">
       <SectionHeading title="Chat" />
       <FieldWrapper
-        title="Open AI Key"
-        description="You can get your Open AI key from https://platform.openai.com/api-keys"
+        title="API Key"
+        description="You can get your API key from website"
         onSubmit={handleOpenAiKeySubmit}
       >
         <div className="cdx-flex cdx-gap-2 cdx-items-center">
@@ -100,8 +100,8 @@ const ChatSettings = () => {
         </div>
       </FieldWrapper>
       <FieldWrapper
-        title="OpenAI Base URL"
-        description="Enter your custom OpenAI API base URL (optional)"
+        title="Base URL"
+        description="Enter your custom API base URL (optional)"
         onSubmit={handleOpenAiKeySubmit}
       >
         <div className="cdx-flex cdx-gap-2 cdx-items-center">
@@ -109,7 +109,7 @@ const ChatSettings = () => {
             ref={OpenAiBaseUrlInputRef}
             name="openAiBaseUrl"
             defaultValue={chatSettings.openAiBaseUrl || ''}
-            placeholder="Enter your OpenAI Base URL"
+            placeholder="Enter your Base URL"
             className="input cdx-w-full"
           />
           <button type="submit" className="btn">

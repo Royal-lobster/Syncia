@@ -1,13 +1,13 @@
-# ✨ Syncia - Power of GPT on Any Site
+# ✨ DeepChat - Power of DeepSeek on Any Site
 
-Syncia is a Chrome extension that enables users to chat with ChatGPT by opening a sidebar on any website by using the shortcut `ctrl+shift+x`. In addition, it provides a floating menu underneath any selected text on any website that allows users to generate text summaries, check grammar issues, and customize text length.
+DeepChat is a Chrome extension that enables users to chat with DeepSeek by opening a sidebar on any website by using the shortcut `ctrl+shift+x`. In addition, it provides a floating menu underneath any selected text on any website that allows users to generate text summaries, check grammar issues, and customize text length.
 
-![Syncia preview](syncia.png)
+![DeepChat preview](deepchat.png)
 
 ## 🦾 Features
 
 - 🗨️ Chat with ChatGPT through a sidebar.
-- 🔑 User your own Open AI API key.
+- 🔑 User your own AI API key.
 - 📜 Quick menu underneath any selected text which allows you to summarize, simplify language, translate, and more (extendable with custom prompts).
 - 💯 Fully customizable settings page.
 - 🎨 Has both light mode and dark mode !

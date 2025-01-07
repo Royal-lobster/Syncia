@@ -1,11 +1,11 @@
 {
-  "name": "syncia",
-  "displayName": "Syncia",
+  "name": "deepchat",
+  "displayName": "DeepChat",
   "version": "1.5.3",
-  "description": "A simple chrome extension for interacting with ChatGPT with in your comfort",
+  "description": "A simple chrome extension for interacting with deepseek with in your comfort",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Royal-lobster/Syncia.git"
+    "url": "https://github.com/hedwi/deepchat.git"
   },
   "author": "Royal-lobster",
   "private": true,
