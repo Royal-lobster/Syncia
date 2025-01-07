@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { BsRobot } from 'react-icons/bs'
 import { HiOutlineCog, HiX } from 'react-icons/hi'
+import logo from '../../../lib/logo'
 
 const Header = () => {
   const [shortcut, setShortcut] = useState<string | null>(null)
@@ -26,7 +26,7 @@ const Header = () => {
   return (
     <div className="cdx-flex cdx-justify-between cdx-p-3.5 cdx-border-b dark:cdx-border-neutral-700/50 cdx-border-neutral-300">
       <h1 className="cdx-text-2xl cdx-flex cdx-items-center cdx-gap-2 cdx-m-0 cdx-p-0">
-        <BsRobot className="cdx-text-blue-400" />
+        <img src={logo} className="cdx-w-10 cdx-h-10" />
         DeepChat
       </h1>
 

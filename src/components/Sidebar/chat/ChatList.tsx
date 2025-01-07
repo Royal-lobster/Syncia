@@ -63,8 +63,8 @@ const ChatList = ({
             alt="robot"
             src="/images/robot.png"
             className="cdx-mx-auto"
-            height={300}
-            width={300}
+            height={128}
+            width={128}
           />
           <h1 className="cdx-text-xl cdx-text-gray-500 dark:cdx-text-gray-400">
             Start a new conversation 🎉
