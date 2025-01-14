@@ -25,3 +25,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+web-ext.config.ts
