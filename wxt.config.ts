@@ -32,18 +32,18 @@ export default defineConfig({
       'clipboardWrite',
     ],
     background: {
-      service_worker: 'src/pages/background/index.ts',
+      service_worker: 'src/entrypoints/background/index.ts',
     },
     content_scripts: [
       {
         matches: ['http://*/*', 'https://*/*', '<all_urls>'],
-        js: ['src/pages/content/sidebar.tsx'],
+        js: ['src/entrypoints/content/sidebar.tsx'],
       },
       {
         matches: ['http://*/*', 'https://*/*', '<all_urls>'],
         js: [
-          'src/pages/content/quick-menu/initQuickMenu.tsx',
-          'src/pages/content/quick-menu/listenContextMenu.tsx',
+          'src/entrypoints/content/quick-menu/initQuickMenu.tsx',
+          'src/entrypoints/content/quick-menu/listenContextMenu.tsx',
         ],
         all_frames: true,
       },
@@ -51,9 +51,9 @@ export default defineConfig({
     web_accessible_resources: [
       {
         resources: [
-          'src/pages/sidebar/index.html',
+          'src/entrypoints/sidebar/index.html',
           'images/robot.png',
-          'src/pages/settings/index.html',
+          'src/entrypoints/settings/index.html',
         ],
         matches: ['http://*/*', 'https://*/*'],
       },

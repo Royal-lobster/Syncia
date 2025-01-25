@@ -52,7 +52,7 @@
         "<all_urls>"
       ],
       "js": [
-        "src/pages/content/sidebar.tsx"
+        "src/entrypoints/content/sidebar.tsx"
       ]
     },
     {
@@ -62,8 +62,8 @@
         "<all_urls>"
       ],
       "js": [
-        "src/pages/content/quick-menu/initQuickMenu.tsx",
-        "src/pages/content/quick-menu/listenContextMenu.tsx"
+        "src/entrypoints/content/quick-menu/initQuickMenu.tsx",
+        "src/entrypoints/content/quick-menu/listenContextMenu.tsx"
       ],
       "all_frames": true
     }
@@ -71,9 +71,9 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "src/pages/sidebar/index.html",
+        "src/entrypoints/sidebar/index.html",
         "images/robot.png",
-        "src/pages/settings/index.html"
+        "src/entrypoints/settings/index.html"
       ],
       "matches": [
         "http://*/*",

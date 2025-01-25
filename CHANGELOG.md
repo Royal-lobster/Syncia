@@ -1,5 +1,11 @@
 # syncia
 
+## 1.5.4
+
+### Patch Changes
+
+- f68c05e: Adds copy button
+
 ## 1.5.3
 
 ### Patch Changes
