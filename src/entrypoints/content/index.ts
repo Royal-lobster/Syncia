@@ -67,6 +67,7 @@ function setupMessageListeners(iframe: HTMLIFrameElement) {
 }
 
 export default defineContentScript({
+  matches: ['<all_urls>'],
   main() {
     contentScriptLog('Sidebar')
     const iframe = createSidebar()
