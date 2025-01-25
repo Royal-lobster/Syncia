@@ -57,7 +57,6 @@ function setupMessageListeners(iframe: HTMLIFrameElement) {
       iframe.style.width = '400px'
       iframe.contentWindow?.postMessage(
         {
-          //172674
           action: 'get-screenshot-image',
           payload: image,
         },
