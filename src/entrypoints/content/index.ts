@@ -12,6 +12,7 @@ function createSidebar() {
   iframe.style.zIndex = '9000000000000000000'
   iframe.style.border = '0px'
   iframe.style.colorScheme = 'auto'
+  // TODO: Correct the path to the sidebar HTML file, const url = browser.runtime.getURL('/<name>.js'); https://wxt.dev/guide/essentials/entrypoints.html#unlisted-scripts
   iframe.src = chrome.runtime.getURL('/src/pages/sidebar/index.html')
   iframe.id = 'syncia_sidebar'
   return iframe
