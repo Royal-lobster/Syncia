@@ -87,7 +87,7 @@ export const theme = {
     9: '36px',
     10: '40px',
   },
-  maxWidth: ({ theme, breakpoints }) => ({
+  maxWidth: ({ theme, breakpoints }: any) => ({
     none: 'none',
     0: '0px',
     xs: '320px',
