@@ -25,3 +25,5 @@ web-ext.config.ts
 *.sln
 *.sw?
 web-ext.config.ts
+.wxt
+.output
