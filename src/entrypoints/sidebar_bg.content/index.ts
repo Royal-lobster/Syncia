@@ -12,7 +12,7 @@ function createSidebar() {
   iframe.style.zIndex = '9000000000000000000'
   iframe.style.border = '0px'
   iframe.style.colorScheme = 'auto'
-  iframe.src = chrome.runtime.getURL('/src/entrypoints/sidebar/index.html')
+  iframe.src = chrome.runtime.getURL('sidebar.html')
   iframe.id = 'syncia_sidebar'
   return iframe
 }
@@ -67,7 +67,7 @@ function setupMessageListeners(iframe: HTMLIFrameElement) {
 }
 
 export default defineContentScript({
-  matches: ['<all_urls>'],
+  matches: ['http://*/*', 'https://*/*','<all_urls>'],
   main() {
     contentScriptLog('Sidebar')
     const iframe = createSidebar()

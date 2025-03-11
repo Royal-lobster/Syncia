@@ -8,7 +8,7 @@ const Header = () => {
     chrome.runtime.sendMessage({ action: 'close-sidebar' })
   }
 
-  const settingsPage = chrome.runtime.getURL('/src/pages/settings/index.html')
+  const settingsPage = chrome.runtime.getURL('/options.html')
 
   const handleModifyShortcut = () => {
     chrome.tabs.update({ url: 'chrome://extensions/shortcuts' })

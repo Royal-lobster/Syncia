@@ -2,7 +2,7 @@ export const forwardContextMenuClicks = () => {
   chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === 'settings') {
       chrome.tabs.create({
-        url: chrome.runtime.getURL('/src/pages/settings/index.html'),
+        url: chrome.runtime.getURL('/options.html'),
       })
     } else {
       const selectedText = info.selectionText

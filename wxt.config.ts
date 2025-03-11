@@ -1,80 +1,67 @@
-import { defineConfig } from 'wxt'
+import { defineConfig, UserManifest } from "wxt";
 
-export default defineConfig({
-  srcDir: 'src',
-  manifest: {
+const generateManifest = () => {
+  const manifest: UserManifest = {
     action: {
-      default_title: 'Syncia - Open Sidebar',
+      default_title: "Syncia - Open Sidebar",
     },
     commands: {
-      'open-sidebar': {
+      "open-sidebar": {
         suggested_key: {
-          default: 'Ctrl+Shift+X',
-          mac: 'Command+Shift+X',
+          default: "Ctrl+Shift+X",
+          mac: "Command+Shift+X",
         },
-        description: 'Open the sidebar',
+        description: "Open the sidebar",
       },
     },
-    externally_connectable: { ids: ['*'] },
-    manifest_version: 3,
+    externally_connectable: { ids: ["*"] },
     icons: {
-      '16': 'images/icon-16.png',
-      '32': 'images/icon-32.png',
-      '48': 'images/icon-48.png',
-      '128': 'images/icon-128.png',
+      "16": "images/icon-16.png",
+      "32": "images/icon-32.png",
+      "48": "images/icon-48.png",
+      "128": "images/icon-128.png",
     },
     permissions: [
-      'storage',
-      'unlimitedStorage',
-      'contextMenus',
-      'tabs',
-      'activeTab',
-      'clipboardWrite',
+      "storage",
+      "unlimitedStorage",
+      "contextMenus",
+      "tabs",
+      "activeTab",
+      "clipboardWrite",
     ],
-    background: {
-      service_worker: 'src/entrypoints/background/index.ts',
-    },
-    content_scripts: [
+  };
+  if (import.meta.env.MANIFEST_VERSION != 2) {
+    manifest.web_accessible_resources = [
       {
-        matches: ['http://*/*', 'https://*/*', '<all_urls>'],
-        js: ['src/entrypoints/content/sidebar.tsx'],
+        resources: ["sidebar.html", "images/robot.png", "options.html"],
+        matches: ["http://*/*", "https://*/*"],
       },
-      {
-        matches: ['http://*/*', 'https://*/*', '<all_urls>'],
-        js: [
-          'src/entrypoints/content/quick-menu/initQuickMenu.tsx',
-          'src/entrypoints/content/quick-menu/listenContextMenu.tsx',
-        ],
-        all_frames: true,
-      },
-    ],
-    web_accessible_resources: [
-      {
-        resources: [
-          'src/entrypoints/sidebar/index.html',
-          'images/robot.png',
-          'src/entrypoints/settings/index.html',
-        ],
-        matches: ['http://*/*', 'https://*/*'],
-      },
-    ],
-  },
+    ];
+  }
+
+  return manifest;
+};
+
+export default defineConfig({
+  extensionApi: "webextension-polyfill",
+  srcDir: "src",
+  manifest: generateManifest(),
   hooks: {
-    'build:manifestGenerated': (wxt, manifest) => {
-      const version = require('./package.json').version
-      const [major, minor, patch, label = '0'] = version
-        .replace(/[^\d.-]+/g, '')
-        .split(/[.-]/)
+    "build:manifestGenerated": (wxt, manifest) => {
+      const version = require("./package.json").version;
+      const [major, minor, patch, label = "0"] = version
+        .replace(/[^\d.-]+/g, "")
+        .split(/[.-]/);
 
       manifest.name =
-        wxt.config.mode === 'staging'
-          ? '[INTERNAL] Syncia'
-          : 'Syncia - Power of ChatGPT on any website'
+        wxt.config.mode === "staging"
+          ? "[INTERNAL] Syncia"
+          : "Syncia - Power of ChatGPT on any website";
 
       manifest.description =
-        "Syncia is a browser extension that allows you to use Open AI's GPT in any website."
-      manifest.version = `${major}.${minor}.${patch}.${label}`
-      manifest.version_name = version
+        "Syncia is a browser extension that allows you to use Open AI's GPT in any website.";
+      manifest.version = `${major}.${minor}.${patch}.${label}`;
+      manifest.version_name = version;
     },
   },
-})
+});
