@@ -106,6 +106,9 @@ const ChatList = ({
                 components={{
                   code: CodeBlock,
                   table: Table,
+                  a: ({ node, ...props }) => (
+                    <a {...props} target="_blank" rel="noopener noreferrer" />
+                  ),
                 }}
               >
                 {formatContent(msg.content)}
