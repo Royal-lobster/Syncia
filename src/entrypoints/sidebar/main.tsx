@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import Sidebar from '../../components/Sidebar'
-import './index.css'
+import './styles.css'
 
 function init() {
   const rootContainer = document.querySelector('#__root')

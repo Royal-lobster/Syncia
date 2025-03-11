@@ -14,7 +14,7 @@ iframe.style.right = '0px'
 iframe.style.zIndex = '9000000000000000000'
 iframe.style.border = '0px'
 iframe.style.colorScheme = 'auto'
-iframe.src = chrome.runtime.getURL('/src/pages/sidebar/index.html')
+iframe.src = chrome.runtime.getURL('/sidebar.html')
 iframe.id = 'syncia_sidebar'
 
 document.body.appendChild(iframe)

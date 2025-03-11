@@ -9,7 +9,14 @@
     "enabled": false
   },
   "files": {
-    "ignore": ["node_modules", "dist", "yarn.lock"]
+    "ignore": [
+      "node_modules",
+      "dist",
+      "yarn.lock",
+      ".wxt",
+      ".output",
+      "artifacts"
+    ]
   },
   "formatter": {
     "enabled": true,
