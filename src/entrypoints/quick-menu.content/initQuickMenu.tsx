@@ -3,7 +3,6 @@ import HighlightMenu from 'react-highlight-menu'
 import { createRoot } from 'react-dom/client'
 import { contentScriptLog } from '../../logs'
 
-
 /**
  * Initializes the visual quick menu. (when the user selects text)
  * It is only initialized if the user has enabled it in the settings.
@@ -34,4 +33,4 @@ const initQuickMenu = () => {
   )
 }
 
-export default initQuickMenu;
+export default initQuickMenu

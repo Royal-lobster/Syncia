@@ -7,4 +7,3 @@ import { generatePromptInSidebar } from '../../lib/generatePromptInSidebar'
  *
  * We listen to this message and generate the prompt in the sidebar.
  */
-
