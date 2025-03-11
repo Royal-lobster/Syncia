@@ -1,9 +1,10 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   RiCloseLine,
   RiErrorWarningLine,
   RiLoader4Line,
   RiFileCopyLine,
+  RiCheckLine,
 } from 'react-icons/ri'
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
 import rehypeRaw from 'rehype-raw'
@@ -28,6 +29,16 @@ const ChatList = ({
   error,
 }: ChatListProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
+  const [showCopiedText, setShowCopiedText] = useState(false)
+
+  useEffect(() => {
+    if (showCopiedText) {
+      const timer = setTimeout(() => {
+        setShowCopiedText(false)
+      }, 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [showCopiedText])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: This is intentional, we need this for scroll to bottom
   useEffect(() => {
@@ -50,6 +61,7 @@ const ChatList = ({
       },
       '*',
     )
+    setShowCopiedText(true)
   }
 
   return (
@@ -86,7 +98,7 @@ const ChatList = ({
                 <button
                   type="button"
                   onClick={() => removeMessagePair(msg.timestamp)}
-                  className="cdx-absolute group-hover:cdx-visible cdx-invisible cdx-right-2 cdx-top-2 cdx-p-0.5 cdx-bg-black/20 cdx-rounded"
+                  className="cdx-absolute cdx-visible cdx-right-2 cdx-top-2 cdx-p-0.5 cdx-bg-black/20 cdx-rounded"
                 >
                   <RiCloseLine />
                 </button>
@@ -95,9 +107,9 @@ const ChatList = ({
                 <button
                   type="button"
                   onClick={() => handleCopyMessage(formatContent(msg.content))}
-                  className="cdx-absolute group-hover:cdx-visible cdx-invisible cdx-right-2 cdx-top-2 cdx-p-0.5 cdx-bg-black/20 cdx-rounded"
+                  className="cdx-absolute cdx-visible cdx-right-2 cdx-top-2 cdx-p-0.5 cdx-bg-black/20 cdx-rounded"
                 >
-                  <RiFileCopyLine />
+                  {showCopiedText ? <RiCheckLine /> : <RiFileCopyLine />}
                 </button>
               )}
               <ReactMarkdown
@@ -131,6 +143,11 @@ const ChatList = ({
               <span>{error.message}</span>
             </div>
           )}
+        </div>
+      )}
+      {showCopiedText && (
+        <div className="cdx-fixed cdx-bottom-4 cdx-left-1/2 cdx-transform cdx--translate-x-1/2 cdx-bg-black cdx-text-white cdx-px-4 cdx-py-2 cdx-rounded">
+          Copied!
         </div>
       )}
     </div>
